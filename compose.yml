@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    ports:
+      - "9002:3000"
+    volumes:
+      - .:/web
+    env_file:
+      - .env
+    networks:
+      - receiptiq-network
+    command: ["npm", "run", "dev"]
+
+volumes:
+  postgres_data:
+
+networks:
+  receiptiq-network:
+    driver: bridge
