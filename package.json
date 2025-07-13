@@ -4,7 +4,10 @@
   "description": "AI-powered receipt data extraction",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,17 @@
   "bugs": {
     "url": "https://github.com/brawl-ai/receiptiq_web/issues"
   },
-  "homepage": "https://github.com/brawl-ai/receiptiq_web#readme"
+  "homepage": "https://github.com/brawl-ai/receiptiq_web#readme",
+  "dependencies": {
+    "next": "^15.3.5",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.13",
+    "@types/react": "^19.1.8",
+    "eslint": "9.31.0",
+    "eslint-config-next": "15.3.5",
+    "typescript": "5.8.3"
+  }
 }
