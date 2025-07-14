@@ -7,6 +7,7 @@ import {
   SignupRequest,
   SignupResponse,
 } from "./types"
+import axios from "axios";
 
 interface AuthContextType {
   user: User | null;
@@ -23,12 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      fetchUser();
-    } else {
-      setLoading(false);
-    }
+    fetchUser();
   }, []);
 
   const fetchUser = async () => {
@@ -36,8 +32,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await api.get<User>("/api/v1/auth/me");
       setUser(response.data);
     } catch (err) {
-      console.error("Error fetching user:", err);
-      localStorage.removeItem("token");
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -46,10 +41,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signup = async (data: SignupRequest) => {
     try {
       setError(null);
-      const response = await api.post<SignupResponse>("/api/v1/auth/register", data);
-      return response.data;
-    } catch (err: any) {
-      setError(err.response?.data?.detail || "Failed to sign up");
+      const response = await axios.post<SignupResponse>("/api/signup", data)
+      return response.data
+    } catch (err) {
+      setError(err.response?.data?.detail || "Error when signing up");
       throw err;
     }
   };
