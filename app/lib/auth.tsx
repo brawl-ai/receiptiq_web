@@ -10,6 +10,8 @@ import {
   GetOTPResponse,
   CheckOTPRequest,
   CheckOTPResponse,
+  LoginRequest,
+  LoginResponse,
 } from "./types"
 import axios from "axios"
 
@@ -20,6 +22,7 @@ interface AuthContextType {
   signup: (data: SignupRequest) => Promise<SignupResponse>
   getOTP: (data: GetOTPRequest) => Promise<GetOTPResponse>
   checkOTP: (data: CheckOTPRequest) => Promise<CheckOTPResponse>
+  login: (data: LoginRequest) => Promise<LoginResponse>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -34,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const fetchUser = async () => {
+    setLoading(true)
     try {
       const response = await api.get<User>("/api/v1/auth/me")
       setUser(response.data)
@@ -71,6 +75,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const login = async (data: LoginRequest) => {
+    try {
+      setError(null)
+      const response = await axios.post<LoginResponse>("/api/login", data)
+      return response.data
+    } catch (err) {
+      if (err.response) {
+        setError(err.response?.data?.detail || "Error when getting OTP")
+        throw err
+      } else {
+        console.log(err)
+      }
+    }
+  }
+
   const checkOTP = async (data: CheckOTPRequest) => {
     try {
       setError(null)
@@ -90,10 +109,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         error,
         signup,
         getOTP,
-        checkOTP
+        checkOTP,
+        login
       }}
     >
-      {children}
+      {!loading ? children : null}
     </AuthContext.Provider>
   )
 }
