@@ -51,7 +51,7 @@ export default function SignupPage() {
     setLoading(true);
     try {
       await signup(values);
-      router.push(`/verify?email=${encodeURIComponent(values.email)}`);
+      router.push(`/verify/check?email=${encodeURIComponent(values.email)}`);
     } catch (error) {
       let errors = []
       if (error.response?.data?.detail?.errors) {

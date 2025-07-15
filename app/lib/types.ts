@@ -18,3 +18,31 @@ export type SignupResponse = {
     message: string
     user: User
 }
+
+export type ValError = {
+    loc: string[]
+    message: string
+    type: string
+}
+
+export type ValidationError = {
+    detail: ValError[]
+}
+
+export type GetOTPRequest = {
+    email: string
+}
+
+export type GetOTPResponse = {
+    message: string
+}
+
+export type CheckOTPRequest = {
+    email: string
+    code: string
+}
+
+export type CheckOTPResponse = {
+    message: string
+    user: User
+}
