@@ -21,6 +21,7 @@ export async function POST(req: Request) {
             username: body.email,
             password: body.password,
             grant_type: "password",
+            remember_me: body.remember_me,
             scope: "read:profile write:projects write:fields write:receipts process:projects delete:projects read:fields delete:fields read:data export:data read:plans read:receipts"
         },
         {
