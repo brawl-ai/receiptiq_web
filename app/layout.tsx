@@ -3,6 +3,8 @@ import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, createTheme, mantineHtmlProps, MantineProvider } from "@mantine/core";
 import { AuthProvider } from "./lib/auth"
 import { Notifications } from "@mantine/notifications";
+import { User } from "./lib/types";
+import { getCurrentUser } from "./lib/helpers";
 
 export const metadata = {
     title: {
@@ -25,11 +27,14 @@ const theme = createTheme({
     primaryColor: "cyan",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+
+    const user: User | null = await getCurrentUser()
+
     return (
         <html lang="en" {...mantineHtmlProps}>
             <head>
@@ -39,7 +44,7 @@ export default function RootLayout({
             <body>
                 <MantineProvider theme={theme} defaultColorScheme="dark">
                     <Notifications />
-                    <AuthProvider>
+                    <AuthProvider initialUser={user}>
                         {children}
                     </AuthProvider>
                 </MantineProvider>
