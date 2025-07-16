@@ -126,10 +126,13 @@ export default function ResetPasswordPage() {
                                 />
                             </Stack>
                             <Flex justify={"space-between"} mt={"lg"} align={"center"}>
-                                <Anchor c="dimmed" size="sm" component="a" href="/password/forgot">
+                                <Anchor
+                                    data-umami-event="back_to_forgot_password_link@password.reset"
+                                    c="dimmed" size="sm" component="a" href="/password/forgot">
                                     <Text>Back to forgot password</Text>
                                 </Anchor>
                                 <Button
+                                    data-umami-event="reset_password_button@password.reset"
                                     size="md"
                                     type="submit"
                                     loading={loading}

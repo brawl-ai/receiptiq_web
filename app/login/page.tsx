@@ -96,7 +96,12 @@ export default function LoginPage() {
                     </Title>
                     <Text c="dimmed" size="sm" ta="center" mt={5}>
                         {"Don't have an account yet? "}
-                        <Anchor component={Link} href="/signup" size="sm">
+                        <Anchor
+                            data-umami-event="create_account_link@login"
+                            component={Link}
+                            href="/signup"
+                            size="sm"
+                        >
                             Create account
                         </Anchor>
                     </Text>
@@ -122,12 +127,18 @@ export default function LoginPage() {
                             </Stack>
                             <Flex justify={"space-between"} mt={"md"}>
                                 <Checkbox label="Remember me" {...form.getInputProps("remember_me")} />
-                                <Anchor component="a" size="sm" href="/password/forgot">
+                                <Anchor
+                                    data-umami-event="forgot_password_link@login"
+                                    component="a"
+                                    size="sm"
+                                    href="/password/forgot"
+                                >
                                     Forgot password?
                                 </Anchor>
                             </Flex>
 
                             <Button
+                                data-umami-event="login_button@login"
                                 fullWidth
                                 mt="xl"
                                 size="md"
