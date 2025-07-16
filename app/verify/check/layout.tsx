@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     title: "Verify OTP"
 }
 
-export default function GetVerifyLayout({
+export default function CheckOTPLayout({
     children,
 }: {
     children: React.ReactNode
