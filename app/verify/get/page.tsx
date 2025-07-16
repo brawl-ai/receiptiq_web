@@ -66,6 +66,7 @@ export default function GetOTPPage() {
                     <TextInput label="Your email" placeholder="me@company.com" required {...form.getInputProps("email")} />
                     <Group justify="space-between" mt="lg">
                         <Button
+                            data-umami-event="get_otp_button@verify.get"
                             type="submit"
                             loading={loading}
                         >Get OTP</Button>

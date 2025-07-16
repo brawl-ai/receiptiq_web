@@ -70,6 +70,7 @@ export default function CheckOTPPage() {
 
                     <Group justify="space-between" mt="lg">
                         <Button
+                            data-umami-event="verify_button@verify.check"
                             type="submit"
                             loading={loading}
                         >Verify</Button>

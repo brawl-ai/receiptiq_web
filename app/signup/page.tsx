@@ -94,7 +94,12 @@ export default function SignupPage() {
           </Title>
           <Text c="dimmed" size="sm" ta="center" mt={5}>
             Already have an account?{" "}
-            <Anchor component={Link} href="/login" size="sm">
+            <Anchor
+              data-umami-event="login_link@signup"
+              component={Link}
+              href="/login"
+              size="sm"
+            >
               Log in
             </Anchor>
           </Text>
@@ -144,7 +149,12 @@ export default function SignupPage() {
                 label={
                   <Flex>
                     <Text>{"I accept"}</Text>
-                    <Anchor component="a" href="/docs/ReceiptIQ Terms and Conditions.pdf" target="_blank">
+                    <Anchor
+                      data-umami-event="terms_and_conditions_link@signup"
+                      component="a"
+                      href="/docs/ReceiptIQ Terms and Conditions.pdf"
+                      target="_blank"
+                    >
                       <Flex align={"center"}>
                         <Text ml={3} mr={3}>terms and conditions</Text>
                         <IconExternalLink size={15} />
@@ -155,6 +165,7 @@ export default function SignupPage() {
                 {...form.getInputProps("accepted_terms")}
               />
               <Button
+                data-umami-event="signup_button@signup"
                 fullWidth
                 mt="xl"
                 size="md"
