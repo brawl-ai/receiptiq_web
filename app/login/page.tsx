@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
     TextInput,
@@ -16,21 +16,25 @@ import {
     Image,
     Group,
     PasswordInput,
+    Flex,
+    Checkbox,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useAuth } from "../lib/auth";
 
 export default function LoginPage() {
+    const searchParams = useSearchParams()
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState([]);
     const { login } = useAuth();
-    const router = useRouter();
+    const redirect = searchParams.get("redirect");
 
     const form = useForm({
         initialValues: {
             email: "",
             password: "",
+            remember_me: false
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : "invalid email"),
@@ -41,14 +45,18 @@ export default function LoginPage() {
     const handleSubmit = async (values: typeof form.values) => {
         setLoading(true);
         try {
+            console.log(values)
             await login(values);
-            router.push(`/projects`);
+            window.location.href = redirect ? redirect : `/projects`;
         } catch (error) {
             console.log(error)
             let errors = []
-            if (error.response?.data?.detail?.errors) {
+            if (error.response?.data?.detail instanceof Array) {
+                errors = error.response?.data?.detail.map(e => e.loc[1] + " " + e.msg)
+            } else if (error.response?.data?.detail?.errors) {
                 errors = error.response?.data?.detail?.errors.map(e => e)
-            } else {
+            }
+            else {
                 errors.push(error.response?.data?.detail)
             }
             setErrors(errors)
@@ -112,6 +120,12 @@ export default function LoginPage() {
                                     {...form.getInputProps("password")}
                                 />
                             </Stack>
+                            <Flex justify={"space-between"} mt={"md"}>
+                                <Checkbox label="Remember me" {...form.getInputProps("remember_me")} />
+                                <Anchor component="a" size="sm" href="/password/forgot">
+                                    Forgot password?
+                                </Anchor>
+                            </Flex>
 
                             <Button
                                 fullWidth
