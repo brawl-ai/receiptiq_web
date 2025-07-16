@@ -1,6 +1,6 @@
 import axios from "axios";
 import { checkRateLimit } from "../backend";
-import { LoginRequest } from "../../lib/types";
+import { cookies } from "next/headers";
 
 
 export async function POST(req: Request) {
@@ -14,18 +14,18 @@ export async function POST(req: Request) {
         })
     }
 
-    const body: LoginRequest = await req.json()
+    const refresh_token = (await cookies()).get('refresh_token')?.value
 
-    const res = await axios.post(`${process.env.BACKEND_API_BASE}/api/v1/auth/token`,
-        {
-            username: body.email,
-            password: body.password,
-            grant_type: "password",
-            remember_me: body.remember_me,
-            scope: "read:profile write:projects write:fields write:receipts process:projects delete:projects read:fields delete:fields read:data export:data read:plans read:receipts"
-        },
+    if (!refresh_token) {
+        return new Response(JSON.stringify({ detail: "Missing refresh token" }), {
+            status: 401,
+        })
+    }
+
+    const res = await axios.post(`${process.env.BACKEND_API_BASE}/api/v1/auth/token/refresh`, null,
         {
             headers: {
+                "Cookie": `refresh_token=${refresh_token}`,
                 'Authorization': "Basic " + Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString("base64"),
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -49,6 +49,7 @@ export async function POST(req: Request) {
             return response1
         })
         .catch(function (error) {
+            console.log(JSON.stringify(error.response.data))
             if (error.response) {
                 return new Response(
                     JSON.stringify(error.response.data),

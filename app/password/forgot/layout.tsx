@@ -3,10 +3,10 @@ import { Suspense } from "react"
 
 
 export const metadata: Metadata = {
-    title: "Verify OTP"
+    title: "Forgot Password"
 }
 
-export default function CheckOTPLayout({
+export default function LoginLayout({
     children,
 }: {
     children: React.ReactNode

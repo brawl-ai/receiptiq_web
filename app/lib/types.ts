@@ -4,7 +4,8 @@ export type User = {
     last_name: string
     email: string
     created_at: string
-    updated_at?: string
+    updated_at?: string,
+    accepted_terms: boolean
 }
 
 export type SignupRequest = {
@@ -12,6 +13,7 @@ export type SignupRequest = {
     last_name: string
     email: string,
     password: string,
+    accepted_terms: boolean
 }
 
 export type SignupResponse = {
@@ -50,8 +52,31 @@ export type CheckOTPResponse = {
 export type LoginRequest = {
     email: string
     password: string
+    remember_me: boolean
 }
 
 export type LoginResponse = {
     success: boolean
+}
+
+export type ForgotPasswordRequest = {
+    email: string
+}
+
+export type ForgotPasswordResponse = {
+    message: string
+}
+
+export type ResetPasswordRequest = {
+    email: string
+    token: string
+    new_password: string
+}
+
+export type ResetPasswordReponse = {
+    message: string
+}
+
+export type LogoutResponse = {
+    message: string
 }

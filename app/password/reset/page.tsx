@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
+
 import {
     TextInput,
     Paper,
@@ -16,54 +16,61 @@ import {
     Image,
     Group,
     PasswordInput,
-    Flex,
-    Checkbox,
+    Flex
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useAuth } from "../lib/auth";
+import { useAuth } from "../../lib/auth";
 
-export default function LoginPage() {
-    const searchParams = useSearchParams()
+export default function ResetPasswordPage() {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState([]);
-    const { login } = useAuth();
-    const redirect = searchParams.get("redirect");
+    const { resetPassword } = useAuth();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!searchParams.get("token") || !searchParams.get("email")) {
+            notFound()
+        }
+    })
 
     const form = useForm({
         initialValues: {
-            email: "",
-            password: "",
-            remember_me: false
+            email: searchParams.get("email"),
+            token: searchParams.get("token"),
+            new_password: ""
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : "invalid email"),
-            password: (value) => value.length < 1 ? "password is required" : null
+            new_password: (value) => value.length < 8 ? "Password must be at least 8 characters" : value.length > 128 ? "Password must be less than 128 characters" : null,
+            token: (value) => value.length < 1 ? "Missing token, check url" : null
         },
     });
 
     const handleSubmit = async (values: typeof form.values) => {
         setLoading(true);
         try {
-            console.log(values)
-            await login(values);
-            window.location.href = redirect ? redirect : `/projects`;
+            const response = await resetPassword(values);
+            notifications.show({
+                position: "top-right",
+                title: "Reset Password Success",
+                message: response.message,
+                color: "green",
+            });
+            router.push("/login")
         } catch (error) {
-            console.log(error)
             let errors = []
-            if (error.response?.data?.detail instanceof Array) {
-                errors = error.response?.data?.detail.map(e => e.loc[1] + " " + e.msg)
-            } else if (error.response?.data?.detail?.errors) {
+            if (error.response?.data?.detail?.errors) {
                 errors = error.response?.data?.detail?.errors.map(e => e)
-            }
-            else {
+            } else {
                 errors.push(error.response?.data?.detail)
             }
             setErrors(errors)
             notifications.show({
                 position: "top-right",
-                title: "Signup Error",
-                message: String(errors) || "Failed to sign up",
+                title: "Reset Password Error",
+                message: String(errors) || "Failed to reset password",
                 color: "red",
             });
         } finally {
@@ -90,15 +97,12 @@ export default function LoginPage() {
                     justifyContent: "center",
                 }}
             >
-                <Container size={420} w="100%">
+                <Container size={500} w="100%">
                     <Title ta="center" fw={900}>
-                        Login
+                        Forgot your password?
                     </Title>
                     <Text c="dimmed" size="sm" ta="center" mt={5}>
-                        {"Don't have an account yet? "}
-                        <Anchor component={Link} href="/signup" size="sm">
-                            Create account
-                        </Anchor>
+                        {"Enter your email to get a reset link "}
                     </Text>
 
                     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -106,36 +110,33 @@ export default function LoginPage() {
                         <form onSubmit={form.onSubmit(handleSubmit)}>
                             <Stack>
                                 <TextInput
-                                    label="Email"
+                                    label="Your Email"
                                     placeholder="you@example.com"
                                     required
+                                    disabled
                                     size="md"
                                     {...form.getInputProps("email")}
                                 />
                                 <PasswordInput
                                     label="Password"
-                                    placeholder="********"
+                                    placeholder="***********"
                                     required
                                     size="md"
-                                    {...form.getInputProps("password")}
+                                    {...form.getInputProps("new_password")}
                                 />
                             </Stack>
-                            <Flex justify={"space-between"} mt={"md"}>
-                                <Checkbox label="Remember me" {...form.getInputProps("remember_me")} />
-                                <Anchor component="a" size="sm" href="/password/forgot">
-                                    Forgot password?
+                            <Flex justify={"space-between"} mt={"lg"} align={"center"}>
+                                <Anchor c="dimmed" size="sm" component="a" href="/password/forgot">
+                                    <Text>Back to forgot password</Text>
                                 </Anchor>
+                                <Button
+                                    size="md"
+                                    type="submit"
+                                    loading={loading}
+                                >
+                                    Reset Password
+                                </Button>
                             </Flex>
-
-                            <Button
-                                fullWidth
-                                mt="xl"
-                                size="md"
-                                type="submit"
-                                loading={loading}
-                            >
-                                Login
-                            </Button>
                         </form>
                     </Paper>
                 </Container>
