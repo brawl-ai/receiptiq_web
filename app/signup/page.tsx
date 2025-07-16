@@ -17,9 +17,11 @@ import {
   Image,
   Group,
   PasswordInput,
+  Checkbox,
+  Flex,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
+import { IconExternalLink } from "@tabler/icons-react";
 
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
@@ -33,7 +35,8 @@ export default function SignupPage() {
       last_name: "",
       email: "",
       password: "",
-      confirm_password: ""
+      confirm_password: "",
+      accepted_terms: false
     },
     validate: {
       first_name: (value) =>
@@ -43,6 +46,7 @@ export default function SignupPage() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       password: (value) => value.length < 8 ? "Password must be at least 8 characters" : value.length > 128 ? "Password must be less than 128 characters" : null,
       confirm_password: (value, values) => value != values.password ? "Passwords do not match" : null,
+      accepted_terms: (value) => value ? null : "Please read and accept the terms"
     },
   });
 
@@ -57,15 +61,9 @@ export default function SignupPage() {
       if (error.response?.data?.detail?.errors) {
         errors = error.response?.data?.detail?.errors.map(e => e)
       } else {
-        errors = error.response?.data?.detail.map(e => e.msg)
+        errors.push(error.response?.data?.detail)
       }
       setErrors(errors)
-      notifications.show({
-        position: "top-right",
-        title: "Signup Error",
-        message: String(errors) || "Failed to sign up",
-        color: "red",
-      });
     } finally {
       setLoading(false);
     }
@@ -141,7 +139,21 @@ export default function SignupPage() {
                   {...form.getInputProps("confirm_password")}
                 />
               </Stack>
-
+              <Checkbox
+                m={"sm"}
+                label={
+                  <Flex>
+                    <Text>{"I accept"}</Text>
+                    <Anchor component="a" href="/docs/ReceiptIQ Terms and Conditions.pdf" target="_blank">
+                      <Flex align={"center"}>
+                        <Text ml={3} mr={3}>terms and conditions</Text>
+                        <IconExternalLink size={15} />
+                      </Flex>
+                    </Anchor>
+                  </Flex>
+                }
+                {...form.getInputProps("accepted_terms")}
+              />
               <Button
                 fullWidth
                 mt="xl"
