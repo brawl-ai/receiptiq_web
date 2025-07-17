@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Dashboard"
 }
 
-export default async function LoginLayout({
+export default async function ProjectsLayout({
     children,
 }: {
     children: React.ReactNode

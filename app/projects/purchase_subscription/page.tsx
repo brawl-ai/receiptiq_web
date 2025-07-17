@@ -33,7 +33,7 @@ export default function PurchaseSubscriptionPage() {
                 clearInterval(subscriptionStatusCheckInterval.current);
             }
         };
-    })
+    }, [])
 
     const handleSelectPlan = (plan: SubscriptionPlan) => {
         setSelectedPlan(plan)
