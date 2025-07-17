@@ -28,6 +28,7 @@
     "@mantine/modals": "^8.1.3",
     "@mantine/notifications": "^8.1.3",
     "@mantine/spotlight": "^8.1.3",
+    "@paystack/inline-js": "^2.22.2",
     "@tabler/icons-react": "^3.34.0",
     "axios": "^1.10.0",
     "dayjs": "^1.11.13",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@types/node": "24.0.13",
+    "@types/paystack__inline-js": "^1.0.2",
     "@types/react": "^19.1.8",
     "eslint": "^9.31.0",
     "eslint-config-next": "15.3.5",

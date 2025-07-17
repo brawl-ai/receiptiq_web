@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { Suspense } from "react"
 import { getCurrentUser } from "../lib/helpers"
 import { redirect } from "next/navigation"
+import { SubscriptionsProvider } from "../lib/subscription"
 
 
 export const metadata: Metadata = {
@@ -17,5 +18,11 @@ export default async function LoginLayout({
     if (!user) {
         redirect("/login")
     }
-    return <Suspense>{children}</Suspense>
+    return (
+        <Suspense>
+            <SubscriptionsProvider>
+                {children}
+            </SubscriptionsProvider>
+        </Suspense>
+    )
 }
