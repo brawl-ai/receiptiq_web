@@ -5,6 +5,7 @@ export type User = {
     email: string
     created_at: string
     updated_at?: string,
+    is_subscribed: boolean
     accepted_terms: boolean
 }
 
@@ -79,4 +80,109 @@ export type ResetPasswordReponse = {
 
 export type LogoutResponse = {
     message: string
+}
+
+export type SubscriptionPlan = {
+    name: string
+    description: string
+    price: number
+    currency: string
+    billing_interval: string
+    trial_period_days: number
+    status: string
+    id: string
+    created_at: string
+    updated_at: string | null
+}
+
+export type InitiatePurchaseRequest = {
+    plan_id: string
+    email: string
+}
+
+export type PaymentAuthorizationData = {
+    authorization_url: string,
+    access_code: string,
+    reference: string
+}
+
+export type InitiatePurchaseResponse = {
+    status: boolean
+    message: string,
+    data: PaymentAuthorizationData
+}
+
+interface PaymentLogHistoryItem {
+    type: "action" | "success";
+    message: string;
+    time: number;
+}
+
+interface PaymentLog {
+    start_time: number;
+    time_spent: number;
+    attempts: number;
+    errors: number;
+    success: boolean;
+    mobile: boolean;
+    history: PaymentLogHistoryItem[];
+}
+
+interface Authorization {
+    authorization_code: string;
+    bin: string;
+    last4: string;
+    exp_month: string;
+    exp_year: string;
+    channel: string;
+    card_type: string;
+    bank: string;
+    country_code: string;
+    brand: string;
+    reusable: boolean;
+    signature: string;
+    account_name: string | null;
+}
+
+interface Customer {
+    id: number;
+    first_name: string | null;
+    last_name: string | null;
+    email: string;
+    customer_code: string;
+    phone: string | null;
+    risk_action: string;
+    international_format_phone: string | null;
+}
+
+interface PaymentData {
+    id: number;
+    domain: string;
+    status: string;
+    reference: string;
+    receipt_number: string | null;
+    amount: number;
+    message: string | null;
+    gateway_response: string;
+    paid_at: string;
+    created_at: string;
+    channel: string;
+    currency: string;
+    ip_address: string;
+    metadata: string;
+    log: PaymentLog;
+    fees: number;
+    authorization: Authorization;
+    customer: Customer;
+    order_id: string | null;
+    paidAt: string;
+    createdAt: string;
+    requested_amount: number;
+    transaction_date: string;
+}
+
+export interface PaymentResponse {
+    status: boolean;
+    message: string;
+    data: PaymentData;
 }
