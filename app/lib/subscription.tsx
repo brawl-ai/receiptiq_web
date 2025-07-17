@@ -1,7 +1,7 @@
 "use client"
 import { createContext, useContext } from "react";
 import { InitiatePurchaseRequest, InitiatePurchaseResponse, PaymentResponse, SubscriptionPlan, User } from "./types";
-import api from "./axios";
+import axios from "axios";
 
 type PaginatedSubscriptionPlans = {
     total: number
@@ -20,11 +20,14 @@ interface SubscriptionContext {
 
 const SubscriptionsContext = createContext<SubscriptionContext | undefined>(undefined)
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
 export function SubscriptionsProvider({ children }: { children: React.ReactNode }) {
 
     const getPlans = async () => {
+        console.log("cookies", document.cookie)
         try {
-            const response = await api.get<PaginatedSubscriptionPlans>("/api/v1/subscriptions/plans").then(response => response.data)
+            const response = await axios.get<PaginatedSubscriptionPlans>(`${API_BASE}/api/v1/subscriptions/plans`, { withCredentials: true }).then(response => response.data)
             return response
         } catch (getPlansError) {
             console.log(getPlansError)
@@ -34,7 +37,8 @@ export function SubscriptionsProvider({ children }: { children: React.ReactNode 
 
     const initiatePurchase = async (data: InitiatePurchaseRequest) => {
         try {
-            const response = await api.post<InitiatePurchaseResponse>("/api/v1/subscriptions/payments/start", data).then(response => {
+            console.log("cookies", document.cookie)
+            const response = await axios.post<InitiatePurchaseResponse>(`${API_BASE}/api/v1/subscriptions/payments/start`, data, { withCredentials: true }).then(response => {
                 return response.data
             })
             return response
@@ -46,7 +50,8 @@ export function SubscriptionsProvider({ children }: { children: React.ReactNode 
 
     const paymentStatusChecker = async (reference: string) => {
         try {
-            const response = await api.get<PaymentResponse>(`/api/v1/subscriptions/payments/check/${reference}`).then(response => response.data)
+            console.log("cookies", document.cookie)
+            const response = await axios.get<PaymentResponse>(`${API_BASE}/api/v1/subscriptions/payments/check/${reference}`, { withCredentials: true }).then(response => response.data)
             return response
         } catch (paymentStatusCheckerError) {
             console.log(paymentStatusCheckerError)
@@ -56,7 +61,8 @@ export function SubscriptionsProvider({ children }: { children: React.ReactNode 
 
     const subscriptionStatusChecker = async () => {
         try {
-            const response = await api.get<User>("/api/v1/auth/me").then(response => response.data)
+            console.log("cookies", document.cookie)
+            const response = await axios.get<User>(`${API_BASE}/api/v1/auth/me`, { withCredentials: true }).then(response => response.data)
             return response
         } catch (subscriptionStatusCheckerError) {
             console.log(subscriptionStatusCheckerError)
