@@ -9,6 +9,8 @@ FROM base AS builder
 WORKDIR /web
 COPY --from=deps /web/node_modules ./node_modules
 COPY . .
+ARG NEXT_PUBLIC_API_BASE
+ENV NEXT_PUBLIC_API_BASE=$NEXT_PUBLIC_API_BASE
 RUN npm run build
 
 # Production image

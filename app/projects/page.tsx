@@ -23,7 +23,7 @@ export default function ProjectsPage() {
         ).catch(err => {
             console.log(err)
         })
-    })
+    }, [])
 
     const handleLogout = async () => {
         try {

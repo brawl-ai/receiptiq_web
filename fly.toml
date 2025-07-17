@@ -7,6 +7,8 @@ app = 'receiptiq-web'
 primary_region = 'jnb'
 
 [build]
+  [build.args]
+    NEXT_PUBLIC_API_BASE = "https://api.receiptiq.co"
 
 [http_service]
   internal_port = 3000
