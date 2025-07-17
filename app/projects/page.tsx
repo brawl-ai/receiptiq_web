@@ -1,14 +1,29 @@
 "use client"
-import { AppShell, Avatar, Burger, Group, Menu, Text, UnstyledButton } from "@mantine/core"
+import { AppShell, Avatar, Burger, Button, Chip, Flex, Group, Menu, Text, Tooltip, UnstyledButton } from "@mantine/core"
 import { useAuth } from "../lib/auth"
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/navigation";
 import { IconChevronDown, IconLogout, IconSettings, IconUser } from "@tabler/icons-react";
+import { useSubscriptions } from "../lib/subscription";
+import { useEffect, useState } from "react";
 
 export default function ProjectsPage() {
     const [opened, { toggle }] = useDisclosure();
     const { user, logout } = useAuth();
+    const { subscriptionStatusChecker } = useSubscriptions();
+    const [isSubscribed, setIsSubscribed] = useState(false)
     const router = useRouter();
+
+    useEffect(() => {
+        console.log("running useEffect to check subscription status")
+        subscriptionStatusChecker().then(resp => {
+            console.log(resp)
+            setIsSubscribed(resp.is_subscribed)
+        }
+        ).catch(err => {
+            console.log(err)
+        })
+    })
 
     const handleLogout = async () => {
         try {
@@ -59,7 +74,16 @@ export default function ProjectsPage() {
                         />
                         */}
                     </Group>
-
+                    <Flex>
+                        {isSubscribed ?
+                            <Tooltip label="Chip tooltip" refProp="rootRef">
+                                <Chip defaultChecked>You are subscribed &check;</Chip>
+                            </Tooltip>
+                            :
+                            <Button component="a" href="/projects/purchase_subscription">
+                                Upgrade
+                            </Button>}
+                    </Flex>
                     <Menu shadow="md" width={200}>
                         <Menu.Target>
                             <UnstyledButton>
