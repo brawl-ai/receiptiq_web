@@ -15,6 +15,7 @@ export default function Page() {
             <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                 <code>ReceiptIQ</code>
             </h1>
+            <a href="/login"><code>login</code></a>
             <p style={{ marginBottom: '1rem', fontSize: '1rem' }}>
                 AI-powered <code>receipt/invoice</code> data extraction
             </p>

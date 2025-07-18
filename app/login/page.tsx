@@ -47,7 +47,7 @@ export default function LoginPage() {
         try {
             console.log(values)
             await login(values);
-            window.location.href = redirect ? redirect : `/projects`;
+            window.location.href = redirect ? redirect : `/dashboard`;
         } catch (error) {
             console.log(error)
             let errors = []

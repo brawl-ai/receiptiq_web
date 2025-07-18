@@ -93,7 +93,7 @@ export default function ProjectsPage() {
                                     <Chip defaultChecked>You are subscribed</Chip>
                                 </Tooltip>
                                 :
-                                <Button component="a" href="/projects/purchase_subscription">
+                                <Button onClick={() => setActiveTab("billing")}>
                                     Upgrade
                                 </Button>
                         }

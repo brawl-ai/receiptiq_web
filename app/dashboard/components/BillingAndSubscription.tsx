@@ -203,7 +203,7 @@ export default function BillingAndSubscription() {
                                 <List.Item>Upload Receipts</List.Item>
                                 <List.Item>Export Extracted Transaction Data</List.Item>
                             </List>
-                            <Button component="a" href="/projects">Get Started</Button>
+                            <Button component="a" href="/dashboard">Get Started</Button>
                         </Flex>
                     </Paper>
                 </Stepper.Step>
