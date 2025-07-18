@@ -38,7 +38,7 @@ export default function BillingAndSubscription() {
                 clearInterval(subscriptionStatusCheckInterval.current);
             }
         };
-    }, [])
+    }, [getPlans, user])
 
     const handleSelectPlan = (plan: SubscriptionPlan) => {
         setSelectedPlan(plan)

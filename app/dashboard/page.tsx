@@ -29,7 +29,7 @@ export default function ProjectsPage() {
         ).catch(err => {
             console.log(err)
         })
-    }, [])
+    }, [subscriptionStatusChecker])
 
     const handleLogout = async () => {
         try {

@@ -49,7 +49,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
             setError(null);
             const response = await api.get<PaginatedProjects>("/api/v1/projects");
             setProjects(response.data.data);
-        } catch (err: any) {
+        } catch (err) {
             setError(err.response?.data?.detail || "Failed to fetch projects");
             throw err;
         } finally {
@@ -67,7 +67,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
             );
             setProjects((prev) => [...prev, response.data]);
             return response.data;
-        } catch (err: any) {
+        } catch (err) {
             setError(err.response?.data?.detail || "Failed to create project");
             throw err;
         } finally {
@@ -85,7 +85,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
             );
             setProjects((prev) => prev.map((p) => (p.id === id ? response.data : p)));
             return response.data;
-        } catch (err: any) {
+        } catch (err) {
             setError(err.response?.data?.detail || "Failed to update project");
             throw err;
         } finally {
@@ -99,7 +99,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
             setError(null);
             await api.delete(`/api/v1/projects/${id}`);
             setProjects((prev) => prev.filter((p) => p.id !== id));
-        } catch (err: any) {
+        } catch (err) {
             setError(err.response?.data?.detail || "Failed to delete project");
             throw err;
         } finally {
