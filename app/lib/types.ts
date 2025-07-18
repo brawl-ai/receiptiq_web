@@ -206,11 +206,50 @@ export type ProjectUpdate = {
     description?: string
 }
 
+export type FieldType = 'string' | 'number' | 'date' | 'boolean' | 'object' | 'array'
+
+export type FieldCreate = {
+    name: string
+    type: FieldType
+    description?: string
+}
+
+export type FieldUpdate = {
+    name?: string
+    type?: FieldType
+    description?: string
+    parent_id?: string
+}
+
+export type FieldParent = {
+    id: string
+    name: string
+    type: FieldType
+}
+
+export type FieldProject = {
+    id: string
+    name: string
+}
+
+export type FieldResponse = {
+    id: string
+    name: string
+    type: FieldType
+    description?: string
+    parent: FieldParent
+    project: FieldProject
+    children: FieldResponse[]
+    created_at: string
+    updated_at?: string
+}
+
 export type ProjectResponse = {
     name: string
     description?: string
     id: string
     owner: User
+    fields: FieldResponse[]
     created_at: string
     updated_at?: string
 }
