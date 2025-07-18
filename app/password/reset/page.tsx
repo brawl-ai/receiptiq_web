@@ -33,7 +33,7 @@ export default function ResetPasswordPage() {
         if (!searchParams.get("token") || !searchParams.get("email")) {
             notFound()
         }
-    }, [])
+    }, [searchParams])
 
     const form = useForm({
         initialValues: {

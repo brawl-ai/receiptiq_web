@@ -1,3 +1,11 @@
+export type UserSubscription = {
+    id: string
+    is_active: boolean
+    subscription_plan_id: string
+    start_at: string
+    end_at: string
+}
+
 export type User = {
     id: string
     first_name: string
@@ -6,6 +14,7 @@ export type User = {
     created_at: string
     updated_at?: string,
     is_subscribed: boolean
+    subscriptions: UserSubscription[]
     accepted_terms: boolean
 }
 
@@ -13,7 +22,7 @@ export type SignupRequest = {
     first_name: string
     last_name: string
     email: string,
-    password: string,
+    password: string
     accepted_terms: boolean
 }
 
@@ -185,4 +194,23 @@ export interface PaymentResponse {
     status: boolean;
     message: string;
     data: PaymentData;
+}
+
+export type ProjectCreate = {
+    name: string
+    description?: string
+}
+
+export type ProjectUpdate = {
+    name?: string
+    description?: string
+}
+
+export type ProjectResponse = {
+    name: string
+    description?: string
+    id: string
+    owner: User
+    created_at: string
+    updated_at?: string
 }

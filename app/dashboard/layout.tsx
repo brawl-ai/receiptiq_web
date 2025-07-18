@@ -3,6 +3,7 @@ import { Suspense } from "react"
 import { getCurrentUser } from "../lib/helpers"
 import { redirect } from "next/navigation"
 import { SubscriptionsProvider } from "../lib/subscription"
+import { ProjectsProvider } from "../lib/contexts/projects"
 
 
 export const metadata: Metadata = {
@@ -21,7 +22,9 @@ export default async function ProjectsLayout({
     return (
         <Suspense>
             <SubscriptionsProvider>
-                {children}
+                <ProjectsProvider>
+                    {children}
+                </ProjectsProvider>
             </SubscriptionsProvider>
         </Suspense>
     )

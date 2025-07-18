@@ -6,13 +6,13 @@ import { useSubscriptions } from "../../lib/subscription";
 import { useAuth } from "../../lib/auth";
 import { IconCircleCheck, IconCircleCheckFilled, IconReceipt } from "@tabler/icons-react";
 
-export default function PurchaseSubscriptionPage() {
+export default function BillingAndSubscription() {
     const [plans, setPlans] = useState<SubscriptionPlan[]>([])
     const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null)
     const { getPlans, initiatePurchase, subscriptionStatusChecker, paymentStatusChecker } = useSubscriptions()
     const { user } = useAuth()
     const stages = ["select_plan", "pay", "await_sub", "welcome"]
-    const [stage, setStage] = useState("select_plan");
+    const [stage, setStage] = useState(user.is_subscribed ? "welcome" : "select_plan");
     const paymentStatusCheckInterval = useRef(null);
     const subscriptionStatusCheckInterval = useRef(null);
 
@@ -21,6 +21,11 @@ export default function PurchaseSubscriptionPage() {
         getPlans().then(resp => {
             console.log(resp)
             setPlans(resp.data)
+            if (user.is_subscribed) {
+                const _sub = user.subscriptions.filter((sub) => sub.is_active)[0]
+                const _plan = resp.data.filter((p) => p.id == _sub.subscription_plan_id)[0]
+                setSelectedPlan(_plan)
+            }
         }
         ).catch(err => {
             console.log("getPlans error", err)
@@ -33,7 +38,7 @@ export default function PurchaseSubscriptionPage() {
                 clearInterval(subscriptionStatusCheckInterval.current);
             }
         };
-    }, [])
+    }, [getPlans, user])
 
     const handleSelectPlan = (plan: SubscriptionPlan) => {
         setSelectedPlan(plan)
@@ -198,7 +203,7 @@ export default function PurchaseSubscriptionPage() {
                                 <List.Item>Upload Receipts</List.Item>
                                 <List.Item>Export Extracted Transaction Data</List.Item>
                             </List>
-                            <Button component="a" href="/projects">Get Started</Button>
+                            <Button component="a" href="/dashboard">Get Started</Button>
                         </Flex>
                     </Paper>
                 </Stepper.Step>
