@@ -106,7 +106,7 @@ export default function Field({
         </Group>
         <Flex direction={"row"} justify={"space-between"}>
           <Flex gap={"xs"} align={"center"}>
-            {field.children.length > 0 && (
+            {(field.type === "array" || field.type === "object") && (
               <ActionIcon variant="subtle" aria-label="Delete" size={"sm"}>
                 {childrenOpened ? (
                   <IconChevronUp onClick={toggleChildren} size={15} />
@@ -124,7 +124,7 @@ export default function Field({
           </Flex>
         </Flex>
       </Flex>
-      {field.children.length > 0 && childrenOpened && (
+      {(field.type === "array" || field.type === "object") && childrenOpened && (
         <Divider mt={"lg"} mb={"lg"} />
       )}
       <Collapse in={childrenOpened} mt={"md"}>
