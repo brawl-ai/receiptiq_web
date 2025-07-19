@@ -244,12 +244,31 @@ export type FieldResponse = {
     updated_at?: string
 }
 
+export type ReceiptStatusUpdate = {
+    status: 'pending' | 'processing' | 'completed' | 'failed'
+    error_message?: string
+}
+
+export type ReceiptResponse = {
+    file_name: string
+    mime_type: string
+    id: string
+    file_path: string
+    download_url: string
+    status: string
+    error_message?: string
+    created_at: string
+    updated_at?: string
+}
+
 export type ProjectResponse = {
     name: string
     description?: string
     id: string
     owner: User
     fields: FieldResponse[]
+    receipts: ReceiptResponse[]
     created_at: string
     updated_at?: string
 }
+

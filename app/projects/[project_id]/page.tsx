@@ -17,9 +17,11 @@ import {
   IconChartBar,
   IconChevronDown,
   IconLogout,
+  IconProgressCheck,
   IconReceipt,
   IconSchema,
   IconSettings,
+  IconTableExport,
   IconUser,
 } from "@tabler/icons-react";
 import { useState } from "react";
@@ -27,20 +29,26 @@ import { useAuth } from "../../lib/auth";
 import { useRouter } from "next/navigation";
 import { useFields } from "../../lib/contexts/fields";
 import { FieldsManager } from "./components/FieldsManager";
+import DocumentsManager from "./components/DocumentsManager";
+import { useReceipts } from "../../lib/contexts/receipts";
 
 export default function ProjectDashboardPage() {
   const [opened] = useDisclosure();
   const [activeTab, setActiveTab] = useState("fields");
   const { user, logout } = useAuth();
-  const { project, fields, addField, addChildField, updateField, deleteField } =
-    useFields();
+  const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
+  const { loading, error, receipts, createReceipt, deleteReceipt } = useReceipts();
+
 
   const router = useRouter();
 
   const navItems = [
     { icon: IconSchema, label: "Fields", value: "fields" },
-    { icon: IconReceipt, label: "Receipts", value: "receipts" },
-    { icon: IconChartBar, label: "Results", value: "results" },
+    { icon: IconReceipt, label: "Documents", value: "documents" },
+    { icon: IconProgressCheck, label: "Process", value: "process" },
+    { icon: IconChartBar, label: "Data", value: "data" },
+    { icon: IconTableExport, label: "Export", value: "export" },
+
   ];
 
   const getInitials = (name: string) => {
@@ -203,9 +211,20 @@ export default function ProjectDashboardPage() {
           />
         )}
 
-        {activeTab === "receipts" && <Text> Receipts </Text>}
+        {activeTab === "documents" && (
+          <DocumentsManager
+            receipts={receipts}
+            loading={loading}
+            error={error}
+            onCreateReceipt={createReceipt}
+            onDeleteReceipt={deleteReceipt}
+          />
+        )}
 
-        {activeTab === "results" && <Text> Results </Text>}
+        {activeTab === "process" && <Text> Process </Text>}
+        {activeTab === "data" && <Text> Data </Text>}
+        {activeTab === "export" && <Text> Export </Text>}
+
       </AppShell.Main>
     </AppShell>
   );

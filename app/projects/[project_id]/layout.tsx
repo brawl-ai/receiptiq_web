@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { FieldsProvider } from "../../lib/contexts/fields";
 import { ProjectResponse } from "../../lib/types";
 import { getProject } from "../../lib/helpers";
+import { ReceiptsProvider } from "../../lib/contexts/receipts";
+import '@mantine/dropzone/styles.css';
 
 export const metadata: Metadata = {
   title: "Project",
@@ -25,7 +27,11 @@ export default async function ProjectLayout({
 
   return (
     <Suspense>
-      <FieldsProvider project={project}>{children}</FieldsProvider>
+      <FieldsProvider project={project}>
+        <ReceiptsProvider project={project}>
+          {children}
+        </ReceiptsProvider>
+      </FieldsProvider>
     </Suspense>
   );
 }
