@@ -1,20 +1,39 @@
 "use client";
 
-import { AppShell, Avatar, Box, Divider, Group, Menu, rem, Stack, Text, UnstyledButton } from "@mantine/core";
+import {
+  AppShell,
+  Avatar,
+  Box,
+  Divider,
+  Group,
+  Menu,
+  rem,
+  Stack,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconChartBar, IconChevronDown, IconLogout, IconReceipt, IconSchema, IconSettings, IconUser } from "@tabler/icons-react";
+import {
+  IconChartBar,
+  IconChevronDown,
+  IconLogout,
+  IconReceipt,
+  IconSchema,
+  IconSettings,
+  IconUser,
+} from "@tabler/icons-react";
 import { useState } from "react";
 import { useAuth } from "../../lib/auth";
 import { useRouter } from "next/navigation";
 import { useFields } from "../../lib/contexts/fields";
 import { FieldsManager } from "./components/FieldsManager";
 
-
 export default function ProjectDashboardPage() {
   const [opened] = useDisclosure();
   const [activeTab, setActiveTab] = useState("fields");
   const { user, logout } = useAuth();
-  const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
+  const { project, fields, addField, addChildField, updateField, deleteField } =
+    useFields();
 
   const router = useRouter();
 
@@ -40,11 +59,6 @@ export default function ProjectDashboardPage() {
       console.error("Error logging out:", error);
     }
   };
-
-  // const onAddField =(data: FieldCreate) => Promise<void>;
-  // const onUpdateField: (data: FieldUpdate) => Promise<void>;
-  // const onAddChildField: (data: FieldCreate) => Promise<void>;
-  // const onDeleteField: (field: FieldResponse) => Promise<void>;
 
   return (
     <AppShell
@@ -179,25 +193,19 @@ export default function ProjectDashboardPage() {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        {activeTab === "fields" &&
+        {activeTab === "fields" && (
           <FieldsManager
             fields={fields}
             onAddField={addField}
             onAddChildField={addChildField}
             onUpdateField={updateField}
             onDeleteField={deleteField}
-
-
           />
-        }
-
-        {activeTab === "receipts" && (
-          <Text> Receipts </Text>
         )}
 
-        {activeTab === "results" &&
-          <Text> Results </Text>
-        }
+        {activeTab === "receipts" && <Text> Receipts </Text>}
+
+        {activeTab === "results" && <Text> Results </Text>}
       </AppShell.Main>
     </AppShell>
   );

@@ -1,32 +1,31 @@
-import { Metadata } from "next"
-import { Suspense } from "react"
-import { notFound } from "next/navigation"
-import { FieldsProvider } from "../../lib/contexts/fields"
-import { ProjectResponse } from "../../lib/types"
-import { getProject } from "../../lib/helpers"
-
+import { Metadata } from "next";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { FieldsProvider } from "../../lib/contexts/fields";
+import { ProjectResponse } from "../../lib/types";
+import { getProject } from "../../lib/helpers";
 
 export const metadata: Metadata = {
-    title: "Project"
-}
+  title: "Project",
+};
 
 export default async function ProjectLayout({
-    children, params
+  children,
+  params,
 }: {
-    children: React.ReactNode, params: Promise<{ project_id: string }>
+  children: React.ReactNode;
+  params: Promise<{ project_id: string }>;
 }) {
-    const { project_id } = await params;
+  const { project_id } = await params;
 
-    const project: ProjectResponse = await getProject(project_id)
-    if (!project) {
-        notFound()
-    }
+  const project: ProjectResponse = await getProject(project_id);
+  if (!project) {
+    notFound();
+  }
 
-    return (
-        <Suspense>
-            <FieldsProvider project={project}>
-                {children}
-            </FieldsProvider>
-        </Suspense>
-    )
+  return (
+    <Suspense>
+      <FieldsProvider project={project}>{children}</FieldsProvider>
+    </Suspense>
+  );
 }
