@@ -48,6 +48,7 @@ export default function Field({
     field
   );
   const [isAddingChild, setIsAddingChild] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleSave = async (data: FieldUpdate | FieldCreate) => {
     try {
@@ -84,6 +85,17 @@ export default function Field({
     toggleForm();
   };
 
+  const handleDelete = async (field_id: string) => {
+    try {
+      setIsDeleting(true)
+      await onDeleteField(field_id)
+    } catch (error) {
+
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
   return (
     <Paper key={field.id} p="xs" mt={3} withBorder bd={"0.5px dotted #cccccc"}>
       <Flex justify={"space-between"}>
@@ -118,8 +130,8 @@ export default function Field({
             <ActionIcon variant="light" aria-label="Edit" size={"sm"}>
               <IconPencil onClick={handleEditField} size={15} />
             </ActionIcon>
-            <ActionIcon variant="light" aria-label="Delete" size={"sm"}>
-              <IconTrash onClick={() => onDeleteField(field.id)} size={15} />
+            <ActionIcon variant="light" aria-label="Delete" size={"sm"} loading={isDeleting}>
+              <IconTrash onClick={() => handleDelete(field.id)} size={15} />
             </ActionIcon>
           </Flex>
         </Flex>
@@ -137,7 +149,7 @@ export default function Field({
             onDeleteField={onDeleteField}
           />
         ))}
-        {field.type === "array" && !opened && (
+        {(field.type === "array" || field.type === "object") && !opened && (
           <Flex direction={"row"} justify={"flex-end"}>
             <ActionIcon
               variant="gradient"
