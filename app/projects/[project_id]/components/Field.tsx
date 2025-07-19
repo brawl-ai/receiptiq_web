@@ -90,7 +90,7 @@ export default function Field({
       setIsDeleting(true)
       await onDeleteField(field_id)
     } catch (error) {
-
+      console.log("Error deleting field", error)
     } finally {
       setIsDeleting(false)
     }
