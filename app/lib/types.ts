@@ -249,6 +249,22 @@ export type ReceiptStatusUpdate = {
     error_message?: string
 }
 
+export type DataValueUpdate = {
+    value: string
+}
+
+export type DataValueResponse = {
+    value: string
+    id: string
+    field: FieldResponse
+    x: number
+    y: number
+    width: number
+    height: number
+    created_at: string
+    updated_at?: string
+}
+
 export type ReceiptResponse = {
     file_name: string
     mime_type: string
@@ -256,6 +272,7 @@ export type ReceiptResponse = {
     file_path: string
     download_url: string
     status: string
+    data_values: DataValueResponse[]
     error_message?: string
     created_at: string
     updated_at?: string
