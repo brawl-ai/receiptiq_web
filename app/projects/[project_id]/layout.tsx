@@ -6,6 +6,7 @@ import { ProjectResponse } from "../../lib/types";
 import { getProject } from "../../lib/helpers";
 import { ReceiptsProvider } from "../../lib/contexts/receipts";
 import '@mantine/dropzone/styles.css';
+import '@mantine/charts/styles.css';
 
 export const metadata: Metadata = {
   title: "Project",
