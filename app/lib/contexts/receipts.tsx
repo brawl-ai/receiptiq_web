@@ -8,6 +8,8 @@ import {
 } from "react";
 import api from "../axios";
 import {
+    DataValueResponse,
+    DataValueUpdate,
     ProjectResponse,
     ReceiptResponse,
     ReceiptStatusUpdate
@@ -21,6 +23,8 @@ interface ReceiptsContextType {
     createReceipt: (file: File) => Promise<ReceiptResponse>;
     updateReceiptStatus: (receiptId: string, data: ReceiptStatusUpdate) => Promise<ReceiptResponse>;
     deleteReceipt: (receiptId: string) => Promise<void>;
+    processReceipt: (receiptId: string) => Promise<ReceiptResponse>;
+    updateDataValue: (receiptId: string, dataValueId: string, data: DataValueUpdate) => Promise<DataValueResponse>
 }
 
 const ReceiptsContext = createContext<ReceiptsContextType | undefined>(undefined);
@@ -79,6 +83,54 @@ export function ReceiptsProvider({ children, project }: { children: ReactNode, p
         }
     };
 
+    const processReceipt = async (receiptId: string) => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await api.post<ReceiptResponse>(`/api/v1/projects/${project.id}/receipts/${receiptId}/process`);
+            setReceipts((prev) => prev.map(r => {
+                if (r.id === response.data.id) {
+                    return response.data
+                } else {
+                    return r
+                }
+            }))
+            return response.data;
+        } catch (err) {
+            setError(err.response?.data?.detail || "Failed to process receipts");
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const updateDataValue = async (receiptId: string, dataValueId: string, data: DataValueUpdate) => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await api.put<DataValueResponse>(`/api/v1/projects/${project.id}/receipts/${receiptId}/data/${dataValueId}`, data);
+            setReceipts((prev) =>
+                prev.map((r) => {
+                    if (r.id === receiptId) {
+                        return {
+                            ...r,
+                            data_value: r.data_values.map((v) =>
+                                v.id === dataValueId ? response.data : v
+                            ),
+                        };
+                    }
+                    return r;
+                })
+            );
+            return response.data;
+        } catch (err) {
+            setError(err.response?.data?.detail || "Failed to update receipt data");
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <ReceiptsContext.Provider
@@ -89,7 +141,9 @@ export function ReceiptsProvider({ children, project }: { children: ReactNode, p
                 error,
                 createReceipt,
                 updateReceiptStatus,
-                deleteReceipt
+                deleteReceipt,
+                processReceipt,
+                updateDataValue
             }}
         >
             {children}
