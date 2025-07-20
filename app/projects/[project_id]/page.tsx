@@ -4,6 +4,7 @@ import {
   AppShell,
   Avatar,
   Box,
+  Button,
   Divider,
   Group,
   Menu,
@@ -21,6 +22,7 @@ import {
   IconReceipt,
   IconSchema,
   IconSettings,
+  IconSettingsFilled,
   IconTableExport,
   IconUser,
 } from "@tabler/icons-react";
@@ -31,13 +33,14 @@ import { useFields } from "../../lib/contexts/fields";
 import { FieldsManager } from "./components/FieldsManager";
 import DocumentsManager from "./components/DocumentsManager";
 import { useReceipts } from "../../lib/contexts/receipts";
+import ProcessingManager from "./components/ProcessingManager";
 
 export default function ProjectDashboardPage() {
   const [opened] = useDisclosure();
-  const [activeTab, setActiveTab] = useState("fields");
+  const [activeTab, setActiveTab] = useState("process");
   const { user, logout } = useAuth();
   const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
-  const { loading, error, receipts, createReceipt, deleteReceipt } = useReceipts();
+  const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue } = useReceipts();
 
 
   const router = useRouter();
@@ -87,38 +90,43 @@ export default function ProjectDashboardPage() {
             )}
           </Group>
 
-          <Menu shadow="md" width={200}>
-            <Menu.Target>
-              <UnstyledButton>
-                <Group gap={7}>
-                  <Avatar size={32} radius="xl" color="blue">
-                    {getInitials(user?.first_name + " " + user?.last_name)}
-                  </Avatar>
-                  <Text size="sm" fw={500}>
-                    {user?.first_name} {user?.last_name}
-                  </Text>
-                  <IconChevronDown size={12} stroke={1.5} />
-                </Group>
-              </UnstyledButton>
-            </Menu.Target>
+          <Group>
+            {(receipts.length > 0 && activeTab !== "process") && (
+              <Button bg={"green"} onClick={() => setActiveTab("process")} leftSection={<IconSettingsFilled />}>Process</Button>
+            )}
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <UnstyledButton>
+                  <Group gap={7}>
+                    <Avatar size={32} radius="xl" color="blue">
+                      {getInitials(user?.first_name + " " + user?.last_name)}
+                    </Avatar>
+                    <Text size="sm" fw={500}>
+                      {user?.first_name} {user?.last_name}
+                    </Text>
+                    <IconChevronDown size={12} stroke={1.5} />
+                  </Group>
+                </UnstyledButton>
+              </Menu.Target>
 
-            <Menu.Dropdown>
-              <Menu.Item leftSection={<IconUser size={14} />}>
-                Profile
-              </Menu.Item>
-              <Menu.Item leftSection={<IconSettings size={14} />}>
-                Settings
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item
-                leftSection={<IconLogout size={14} />}
-                onClick={handleLogout}
-                color="red"
-              >
-                Logout
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+              <Menu.Dropdown>
+                <Menu.Item leftSection={<IconUser size={14} />}>
+                  Profile
+                </Menu.Item>
+                <Menu.Item leftSection={<IconSettings size={14} />}>
+                  Settings
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item
+                  leftSection={<IconLogout size={14} />}
+                  onClick={handleLogout}
+                  color="red"
+                >
+                  Logout
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </Group>
         </Group>
       </AppShell.Header>
 
@@ -221,7 +229,15 @@ export default function ProjectDashboardPage() {
           />
         )}
 
-        {activeTab === "process" && <Text> Process </Text>}
+        {activeTab === "process" && (
+          <ProcessingManager
+            receipts={receipts}
+            fields={project.fields}
+            error={error}
+            onProcessReceipt={processReceipt}
+            onUpdateDataValue={updateDataValue}
+          />
+        )}
         {activeTab === "data" && <Text> Data </Text>}
         {activeTab === "export" && <Text> Export </Text>}
 
