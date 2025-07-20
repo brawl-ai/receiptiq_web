@@ -115,11 +115,8 @@ export default function DocumentsManager({ receipts, loading, error, onCreateRec
                     </Button>
                 </Flex>
             )}
-
-            <Flex></Flex>
-            {acceptedFiles.length == 0 && rejectedFiles.length == 0 && (
+            {acceptedFiles.length === 0 && rejectedFiles.length === 0 && (
                 <Dropzone
-                    mt={"md"}
                     onDrop={(files) => {
                         console.log('accepted files', files)
                         setAcceptedFiles(files)
