@@ -24,7 +24,6 @@ export const metadata = {
 
 const theme = createTheme({
     fontFamily: "Open Sans, sans-serif",
-    primaryColor: "cyan",
 });
 
 export default async function RootLayout({
@@ -42,7 +41,7 @@ export default async function RootLayout({
                 <script defer src="https://cloud.umami.is/script.js" data-website-id="68959e46-a3c0-4d45-a381-ec80451622fe"></script>
             </head>
             <body>
-                <MantineProvider theme={theme} defaultColorScheme="light">
+                <MantineProvider theme={theme} defaultColorScheme="auto">
                     <Notifications />
                     <AuthProvider initialUser={user}>
                         {children}
