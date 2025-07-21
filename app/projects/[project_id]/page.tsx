@@ -34,13 +34,15 @@ import { FieldsManager } from "./components/FieldsManager";
 import DocumentsManager from "./components/DocumentsManager";
 import { useReceipts } from "../../lib/contexts/receipts";
 import ProcessingManager from "./components/ProcessingManager";
+import DataTab from "./components/data/DataTab";
+import DataExport from "./components/export/DataExport";
 
 export default function ProjectDashboardPage() {
   const [opened] = useDisclosure();
-  const [activeTab, setActiveTab] = useState("process");
+  const [activeTab, setActiveTab] = useState("data");
   const { user, logout } = useAuth();
   const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
-  const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue } = useReceipts();
+  const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue, exportData } = useReceipts();
 
 
   const router = useRouter();
@@ -238,8 +240,19 @@ export default function ProjectDashboardPage() {
             onUpdateDataValue={updateDataValue}
           />
         )}
-        {activeTab === "data" && <Text> Data </Text>}
-        {activeTab === "export" && <Text> Export </Text>}
+        {activeTab === "data" && (
+          <DataTab
+            receipts={receipts}
+            fields={project.fields}
+          />
+        )}
+        {activeTab === "export" &&
+          <DataExport
+            receipts={receipts}
+            fields={project.fields}
+            onExport={exportData}
+          />
+        }
 
       </AppShell.Main>
     </AppShell>
