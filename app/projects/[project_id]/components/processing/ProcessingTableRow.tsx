@@ -29,8 +29,6 @@ export default function ProcessingTableRow(
         }
     }
 
-    console.log(isProcessing)
-
     return (
         <Table.Tr key={receipt.id} pos={"relative"}>
             <Table.Td>{receipt.file_name}</Table.Td>
