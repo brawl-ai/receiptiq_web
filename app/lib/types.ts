@@ -289,3 +289,6 @@ export type ProjectResponse = {
     updated_at?: string
 }
 
+export type ExportResponse = {
+    url: string
+}

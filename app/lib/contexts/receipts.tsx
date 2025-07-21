@@ -10,6 +10,7 @@ import api from "../axios";
 import {
     DataValueResponse,
     DataValueUpdate,
+    ExportResponse,
     ProjectResponse,
     ReceiptResponse,
     ReceiptStatusUpdate
@@ -25,6 +26,7 @@ interface ReceiptsContextType {
     deleteReceipt: (receiptId: string) => Promise<void>;
     processReceipt: (receiptId: string) => Promise<ReceiptResponse>;
     updateDataValue: (receiptId: string, dataValueId: string, data: DataValueUpdate) => Promise<DataValueResponse>
+    exportData: () => Promise<ExportResponse>
 }
 
 const ReceiptsContext = createContext<ReceiptsContextType | undefined>(undefined);
@@ -131,6 +133,20 @@ export function ReceiptsProvider({ children, project }: { children: ReactNode, p
         }
     };
 
+    const exportData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await api.get<ExportResponse>(`/api/v1/projects/${project.id}/data/csv`);
+            return response.data;
+        } catch (err) {
+            setError(err.response?.data?.detail || "Failed to export the data");
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <ReceiptsContext.Provider
@@ -143,7 +159,8 @@ export function ReceiptsProvider({ children, project }: { children: ReactNode, p
                 updateReceiptStatus,
                 deleteReceipt,
                 processReceipt,
-                updateDataValue
+                updateDataValue,
+                exportData
             }}
         >
             {children}
