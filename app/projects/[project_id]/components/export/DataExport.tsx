@@ -174,10 +174,10 @@ export default function DataExport({ receipts, fields, onExport }: DataExportPro
             <Divider mb={"md"} variant="dashed" />
 
             <Flex align={"center"} justify={"space-around"} m={"lg"}>
-                <Button loading={isExporting} onClick={handleExport} leftSection={<IconFileExport />}>Export</Button>
+                <Button loading={isExporting} onClick={handleExport} leftSection={<IconFileExport />} data-umami-event="export@projects">Export</Button>
                 {export_url && <>
                     <Divider orientation="vertical" variant="dotted" />
-                    <Button component="a" bg={"green"} href={export_url} leftSection={<IconDownload />}>Download</Button>
+                    <Button component="a" bg={"green"} href={export_url} leftSection={<IconDownload />} data-umami-event="download@projects_pdfviewer">Download</Button>
                 </>}
             </Flex>
             <Divider mb={"md"} variant="dashed" />

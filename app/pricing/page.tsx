@@ -52,8 +52,8 @@ export default function PricingPage() {
                     </Group>
 
                     <Group visibleFrom="sm">
-                        <Button variant="outline" color="blue" component="a" href="/login">Log in</Button>
-                        <Button color="blue" component='a' href='/signup'>Get Started</Button>
+                        <Button data-umami-event="login_button@pricing" variant="outline" color="blue" component="a" href="/login">Log in</Button>
+                        <Button data-umami-event="get_started_button@pricing" color="blue" component='a' href='/signup'>Get Started</Button>
                     </Group>
                 </Group>
             </Container>
@@ -69,6 +69,7 @@ export default function PricingPage() {
                             fullWidth
                             leftSection={<IconLogin size="1rem" />}
                             component='a' href='/login'
+                            data-umami-event="login_button@pricing"
                         >
                             Log in
                         </Button>
@@ -77,6 +78,7 @@ export default function PricingPage() {
                             color="blue"
                             fullWidth
                             leftSection={<IconRocket size="1rem" />}
+                            data-umami-event="get_started_button@pricing"
                         >
                             Get Started
                         </Button>
@@ -110,6 +112,7 @@ export default function PricingPage() {
                                     rightSection={<IconArrowRight size={14} />}
                                     component="a"
                                     href="/login?redirect=/dashboard"
+                                    data-umami-event={`get_started_with_plan_${plan.id}_@pricing`}
                                 >Get Started</Button>
                             </Group>
                         </Card>

@@ -61,6 +61,7 @@ export default function DocumentsManager({ receipts, loading, error, onCreateRec
                             </Text>
                         </Box>
                         <Button
+                            data-umami-event={`upload@projects`}
                             loading={isUploading}
                             bg={"green"}
                             size="compact-sm"
@@ -84,6 +85,7 @@ export default function DocumentsManager({ receipts, loading, error, onCreateRec
                             ({rejectedFiles.length})
                         </Text>
                         <Button
+                            data-umami-event="remove@projects"
                             bg={"red"}
                             size="compact-sm"
                             m={"md"}
@@ -100,6 +102,7 @@ export default function DocumentsManager({ receipts, loading, error, onCreateRec
                 <Flex align={"center"} direction={"column"}>
                     {error && (<Text style={{ textAlign: "center" }} c={"red"} size="xs">{error}</Text>)}
                     <Button
+                        data-umami-event="clear@projects"
                         loading={isUploading}
                         bg={"orange"}
                         size="compact-sm"
@@ -186,13 +189,13 @@ export default function DocumentsManager({ receipts, loading, error, onCreateRec
                                         {new Date(receipt.created_at).toLocaleString()}
                                     </Table.Td>
                                     <Table.Td>
-                                        <ActionIcon size="md" variant="subtle" onClick={() => {
+                                        <ActionIcon data-umami-event="view_receipt@projects_documentstab" size="md" variant="subtle" onClick={() => {
                                             setSelectedReceipt(receipt)
                                             open()
                                         }}>
                                             <IconEye />
                                         </ActionIcon>
-                                        <ActionIcon size="md" c={"red"} variant="subtle" onClick={() => onDeleteReceipt(receipt.id)} loading={loading}>
+                                        <ActionIcon data-umami-event="delete_receipt@projects_documentstab" size="md" c={"red"} variant="subtle" onClick={() => onDeleteReceipt(receipt.id)} loading={loading}>
                                             <IconTrash />
                                         </ActionIcon>
                                     </Table.Td>

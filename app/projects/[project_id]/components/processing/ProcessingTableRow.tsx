@@ -69,6 +69,7 @@ export default function ProcessingTableRow(
             <Table.Td>
                 <Flex gap={"md"}>
                     <Button
+                        data-umami-event={`process@projects_receipt_${receipt.id}`}
                         loading={isProcessing}
                         size="compact-sm"
                         onClick={handleStartProcessing}
@@ -77,10 +78,14 @@ export default function ProcessingTableRow(
                     >
                         Process
                     </Button>
-                    <ActionIcon size="md" variant="subtle" onClick={() => {
-                        setSelectedReceipt(receipt)
-                        openReceipt()
-                    }}>
+                    <ActionIcon
+                        data-umami-event="view_data@projects_processing"
+                        size="md"
+                        variant="subtle"
+                        onClick={() => {
+                            setSelectedReceipt(receipt)
+                            openReceipt()
+                        }}>
                         <IconEye />
                     </ActionIcon>
                 </Flex>

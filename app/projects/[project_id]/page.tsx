@@ -94,7 +94,7 @@ export default function ProjectDashboardPage() {
 
           <Group>
             {(receipts.length > 0 && activeTab !== "process") && (
-              <Button bg={"green"} onClick={() => setActiveTab("process")} leftSection={<IconSettingsFilled />}>Process</Button>
+              <Button data-umami-event={`process_header_button@projects_${project.id}`} bg={"green"} onClick={() => setActiveTab("process")} leftSection={<IconSettingsFilled />}>Process</Button>
             )}
             <Menu shadow="md" width={200}>
               <Menu.Target>

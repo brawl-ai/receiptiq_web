@@ -71,8 +71,8 @@ export default function ReceiptIQHomepage() {
 
             <Group visibleFrom="sm">
               <Text size="sm" component='a' href='/pricing' c="dimmed">Pricing</Text>
-              <Button variant="outline" color="blue" component="a" href="/login">Log in</Button>
-              <Button color="blue" component='a' href='/signup'>Get Started</Button>
+              <Button data-umami-event="lgoin@home" variant="outline" color="blue" component="a" href="/login">Log in</Button>
+              <Button data-umami-event="get_started@home" color="blue" component='a' href='/signup'>Get Started</Button>
             </Group>
           </Group>
         </Container>
@@ -92,6 +92,7 @@ export default function ReceiptIQHomepage() {
                 fullWidth
                 leftSection={<IconLogin size="1rem" />}
                 component='a' href='/login'
+                data-umami-event="login@home_sidebar"
               >
                 Log in
               </Button>
@@ -100,6 +101,7 @@ export default function ReceiptIQHomepage() {
                 color="blue"
                 fullWidth
                 leftSection={<IconRocket size="1rem" />}
+                data-umami-event="get_started@homepage_sidebar"
               >
                 Get Started
               </Button>
@@ -137,7 +139,7 @@ export default function ReceiptIQHomepage() {
                     </Text>
 
                     <Group gap="md">
-                      <Button size="lg" color="blue" rightSection={<IconArrowRight size={18} />} component='a' href='/signup'>
+                      <Button size="lg" color="blue" rightSection={<IconArrowRight size={18} />} component='a' href='/signup' data-umami-event="get_started@home_herosection">
                         Get Started
                       </Button>
                     </Group>

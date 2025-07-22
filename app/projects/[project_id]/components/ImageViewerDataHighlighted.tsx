@@ -124,6 +124,7 @@ export default function ImageViewerDataHighlighted({
                     <Group justify="space-between" p="md" bg="gray.0" h={50}>
                         <Group gap="xs">
                             <ActionIcon
+                                data-umami-event="zoom_in@projects_imageviewer"
                                 variant="light"
                                 onClick={handleZoomIn}
                                 title="Zoom In"
@@ -131,6 +132,7 @@ export default function ImageViewerDataHighlighted({
                                 <IconZoomIn size={16} />
                             </ActionIcon>
                             <ActionIcon
+                                data-umami-event="zoom_out@projects_imageviewer"
                                 variant="light"
                                 onClick={handleZoomOut}
                                 title="Zoom Out"
@@ -138,6 +140,7 @@ export default function ImageViewerDataHighlighted({
                                 <IconZoomOut size={16} />
                             </ActionIcon>
                             <ActionIcon
+                                data-umami-event="zoom_reset@projects_imageviewer"
                                 variant="light"
                                 onClick={handleZoomReset}
                                 title="Reset Zoom"
@@ -149,6 +152,7 @@ export default function ImageViewerDataHighlighted({
                             </Text>
                         </Group>
                         <ActionIcon
+                            data-umami-event="close@projects_imageviewer"
                             variant="light"
                             onClick={onClose}
                             title="Close"

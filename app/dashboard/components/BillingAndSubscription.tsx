@@ -140,7 +140,7 @@ export default function BillingAndSubscription() {
                                     <Divider mt={"xl"} variant="dotted" />
                                     <Text mt={"xl"} >{plan.description}</Text>
                                     <Divider mt={"xl"} />
-                                    <Button mt={"xl"} fullWidth onClick={() => handleSelectPlan(plan)}>Get Started</Button>
+                                    <Button mt={"xl"} fullWidth onClick={() => handleSelectPlan(plan)} data-umami-event="get_started@dashboard_billing">Get Started</Button>
                                 </Flex>
                             </Paper>)
                         }
@@ -156,10 +156,10 @@ export default function BillingAndSubscription() {
                                 <Divider variant="dotted" orientation="vertical" />
                                 <Title order={5}>{selectedPlan.description}</Title>
                                 <Divider variant="dotted" orientation="vertical" />
-                                <Button onClick={() => handleStartPurchase(selectedPlan)}>Pay Now</Button>
+                                <Button data-umami-event="pay_now@dashboard_billing_payments" onClick={() => handleStartPurchase(selectedPlan)}>Pay Now</Button>
                             </Flex>
                         </Paper>
-                        <Button m={"lg"} size="sm" variant="subtle" onClick={() => setStage("select_plan")}>Back</Button>
+                        <Button data-umami-event="back_button@dashboard_billing_payments" m={"lg"} size="sm" variant="subtle" onClick={() => setStage("select_plan")}>Back</Button>
                     </> : <Text onClick={() => setStage("select_plan")} >select a plan</Text>}
 
                 </Stepper.Step>
@@ -203,7 +203,7 @@ export default function BillingAndSubscription() {
                                 <List.Item>Upload Receipts</List.Item>
                                 <List.Item>Export Extracted Transaction Data</List.Item>
                             </List>
-                            <Button component="a" href="/dashboard">Get Started</Button>
+                            <Button data-umami-event="get_started@dashboard_billing_endsection" component="a" href="/dashboard">Get Started</Button>
                         </Flex>
                     </Paper>
                 </Stepper.Step>

@@ -58,7 +58,7 @@ export function FieldsManager({
           <FieldForm field={null} onSave={onAddField} onDismiss={toggleForm} />
         </Collapse>
         <Flex direction={"row"} justify={"flex-end"}>
-          <Button variant="gradient" size="compact-sm" onClick={toggleForm}>
+          <Button variant="gradient" size="compact-sm" onClick={toggleForm} data-umami-event="add_field@projects_fields">
             + Field
           </Button>
         </Flex>
