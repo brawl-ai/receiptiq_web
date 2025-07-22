@@ -1,5 +1,5 @@
 import { Badge, Button, Center, Collapse, Divider, Flex, Group, Paper, ScrollArea, Table, Text, TextInput, Title, UnstyledButton } from "@mantine/core";
-import { ExportResponse, FieldResponse, FieldType, ReceiptResponse } from "../../../../lib/types";
+import { ExportResponse, FieldResponse, ReceiptResponse } from "../../../../lib/types";
 import { IconBracketsContain, IconChevronDown, IconChevronUp, IconDownload, IconFileExport, IconSearch, IconSelector } from "@tabler/icons-react";
 import { useState } from "react";
 import classes from './DataExport.module.css';
@@ -157,63 +157,6 @@ export default function DataExport({ receipts, fields, onExport }: DataExportPro
     const rows = sortedData.filter(r => r.data_values.length > 0).map((row) => (
         <Tr key={row.id} receipt={row} fields={topLevelFields} />
     ));
-
-    function getDataValueStats(receipts: ReceiptResponse[]) {
-        const fieldStats: Record<string, Record<string, number>> = {};
-
-        // Function to generate random pastel color
-        const generatePastelColor = () => {
-            const hue = Math.floor(Math.random() * 360);
-            const saturation = Math.floor(Math.random() * 30) + 25; // 25-55%
-            const lightness = Math.floor(Math.random() * 20) + 70;  // 70-90%
-            return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        };
-
-        receipts.forEach(receipt => {
-            receipt.data_values.forEach(dataValue => {
-                const fieldName = dataValue.field.name;
-                const value = dataValue.value.trim();
-
-                // Skip empty values
-                if (value) {
-                    if (!fieldStats[fieldName]) {
-                        fieldStats[fieldName] = {};
-                    }
-                    fieldStats[fieldName][value] = (fieldStats[fieldName][value] || 0) + 1;
-                }
-            });
-        });
-
-        // Convert to array format suitable for pie charts, grouped by field name
-        return Object.entries(fieldStats).map(([fieldName, valueCounts]) => {
-            // Find the field type by looking up the first occurrence of this field name
-            let fieldType: FieldType = 'string';
-            outer: for (const receipt of receipts) {
-                for (const dataValue of receipt.data_values) {
-                    if (dataValue.field.name === fieldName) {
-                        fieldType = dataValue.field.type;
-                        break outer;
-                    }
-                }
-            }
-
-            return {
-                fieldName,
-                fieldType,
-                data: Object.entries(valueCounts)
-                    .map(([value, count]) => ({
-                        name: value,
-                        value: count,
-                        color: generatePastelColor()
-                    }))
-                    .sort((a, b) => b.value - a.value) // Sort by count descending
-            };
-        });
-    }
-
-    const stats = getDataValueStats(receipts)
-
-    console.log(stats)
 
     const handleExport = () => {
         setExportURL(null)

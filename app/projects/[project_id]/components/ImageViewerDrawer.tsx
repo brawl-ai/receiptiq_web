@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import {
     Drawer,
     Image,
@@ -15,18 +16,24 @@ import {
     IconZoomReset,
     IconX
 } from '@tabler/icons-react';
+import { ReceiptResponse } from '../../../lib/types';
+
+const PDFViewer = dynamic(() => import('./PDFViewer'), {
+    ssr: false,
+    loading: () => <p>Loading PDF viewer...</p>
+});
 
 interface ImageViewerDrawerProps {
     opened: boolean;
     onClose: () => void;
-    imageUrl: string;
+    receipt: ReceiptResponse;
     title?: string;
 }
 
 export default function ImageViewerDrawer({
     opened,
     onClose,
-    imageUrl,
+    receipt,
 }: ImageViewerDrawerProps) {
     const [imageLoading, setImageLoading] = useState(true);
     const [scale, setScale] = useState(1);
@@ -41,7 +48,7 @@ export default function ImageViewerDrawer({
             setPosition({ x: 0, y: 0 });
             setImageLoading(true);
         }
-    }, [opened]);
+    }, [opened, receipt]);
 
     const handleImageLoad = () => {
         setImageLoading(false);
@@ -171,8 +178,8 @@ export default function ImageViewerDrawer({
                             pointerEvents: imageLoading ? 'none' : 'auto'
                         }}
                     >
-                        <Image
-                            src={imageUrl}
+                        {receipt?.mime_type.includes("image") && <Image
+                            src={receipt?.download_url}
                             alt="Viewer Image"
                             onLoad={handleImageLoad}
                             onError={() => setImageLoading(false)}
@@ -184,7 +191,12 @@ export default function ImageViewerDrawer({
                             styles={{
                                 root: { display: 'block' }
                             }}
-                        />
+                        />}
+                        {receipt?.mime_type.includes("pdf") && <PDFViewer
+                            onErrorAction={() => setImageLoading(false)}
+                            onLoadAction={handleImageLoad}
+                            pdfUrl={receipt?.download_url}
+                        />}
                     </Box>
                 </Box>
 

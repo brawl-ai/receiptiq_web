@@ -19,6 +19,12 @@ import {
 } from '@tabler/icons-react';
 import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from '../../../lib/types';
 import DataForm from './DataForm';
+import dynamic from 'next/dynamic';
+
+const PDFViewer = dynamic(() => import('./PDFViewer'), {
+    ssr: false,
+    loading: () => <p>Loading PDF viewer...</p>
+});
 
 interface ImageViewerDrawerProps {
     opened: boolean;
@@ -185,7 +191,7 @@ export default function ImageViewerDataHighlighted({
                         >
                             {/* Container for image and overlays */}
                             <Box style={{ position: 'relative', display: 'inline-block' }}>
-                                <Image
+                                {receipt?.mime_type.includes("image") && <Image
                                     src={receipt?.download_url}
                                     alt="Viewer Image"
                                     onLoad={handleImageLoad}
@@ -198,7 +204,13 @@ export default function ImageViewerDataHighlighted({
                                     styles={{
                                         root: { display: 'block' }
                                     }}
-                                />
+                                />}
+
+                                {receipt?.mime_type.includes("pdf") && <PDFViewer
+                                    onErrorAction={() => setImageLoading(false)}
+                                    onLoadAction={handleImageLoad}
+                                    pdfUrl={receipt?.download_url}
+                                />}
 
                                 {/* Overlay boxes for data values - positioned relative to image */}
                                 {receipt?.data_values.map((dataValue) => (

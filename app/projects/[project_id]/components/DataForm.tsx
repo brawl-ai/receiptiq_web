@@ -25,8 +25,6 @@ export function DataFormField({ receipt, field, onValueChange }:
         onValueChange({ ...dataValue, value: updatedValue })
     }
 
-    console.log(field.name, dataValue)
-
     return <Paper p={"xs"} shadow="xs" withBorder>
         {field.type !== "array" && field.type !== "object" && (
             <Flex align={"center"} direction={field.parent?.type === "array" ? "column" : "row"}>
