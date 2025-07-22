@@ -39,7 +39,7 @@ import DataExport from "./components/export/DataExport";
 
 export default function ProjectDashboardPage() {
   const [opened] = useDisclosure();
-  const [activeTab, setActiveTab] = useState("data");
+  const [activeTab, setActiveTab] = useState("documents");
   const { user, logout } = useAuth();
   const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
   const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue, exportData } = useReceipts();

@@ -208,7 +208,7 @@ export default function DocumentsManager({ receipts, loading, error, onCreateRec
                     </Text>
                 </Paper>
             )}
-            <ImageViewerDrawer opened={opened} onClose={close} imageUrl={selectedReceipt?.download_url} />
+            <ImageViewerDrawer opened={opened} onClose={close} receipt={selectedReceipt} />
         </Paper>
     )
 }
