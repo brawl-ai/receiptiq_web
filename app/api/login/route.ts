@@ -22,7 +22,7 @@ export async function POST(req: Request) {
             password: body.password,
             grant_type: "password",
             remember_me: body.remember_me,
-            scope: "read:profile write:projects write:fields write:receipts process:projects delete:projects read:fields delete:fields read:data export:data read:plans read:receipts"
+            scope: "read:profile write:profile read:projects write:projects delete:projects process:projects read:fields write:fields delete:fields read:receipts write:receipts delete:receipts read:data export:data"
         },
         {
             headers: {

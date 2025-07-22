@@ -98,6 +98,7 @@ export default function PDFViewer({ pdfUrl, onErrorAction, onLoadAction }: PDFVi
                     <Button
                         onClick={() => setPageNumber(Math.max(1, pageNumber - 1))}
                         disabled={pageNumber <= 1}
+                        data-umami-event="previous@projects_pdfviewer"
                     >
                         Previous
                     </Button>
@@ -107,6 +108,7 @@ export default function PDFViewer({ pdfUrl, onErrorAction, onLoadAction }: PDFVi
                     </Text>
 
                     <Button
+                        data-umami-event="next@projects_pdfviewer"
                         onClick={() => setPageNumber(Math.min(numPages, pageNumber + 1))}
                         disabled={pageNumber >= numPages}
                     >

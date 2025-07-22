@@ -93,7 +93,7 @@ export default function ProjectsPage() {
                                     <Chip defaultChecked>You are subscribed</Chip>
                                 </Tooltip>
                                 :
-                                <Button onClick={() => setActiveTab("billing")}>
+                                <Button onClick={() => setActiveTab("billing")} data-umami-event="upgrade@dashboard">
                                     Upgrade
                                 </Button>
                         }

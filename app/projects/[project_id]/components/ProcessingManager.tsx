@@ -88,7 +88,7 @@ export default function ProcessingManager({ receipts, fields, onProcessReceipt, 
                 <DonutChart withTooltip labelsType="percent" withLabels data={data} chartLabel={"Processing Result"} />
                 <Divider variant="dashed" orientation="vertical" />
                 <Flex align={"center"} justify={"center"}>
-                    <Button onClick={handleProcessingAll} loading={isProcessing} bg={"green"} leftSection={<IconSettingsFilled />}>Process All</Button>
+                    <Button onClick={handleProcessingAll} loading={isProcessing} bg={"green"} leftSection={<IconSettingsFilled />} data-umami-event="process_all_button@projects">Process All</Button>
                 </Flex>
             </Flex>
             <Divider variant="dotted" mt={"md"} />

@@ -71,10 +71,10 @@ export default function Projects() {
         <Flex direction={"row"} justify={"flex-end"}>
             {!user.is_subscribed ?
                 <Tooltip label="Subscription Needed">
-                    <Button onClick={toggle} disabled={!user.is_subscribed}>New Project</Button>
+                    <Button data-umami-event="new_project@dashboard_projects" onClick={toggle} disabled={!user.is_subscribed}>New Project</Button>
                 </Tooltip>
                 :
-                <Button onClick={toggle} disabled={!user.is_subscribed}>New Project</Button>
+                <Button data-umami-event="new_project@dashboard_projects" onClick={toggle} disabled={!user.is_subscribed}>New Project</Button>
             }
         </Flex>
         {projects.length === 0 ? (
@@ -113,10 +113,10 @@ export default function Projects() {
                         </Box>
 
                         <Flex direction={"row"} justify={"flex-end"} gap="xs">
-                            <ActionIcon variant="filled" aria-label="Settings" onClick={() => handleDelete(project.id)}>
+                            <ActionIcon data-umami-event="delete_project@dashboard" variant="filled" aria-label="Settings" onClick={() => handleDelete(project.id)}>
                                 <IconTrashFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
                             </ActionIcon>
-                            <ActionIcon variant="filled" aria-label="Settings" onClick={() => {
+                            <ActionIcon data-umami-event="edit_project@dashboard" variant="filled" aria-label="Settings" onClick={() => {
                                 setProject(project)
                                 toggle()
                             }}>
@@ -157,7 +157,7 @@ export default function Projects() {
                             }))
                         }
                     />
-                    <Button type="submit" loading={isSubmitting}>
+                    <Button data-umami-event={project ? "update" : "create" + "_projects@dashboard_projects"} type="submit" loading={isSubmitting}>
                         {project ? "Update Project" : "Create Project"}
                     </Button>
                 </Flex>

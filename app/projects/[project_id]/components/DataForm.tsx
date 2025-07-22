@@ -90,7 +90,7 @@ export default function DataForm({ receipt, fields, onUpdate }: DataFormProps) {
             {topLevelFields.map(field => {
                 return <DataFormField key={field.id} receipt={receiptObject} field={field} onValueChange={handleUpdateValue} />
             })}
-            <Button onClick={handleSave} loading={isSaving} loaderProps={{ type: 'dots' }}>Save</Button>
+            <Button data-umami-event={`save_button@projects_receipt_${receipt.id}`} onClick={handleSave} loading={isSaving} loaderProps={{ type: 'dots' }}>Save</Button>
         </Flex>
     </Paper>
 }

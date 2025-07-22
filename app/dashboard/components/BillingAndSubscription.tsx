@@ -1,5 +1,5 @@
 "use client"
-import { Button, Container, Divider, Flex, List, Loader, Paper, Stepper, Text, ThemeIcon, Title } from "@mantine/core";
+import { Box, Button, Container, Divider, Flex, List, Loader, Paper, Stepper, Text, ThemeIcon, Title } from "@mantine/core";
 import { useState, useEffect, useRef } from "react";
 import { SubscriptionPlan } from "../../lib/types";
 import { useSubscriptions } from "../../lib/subscription";
@@ -136,11 +136,23 @@ export default function BillingAndSubscription() {
                                 <Flex direction={"column"} align={"center"}>
                                     <Title order={6}>{plan.name}</Title>
                                     <Divider mt={"xl"} variant="dotted" />
+                                    <Box>
+                                        {plan.billing_interval === "annually" && (
+                                            <Title mt={"xl"} order={1} c="blue" fz="lg">
+                                                {plan.currency} {Number((plan.price / 12).toFixed(2))}/monthly
+                                            </Title>
+                                        )}
+                                        {plan.billing_interval === "monthly" && (
+                                            <Title mt={"xl"} order={1} c="blue" fz="lg">
+                                                {plan.currency} {plan.price}/{plan.billing_interval}
+                                            </Title>
+                                        )}
+                                    </Box>
                                     <Title mt={"xl"} order={1}>{plan.currency + " " + plan.price}/{plan.billing_interval}</Title>
                                     <Divider mt={"xl"} variant="dotted" />
                                     <Text mt={"xl"} >{plan.description}</Text>
                                     <Divider mt={"xl"} />
-                                    <Button mt={"xl"} fullWidth onClick={() => handleSelectPlan(plan)}>Get Started</Button>
+                                    <Button mt={"xl"} fullWidth onClick={() => handleSelectPlan(plan)} data-umami-event="get_started@dashboard_billing">Get Started</Button>
                                 </Flex>
                             </Paper>)
                         }
@@ -156,10 +168,10 @@ export default function BillingAndSubscription() {
                                 <Divider variant="dotted" orientation="vertical" />
                                 <Title order={5}>{selectedPlan.description}</Title>
                                 <Divider variant="dotted" orientation="vertical" />
-                                <Button onClick={() => handleStartPurchase(selectedPlan)}>Pay Now</Button>
+                                <Button data-umami-event="pay_now@dashboard_billing_payments" onClick={() => handleStartPurchase(selectedPlan)}>Pay Now</Button>
                             </Flex>
                         </Paper>
-                        <Button m={"lg"} size="sm" variant="subtle" onClick={() => setStage("select_plan")}>Back</Button>
+                        <Button data-umami-event="back_button@dashboard_billing_payments" m={"lg"} size="sm" variant="subtle" onClick={() => setStage("select_plan")}>Back</Button>
                     </> : <Text onClick={() => setStage("select_plan")} >select a plan</Text>}
 
                 </Stepper.Step>
@@ -203,7 +215,7 @@ export default function BillingAndSubscription() {
                                 <List.Item>Upload Receipts</List.Item>
                                 <List.Item>Export Extracted Transaction Data</List.Item>
                             </List>
-                            <Button component="a" href="/dashboard">Get Started</Button>
+                            <Button data-umami-event="get_started@dashboard_billing_endsection" component="a" href="/dashboard">Get Started</Button>
                         </Flex>
                     </Paper>
                 </Stepper.Step>

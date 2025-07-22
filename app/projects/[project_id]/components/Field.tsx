@@ -121,16 +121,16 @@ export default function Field({
             {(field.type === "array" || field.type === "object") && (
               <ActionIcon variant="subtle" aria-label="Delete" size={"sm"}>
                 {childrenOpened ? (
-                  <IconChevronUp onClick={toggleChildren} size={15} />
+                  <IconChevronUp data-umami-event="hide_children_fields@projects_fields" onClick={toggleChildren} size={15} />
                 ) : (
-                  <IconChevronDown onClick={toggleChildren} size={15} />
+                  <IconChevronDown data-umami-event="show_children_fields@projects_fields" onClick={toggleChildren} size={15} />
                 )}
               </ActionIcon>
             )}
-            <ActionIcon variant="light" aria-label="Edit" size={"sm"}>
+            <ActionIcon data-umami-event="edit_field@projects_fields" variant="light" aria-label="Edit" size={"sm"}>
               <IconPencil onClick={handleEditField} size={15} />
             </ActionIcon>
-            <ActionIcon variant="light" aria-label="Delete" size={"sm"} loading={isDeleting}>
+            <ActionIcon data-umami-event="delete_field@projects_fields" variant="light" aria-label="Delete" size={"sm"} loading={isDeleting}>
               <IconTrash onClick={() => handleDelete(field.id)} size={15} />
             </ActionIcon>
           </Flex>
@@ -152,6 +152,7 @@ export default function Field({
         {(field.type === "array" || field.type === "object") && !opened && (
           <Flex direction={"row"} justify={"flex-end"}>
             <ActionIcon
+              data-umami-event="add_child_field@projects_fields"
               variant="gradient"
               aria-label="Add Child"
               size={"sm"}

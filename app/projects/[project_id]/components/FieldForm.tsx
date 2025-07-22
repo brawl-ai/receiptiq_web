@@ -142,10 +142,11 @@ export default function FieldForm({
         </Stack>
 
         <Group justify="flex-end" mt="xl">
-          <Button variant="outline" size="compact-sm" onClick={onDismiss}>
+          <Button variant="outline" size="compact-sm" onClick={onDismiss} data-umami-event="cancel@projects_field_form">
             Cancel
           </Button>
           <Button
+            data-umami-event="save@projects_fieldform"
             type="submit"
             variant="gradient"
             size="compact-sm"

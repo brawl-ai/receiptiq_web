@@ -113,6 +113,7 @@ export default function ImageViewerDrawer({
                 <Group justify="space-between" p="md" bg="gray.0">
                     <Group gap="xs">
                         <ActionIcon
+                            data-umami-event="zoom_in@projects_imageviewer"
                             variant="light"
                             onClick={handleZoomIn}
                             title="Zoom In"
@@ -120,6 +121,7 @@ export default function ImageViewerDrawer({
                             <IconZoomIn size={16} />
                         </ActionIcon>
                         <ActionIcon
+                            data-umami-event="zoom_out@projects_imageviewer"
                             variant="light"
                             onClick={handleZoomOut}
                             title="Zoom Out"
@@ -127,6 +129,7 @@ export default function ImageViewerDrawer({
                             <IconZoomOut size={16} />
                         </ActionIcon>
                         <ActionIcon
+                            data-umami-event="zoom_reset@projects_imageviewer"
                             variant="light"
                             onClick={handleZoomReset}
                             title="Reset Zoom"
@@ -138,6 +141,7 @@ export default function ImageViewerDrawer({
                         </Text>
                     </Group>
                     <ActionIcon
+                        data-umami-event="close@projects_imageviewer"
                         variant="light"
                         onClick={onClose}
                         title="Close"

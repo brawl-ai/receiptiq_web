@@ -23,7 +23,7 @@ export default function PDFViewerComponent() {
             <p>
                 Page {pageNumber} of {numPages}
             </p>
-            <Button onClick={() => setPageNumber(p => p + 1)}>next</Button>
+            <Button data-umami-event="next@toast" onClick={() => setPageNumber(p => p + 1)}>next</Button>
         </div>
     );
 }
