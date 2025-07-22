@@ -1,5 +1,5 @@
 "use client"
-import { Button, Container, Divider, Flex, List, Loader, Paper, Stepper, Text, ThemeIcon, Title } from "@mantine/core";
+import { Box, Button, Container, Divider, Flex, List, Loader, Paper, Stepper, Text, ThemeIcon, Title } from "@mantine/core";
 import { useState, useEffect, useRef } from "react";
 import { SubscriptionPlan } from "../../lib/types";
 import { useSubscriptions } from "../../lib/subscription";
@@ -136,6 +136,18 @@ export default function BillingAndSubscription() {
                                 <Flex direction={"column"} align={"center"}>
                                     <Title order={6}>{plan.name}</Title>
                                     <Divider mt={"xl"} variant="dotted" />
+                                    <Box>
+                                        {plan.billing_interval === "annually" && (
+                                            <Title mt={"xl"} order={1} c="blue" fz="lg">
+                                                {plan.currency} {Number((plan.price / 12).toFixed(2))}/monthly
+                                            </Title>
+                                        )}
+                                        {plan.billing_interval === "monthly" && (
+                                            <Title mt={"xl"} order={1} c="blue" fz="lg">
+                                                {plan.currency} {plan.price}/{plan.billing_interval}
+                                            </Title>
+                                        )}
+                                    </Box>
                                     <Title mt={"xl"} order={1}>{plan.currency + " " + plan.price}/{plan.billing_interval}</Title>
                                     <Divider mt={"xl"} variant="dotted" />
                                     <Text mt={"xl"} >{plan.description}</Text>

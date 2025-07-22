@@ -1,9 +1,9 @@
 "use client"
 
-import { AppShell, Box, Burger, Button, Container, Divider, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core";
+import { AppShell, Box, Burger, Button, Container, Divider, Flex, Group, List, Stack, Text, ThemeIcon, Title } from "@mantine/core";
 import { useSubscriptions } from "../lib/subscription";
 import { useDisclosure } from "@mantine/hooks";
-import { IconArrowRight, IconLogin, IconReceipt, IconRocket } from "@tabler/icons-react";
+import { IconArrowRight, IconArrowsHorizontal, IconCircleCheck, IconLogin, IconReceipt, IconRocket } from "@tabler/icons-react";
 import { Badge, Card } from '@mantine/core';
 import { useEffect, useState } from "react";
 import { SubscriptionPlan } from "../lib/types";
@@ -87,13 +87,33 @@ export default function PricingPage() {
             </Stack>
         </AppShell.Navbar>
         <AppShell.Main>
+            <Divider my="md" label={<Title>Subscription Benefits</Title>} labelPosition="center" variant="dotted" />
+
+            <Stack align="center" m={"xl"}>
+                <List
+                    spacing="xs"
+                    size="sm"
+                    center
+                    icon={
+                        <ThemeIcon color="teal" size={24} radius="xl">
+                            <IconCircleCheck size={16} />
+                        </ThemeIcon>
+                    }
+                >
+                    <List.Item>Add New Projects</List.Item>
+                    <List.Item>Manage your schema by adding, updating and deleting fields</List.Item>
+                    <List.Item>Process receipts in the project</List.Item>
+                    <List.Item>Upload Receipts</List.Item>
+                    <List.Item>Export Extracted Transaction Data</List.Item>
+                </List>
+            </Stack>
             <Divider my="md" label={<Title>Pricing</Title>} labelPosition="center" variant="dotted" />
             <Flex gap={"md"} align={"center"} justify={"center"}>
                 {plans.map(plan => {
                     return (
-                        <Card withBorder padding="lg" radius="lg" key={plan.id}>
+                        <Card withBorder padding="lg" radius="lg" key={plan.id} h={500} w={350}>
                             <Group justify="space-between">
-                                <Badge>1k documents/month</Badge>
+                                <Badge>Limited Time Offer</Badge>
                             </Group>
 
                             <Text fz="lg" fw={500} mt="md">
@@ -103,10 +123,19 @@ export default function PricingPage() {
                                 {plan.description}
                             </Text>
 
-                            <Text c="blue" fz="lg" mt="md">
-                                {plan.currency} {plan.price}/{plan.billing_interval}
-                            </Text>
-                            <Group justify="center" mt="md">
+                            <Box>
+                                {plan.billing_interval === "annually" && (
+                                    <Text c="blue" fz="lg" mt="md">
+                                        {plan.currency} {Number((plan.price / 12).toFixed(2))}/monthly
+                                    </Text>
+                                )}
+                                {plan.billing_interval === "monthly" && (
+                                    <Text c="blue" fz="lg" mt="md">
+                                        {plan.currency} {plan.price}/{plan.billing_interval}
+                                    </Text>
+                                )}
+                            </Box>
+                            <Group justify="flex-start" mt="md">
                                 <Button
                                     variant="light"
                                     rightSection={<IconArrowRight size={14} />}
@@ -118,6 +147,33 @@ export default function PricingPage() {
                         </Card>
                     )
                 })}
+                <Card withBorder padding="lg" radius="lg" h={500} w={350}>
+                    <Group justify="space-between">
+                        <Badge bg={"grape"}>Enterprise</Badge>
+                    </Group>
+
+                    <Text fz="lg" fw={500} mt="md">
+                        Scale (Custom)
+                    </Text>
+                    <Text fz="sm" c="dimmed" mt={5} w={300}>
+                        Custom volume, dedicated support, and advanced features — contact us for pricing
+                    </Text>
+
+                    <Box>
+                        <Text c="blue" fz="lg" mt="md">
+                            *
+                        </Text>
+                    </Box>
+                    <Group justify="flex-start" mt="md">
+                        <Button
+                            variant="outline"
+                            rightSection={<IconArrowsHorizontal size={14} />}
+                            component="a"
+                            href="mailto:peter@receiptiq.co"
+                            data-umami-event={`contact_sales@pricing`}
+                        >Contact Sales</Button>
+                    </Group>
+                </Card>
             </Flex>
 
         </AppShell.Main>
