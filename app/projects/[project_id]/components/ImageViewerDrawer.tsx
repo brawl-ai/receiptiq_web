@@ -110,7 +110,7 @@ export default function ImageViewerDrawer({
         >
             <Stack h="100%">
                 {/* Controls */}
-                <Group justify="space-between" p="md" bg="gray.0">
+                <Group justify="space-between" p="md">
                     <Group gap="xs">
                         <ActionIcon
                             data-umami-event="zoom_in@projects_imageviewer"
@@ -205,7 +205,7 @@ export default function ImageViewerDrawer({
                 </Box>
 
                 {/* Instructions */}
-                <Group justify="center" p="xs" bg="gray.0">
+                <Group justify="center" p="xs">
                     <Text size="xs" c="dimmed">
                         Use mouse wheel to zoom • Click and drag to pan when zoomed
                     </Text>

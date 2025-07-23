@@ -1,19 +1,20 @@
 "use client"
-import { AppShell, Avatar, Box, Burger, Button, Chip, Divider, Flex, Group, Menu, rem, Stack, Text, Tooltip, UnstyledButton, useMantineColorScheme } from "@mantine/core"
+import { AppShell, Avatar, Box, Burger, Button, Chip, Divider, Flex, Group, Menu, rem, Stack, Text, ThemeIcon, Tooltip, UnstyledButton, useMantineColorScheme } from "@mantine/core"
 import { useAuth } from "../lib/auth"
 import { useDisclosure } from "@mantine/hooks";
-import { useRouter } from "next/navigation";
-import { IconChevronDown, IconHome, IconLogout, IconReceiptFilled, IconSettings, IconUser, IconUserCircle } from "@tabler/icons-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { IconChevronDown, IconHome, IconLogout, IconReceipt, IconReceiptFilled, IconSettings, IconUser, IconUserCircle } from "@tabler/icons-react";
 import { useSubscriptions } from "../lib/subscription";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import BillingAndSubscription from "./components/BillingAndSubscription";
 import Profile from "./components/Profile";
 import Projects from "./components/Projects";
 
 export default function ProjectsPage() {
+    const searchParams = useSearchParams()
+    const tab = searchParams.get('tab')
     const { colorScheme } = useMantineColorScheme();
-    const [activeTab, setActiveTab] = useState("home");
+    const [activeTab, setActiveTab] = useState(tab ? tab : "home");
     const [opened, { toggle }] = useDisclosure();
     const { user, logout } = useAuth();
     const { subscriptionStatusChecker } = useSubscriptions();
@@ -30,6 +31,13 @@ export default function ProjectsPage() {
             console.log(err)
         })
     }, [subscriptionStatusChecker])
+
+    const handleTabChange = (tabValue: string) => {
+        setActiveTab(tabValue);
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('tab', tabValue);
+        router.push(currentUrl.pathname + currentUrl.search, { scroll: false });
+    };
 
     const handleLogout = async () => {
         try {
@@ -50,7 +58,7 @@ export default function ProjectsPage() {
 
     const navItems = [
         { icon: IconHome, label: "Home", value: "home" },
-        { icon: IconReceiptFilled, label: "Subscription and Billing", value: "billing" },
+        { icon: IconReceiptFilled, label: "Billing", value: "billing" },
         { icon: IconUserCircle, label: "Profile", value: "profile" },
     ];
 
@@ -74,16 +82,12 @@ export default function ProjectsPage() {
                             hiddenFrom="sm"
                             size="sm"
                         />
-                        <Image
-                            src={
-                                colorScheme === "dark"
-                                    ? "/assets/images/logo_dark_mode.png"
-                                    : "/assets/images/logo.png"
-                            }
-                            alt="Logo"
-                            width={120}
-                            height={40}
-                        />
+                        <ThemeIcon size={40} radius="md" variant="filled" color="blue">
+                            <IconReceipt size={24} />
+                        </ThemeIcon>
+                        <Text size="xl" fw={700} component="a" href="/dashboard">
+                            ReceiptIQ
+                        </Text>
 
                     </Group>
                     <Flex>
@@ -93,7 +97,7 @@ export default function ProjectsPage() {
                                     <Chip defaultChecked>You are subscribed</Chip>
                                 </Tooltip>
                                 :
-                                <Button onClick={() => setActiveTab("billing")} data-umami-event="upgrade@dashboard">
+                                <Button onClick={() => handleTabChange("billing")} data-umami-event="upgrade@dashboard">
                                     Upgrade
                                 </Button>
                         }
@@ -134,27 +138,22 @@ export default function ProjectsPage() {
             </AppShell.Header>
             <AppShell.Navbar p="md">
                 <Stack justify="space-between" h="100%">
-                    <Stack gap="xs">
+                    <Stack gap="md" align="flex-start">
                         {navItems.map((item) => (
-                            <UnstyledButton
+                            <Button
                                 key={item.value}
-                                onClick={() => setActiveTab(item.value)}
+                                onClick={() => handleTabChange(item.value)}
+                                variant={activeTab === item.value ? "gradient" : "subtle"}
                                 style={(theme) => ({
-                                    display: "block",
-                                    width: "100%",
-                                    padding: theme.spacing.xs,
-                                    borderRadius: theme.radius.sm,
-                                    backgroundColor:
-                                        activeTab == item.value
-                                            ? theme.primaryColor
-                                            : "transparent",
+                                    display: "flex",
+                                    width: "100%"
                                 })}
                             >
-                                <Group>
-                                    <item.icon style={{ width: rem(16), height: rem(16) }} />
-                                    <Text size="sm">{item.label}</Text>
+                                <Group justify="flex-start">
+                                    <item.icon style={{ width: rem(20), height: rem(20) }} />
+                                    <Text>{item.label}</Text>
                                 </Group>
-                            </UnstyledButton>
+                            </Button>
                         ))}
                     </Stack>
 

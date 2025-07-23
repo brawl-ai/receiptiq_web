@@ -11,6 +11,7 @@ import {
   rem,
   Stack,
   Text,
+  ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -28,7 +29,7 @@ import {
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { useAuth } from "../../lib/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useFields } from "../../lib/contexts/fields";
 import { FieldsManager } from "./components/FieldsManager";
 import DocumentsManager from "./components/DocumentsManager";
@@ -38,8 +39,10 @@ import DataTab from "./components/data/DataTab";
 import DataExport from "./components/export/DataExport";
 
 export default function ProjectDashboardPage() {
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
   const [opened] = useDisclosure();
-  const [activeTab, setActiveTab] = useState("documents");
+  const [activeTab, setActiveTab] = useState(tab ? tab : "fields");
   const { user, logout } = useAuth();
   const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
   const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue, exportData } = useReceipts();
@@ -55,6 +58,13 @@ export default function ProjectDashboardPage() {
     { icon: IconTableExport, label: "Export", value: "export" },
 
   ];
+
+  const handleTabChange = (tabValue: string) => {
+    setActiveTab(tabValue);
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('tab', tabValue);
+    router.push(currentUrl.pathname + currentUrl.search, { scroll: false });
+  };
 
   const getInitials = (name: string) => {
     return name
@@ -82,6 +92,13 @@ export default function ProjectDashboardPage() {
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
           <Group>
+            <ThemeIcon size={40} radius="md" variant="filled" color="blue">
+              <IconReceipt size={24} />
+            </ThemeIcon>
+            <Text size="xl" fw={700} component="a" href="">
+              ReceiptIQ
+            </Text>
+            <Divider orientation="vertical" ml={"lg"} mr={"lg"} variant="dotted" />
             <Text size="xl" fw={700}>
               {project.name}
             </Text>
@@ -94,7 +111,14 @@ export default function ProjectDashboardPage() {
 
           <Group>
             {(receipts.length > 0 && activeTab !== "process") && (
-              <Button data-umami-event={`process_header_button@projects_${project.id}`} bg={"green"} onClick={() => setActiveTab("process")} leftSection={<IconSettingsFilled />}>Process</Button>
+              <Button
+                data-umami-event={`process_header_button@projects_${project.id}`}
+                variant="gradient"
+                onClick={() => handleTabChange("process")}
+                leftSection={<IconSettingsFilled />}
+              >
+                Process
+              </Button>
             )}
             <Menu shadow="md" width={200}>
               <Menu.Target>
@@ -134,27 +158,22 @@ export default function ProjectDashboardPage() {
 
       <AppShell.Navbar p="md">
         <Stack justify="space-between" h="100%">
-          <Stack gap="xs">
+          <Stack gap="md" align="flex-start">
             {navItems.map((item) => (
-              <UnstyledButton
+              <Button
                 key={item.value}
-                onClick={() => setActiveTab(item.value)}
+                onClick={() => handleTabChange(item.value)}
+                variant={activeTab === item.value ? "gradient" : "subtle"}
                 style={(theme) => ({
-                  display: "block",
-                  width: "100%",
-                  padding: theme.spacing.xs,
-                  borderRadius: theme.radius.sm,
-                  backgroundColor:
-                    activeTab == item.value
-                      ? theme.primaryColor
-                      : "transparent",
+                  display: "flex",
+                  width: "100%"
                 })}
               >
-                <Group>
-                  <item.icon style={{ width: rem(16), height: rem(16) }} />
-                  <Text size="sm">{item.label}</Text>
+                <Group justify="flex-start">
+                  <item.icon style={{ width: rem(20), height: rem(20) }} />
+                  <Text>{item.label}</Text>
                 </Group>
-              </UnstyledButton>
+              </Button>
             ))}
           </Stack>
 
