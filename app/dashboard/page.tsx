@@ -1,5 +1,5 @@
 "use client"
-import { AppShell, Avatar, Box, Burger, Button, Chip, Divider, Flex, Group, Menu, rem, Stack, Text, ThemeIcon, Tooltip, UnstyledButton, useMantineColorScheme } from "@mantine/core"
+import { AppShell, Avatar, Box, Burger, Button, Chip, Divider, Flex, Group, Menu, rem, Stack, Text, ThemeIcon, Tooltip, UnstyledButton } from "@mantine/core"
 import { useAuth } from "../lib/auth"
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,7 +13,6 @@ import Projects from "./components/Projects";
 export default function ProjectsPage() {
     const searchParams = useSearchParams()
     const tab = searchParams.get('tab')
-    const { colorScheme } = useMantineColorScheme();
     const [activeTab, setActiveTab] = useState(tab ? tab : "home");
     const [opened, { toggle }] = useDisclosure();
     const { user, logout } = useAuth();
@@ -144,10 +143,10 @@ export default function ProjectsPage() {
                                 key={item.value}
                                 onClick={() => handleTabChange(item.value)}
                                 variant={activeTab === item.value ? "gradient" : "subtle"}
-                                style={(theme) => ({
+                                style={{
                                     display: "flex",
                                     width: "100%"
-                                })}
+                                }}
                             >
                                 <Group justify="flex-start">
                                     <item.icon style={{ width: rem(20), height: rem(20) }} />

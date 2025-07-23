@@ -1,14 +1,14 @@
-import { Container, Text, Title } from "@mantine/core";
+import { Paper, Text, Title } from "@mantine/core";
 import { useAuth } from "../../lib/auth";
 
 
 export default function Profile() {
     const { user, } = useAuth()
 
-    return <Container>
+    return <Paper>
         <Title>Manage Your Profile</Title>
-        <Text>{user.first_name}</Text>
-        <Text>{user.last_name}</Text>
-        <Text>{user.email}</Text>
-    </Container>
+        <Text>First Name: {user.first_name}</Text>
+        <Text>Last Name: {user.last_name}</Text>
+        <Text>Email: {user.email}</Text>
+    </Paper>
 }

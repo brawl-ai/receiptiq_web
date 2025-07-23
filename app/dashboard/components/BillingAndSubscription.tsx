@@ -185,10 +185,10 @@ export default function BillingAndSubscription() {
                     </Paper>
                 </Stepper.Step>
                 <Stepper.Step>
-                    <Paper shadow="lg" p={"lg"} radius={"lg"} bg={"#fefefe"} withBorder>
+                    <Paper shadow="lg" p={"lg"} radius={"lg"} withBorder>
                         <Flex direction={"column"} justify={"space-evenly"} align={"center"} gap={"xl"}>
                             <IconCircleCheckFilled color={"#32d1af"} size={100} />
-                            {selectedPlan ? <Paper shadow="xl" p={"lg"} radius={"lg"} bg={"#efefef"} w={600}>
+                            {selectedPlan ? <Paper shadow="xl" p={"lg"} radius={"lg"} w={600}>
                                 <Flex direction={"row"} align={"center"} justify={"space-around"}>
                                     <IconReceipt size={40} />
                                     <Text size="sm">{user.first_name + " " + user.last_name}</Text>

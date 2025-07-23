@@ -164,10 +164,10 @@ export default function ProjectDashboardPage() {
                 key={item.value}
                 onClick={() => handleTabChange(item.value)}
                 variant={activeTab === item.value ? "gradient" : "subtle"}
-                style={(theme) => ({
+                style={{
                   display: "flex",
                   width: "100%"
-                })}
+                }}
               >
                 <Group justify="flex-start">
                   <item.icon style={{ width: rem(20), height: rem(20) }} />
