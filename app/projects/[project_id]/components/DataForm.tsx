@@ -83,10 +83,10 @@ export default function DataForm({ receipt, fields, onUpdate }: DataFormProps) {
 
     const topLevelFields = fields.filter((f) => f.parent == null);
 
-    return <Paper h="100%" style={{ flex: 1 }} shadow='xl' p={"md"} bg="gray.0">
+    return <Paper h="100%" style={{ flex: 1 }} shadow='xl' p={"md"}>
         <Title order={3}>Extracted Data</Title>
         <Divider mb={"sm"} />
-        <Flex direction={"column"} justify="flex-start" bg="gray.0" h={"100%"}>
+        <Flex direction={"column"} justify="flex-start" h={"100%"}>
             {topLevelFields.map(field => {
                 return <DataFormField key={field.id} receipt={receiptObject} field={field} onValueChange={handleUpdateValue} />
             })}

@@ -67,7 +67,7 @@ export default function ForgotPasswordPage() {
         <Group h="100vh" w="100%" gap={0}>
             <Box w="50%" h="100%" visibleFrom="md">
                 <Image
-                    src="/assets/images/bg.jpg"
+                    src="/assets/images/bg2.jpg"
                     alt="Authentication background"
                     h="100%"
                     style={{ objectFit: "cover" }}

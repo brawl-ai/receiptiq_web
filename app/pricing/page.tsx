@@ -108,7 +108,7 @@ export default function PricingPage() {
                 </List>
             </Stack>
             <Divider my="md" label={<Title>Pricing</Title>} labelPosition="center" variant="dotted" />
-            <Flex gap={"md"} align={"center"} justify={"center"}>
+            <Flex gap={"md"} align={"center"} justify={"center"} wrap={"wrap"}>
                 {plans.map(plan => {
                     return (
                         <Card withBorder padding="lg" radius="lg" key={plan.id} h={500} w={350}>

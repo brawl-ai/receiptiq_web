@@ -81,7 +81,7 @@ export default function ReceiptIQHomepage() {
       <AppShell.Navbar p="md">
         <Stack gap="xs">
           <NavLink
-            href="/login"
+            href="/pricing"
             label="Pricing"
           />
           <Box mt="md" pt="md" style={{ borderTop: '1px solid #e9ecef' }}>
@@ -156,11 +156,6 @@ export default function ReceiptIQHomepage() {
             <Stack align="center" gap={60}>
               <Stack align="center" gap="md">
                 <Badge variant="light" color="blue" size="lg">FEATURES</Badge>
-                <Title order={2} ta="center" size={42} fw={700}>
-                  Latest advanced technologies to
-                  <br />
-                  ensure everything you need
-                </Title>
                 <Text size="lg" c="dimmed" ta="center" maw={600}>
                   Maximize your team productivity and accuracy with our affordable, user-friendly
                   receipt management system.
