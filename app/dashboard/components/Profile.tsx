@@ -1,9 +1,9 @@
 import { Paper, Text, Title } from "@mantine/core";
-import { useAuth } from "../../lib/contexts/auth";
+import { useAuthContext } from "../../lib/stores/auth_store";
 
 
 export default function Profile() {
-    const { user, } = useAuth()
+    const user = useAuthContext((s) => s.user);
 
     return <Paper>
         <Title>Manage Your Profile</Title>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../lib/contexts/auth";
+import { useAuthContext } from "../lib/stores/auth_store";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -25,7 +25,7 @@ import { IconExternalLink } from "@tabler/icons-react";
 
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
-  const { signup } = useAuth();
+  const signup = useAuthContext((s) => s.signup);
   const router = useRouter();
   const [errors, setErrors] = useState([]);
 

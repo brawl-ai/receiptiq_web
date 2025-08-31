@@ -20,12 +20,12 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useAuth } from "../../lib/contexts/auth";
+import { useAuthContext } from "../../lib/stores/auth_store";
 
 export default function ResetPasswordPage() {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState([]);
-    const { resetPassword } = useAuth();
+    const resetPassword = useAuthContext((s) => s.resetPassword);
     const searchParams = useSearchParams();
     const router = useRouter();
 

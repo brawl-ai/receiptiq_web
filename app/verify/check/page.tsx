@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useForm } from "@mantine/form";
-import { useAuth } from "../../lib/contexts/auth";
+import { useAuthContext } from "../../lib/stores/auth_store";
 import { Button, Container, Group, Paper, Text, TextInput, Title } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
 import { notifications } from "@mantine/notifications";
@@ -15,7 +15,7 @@ export default function CheckOTPPage() {
     const [errors, setErrors] = useState([]);
     const emailParam = searchParams.get("email");
 
-    const { checkOTP } = useAuth()
+    const checkOTP = useAuthContext((s) => s.checkOTP);
     const router = useRouter()
 
     const form = useForm({

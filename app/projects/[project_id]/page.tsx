@@ -28,7 +28,7 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { useState } from "react";
-import { useAuth } from "../../lib/contexts/auth";
+import { useAuthContext } from "../../lib/stores/auth_store";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useFields } from "../../lib/contexts/fields";
 import { FieldsManager } from "./components/FieldsManager";
@@ -43,7 +43,8 @@ export default function ProjectDashboardPage() {
   const tab = searchParams.get('tab')
   const [opened] = useDisclosure();
   const [activeTab, setActiveTab] = useState(tab ? tab : "fields");
-  const { user, logout } = useAuth();
+  const user = useAuthContext((s) => s.user);
+  const logout = useAuthContext((s) => s.logout);
   const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
   const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue, exportData } = useReceipts();
 

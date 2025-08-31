@@ -3,14 +3,14 @@ import { Box, Button, Container, Divider, Flex, List, Loader, Paper, Stepper, Te
 import { useState, useEffect, useRef } from "react";
 import { SubscriptionPlan } from "../../lib/types";
 import { useSubscriptions } from "../../lib/contexts/subscription";
-import { useAuth } from "../../lib/contexts/auth";
+import { useAuthContext } from "../../lib/stores/auth_store";
 import { IconCircleCheck, IconCircleCheckFilled, IconReceipt } from "@tabler/icons-react";
 
 export default function BillingAndSubscription() {
     const [plans, setPlans] = useState<SubscriptionPlan[]>([])
     const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null)
     const { getPlans, initiatePurchase, subscriptionStatusChecker, paymentStatusChecker } = useSubscriptions()
-    const { user } = useAuth()
+    const user = useAuthContext((s) => s.user);
     const stages = ["select_plan", "pay", "await_sub", "welcome"]
     const [stage, setStage] = useState(user.is_subscribed ? "welcome" : "select_plan");
     const paymentStatusCheckInterval = useRef(null);

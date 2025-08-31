@@ -1,6 +1,6 @@
 "use client"
 import { AppShell, Avatar, Box, Burger, Button, Chip, Divider, Flex, Group, Menu, rem, Stack, Text, ThemeIcon, Tooltip, UnstyledButton } from "@mantine/core"
-import { useAuth } from "../lib/contexts/auth"
+import { useAuthContext } from "../lib/stores/auth_store"
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconChevronDown, IconHome, IconLogout, IconReceipt, IconReceiptFilled, IconSettings, IconUser, IconUserCircle } from "@tabler/icons-react";
@@ -15,7 +15,8 @@ export default function ProjectsPage() {
     const tab = searchParams.get('tab')
     const [activeTab, setActiveTab] = useState(tab ? tab : "home");
     const [opened, { toggle }] = useDisclosure();
-    const { user, logout } = useAuth();
+    const user = useAuthContext((s) => s.user);
+    const logout = useAuthContext((s) => s.logout);
     const { subscriptionStatusChecker } = useSubscriptions();
     const [isSubscribed, setIsSubscribed] = useState(false)
     const router = useRouter();

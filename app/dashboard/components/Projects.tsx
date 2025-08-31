@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Button, Drawer, Flex, List, Paper, Textarea, TextInput, ThemeIcon, Tooltip } from "@mantine/core";
-import { useAuth } from "../../lib/contexts/auth";
+import { useAuthContext } from "../../lib/stores/auth_store";
 import { useProjects } from "../../lib/contexts/projects";
 import { IconCircleCheck, IconPencil, IconTrashFilled } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ interface ProjectFormData {
 
 export default function Projects() {
     const [opened, { toggle, close }] = useDisclosure();
-    const { user } = useAuth()
+    const user = useAuthContext((s) => s.user);
     const { projects, createProject, deleteProject, updateProject } = useProjects()
     const router = useRouter()
     const [isSubmitting, setIsSubmitting] = useState(false);
