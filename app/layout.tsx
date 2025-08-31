@@ -1,11 +1,12 @@
 import "@mantine/core/styles.css";
 import '@mantine/notifications/styles.css';
-import './globals.css'
 import { ColorSchemeScript, createTheme, mantineHtmlProps, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { User } from "./types";
 import { getCurrentUser } from "./helpers";
 import { AuthProvider } from "./stores/auth_store";
+import './globals.css'
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata = {
     title: {
@@ -42,12 +43,19 @@ export default async function RootLayout({
                 <script defer src="https://cloud.umami.is/script.js" data-website-id="68959e46-a3c0-4d45-a381-ec80451622fe"></script>
             </head>
             <body>
+                <ThemeProvider
+                attribute="class"
+                defaultTheme="light"
+                enableSystem
+                disableTransitionOnChange
+            >
                 <MantineProvider theme={theme} defaultColorScheme="auto">
                     <Notifications />
                     <AuthProvider user={user}>
                         {children}
                     </AuthProvider>
                 </MantineProvider>
+                </ThemeProvider>
 
             </body>
         </html>
