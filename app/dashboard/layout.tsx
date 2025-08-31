@@ -1,9 +1,9 @@
 import { Metadata } from "next"
 import { Suspense } from "react"
-import { getCurrentUser } from "../lib/helpers"
+import { fetchProjects, getCurrentUser } from "../lib/helpers"
 import { redirect } from "next/navigation"
-import { SubscriptionsProvider } from "../lib/subscription"
-import { ProjectsProvider } from "../lib/contexts/projects"
+import { SubscriptionsProvider } from "../lib/stores/subscription_store"
+import { ProjectsProvider } from "../lib/stores/projects_store"
 
 
 export const metadata: Metadata = {
@@ -19,10 +19,12 @@ export default async function ProjectsLayout({
     if (!user) {
         redirect("/login")
     }
+    const projects = await fetchProjects()
+    const projectsList = projects.data
     return (
         <Suspense>
             <SubscriptionsProvider>
-                <ProjectsProvider>
+                <ProjectsProvider projects={projectsList}>
                     {children}
                 </ProjectsProvider>
             </SubscriptionsProvider>

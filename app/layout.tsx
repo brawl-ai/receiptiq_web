@@ -1,10 +1,10 @@
 import "@mantine/core/styles.css";
 import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, createTheme, mantineHtmlProps, MantineProvider } from "@mantine/core";
-import { AuthProvider } from "./lib/auth"
 import { Notifications } from "@mantine/notifications";
 import { User } from "./lib/types";
 import { getCurrentUser } from "./lib/helpers";
+import { AuthProvider } from "./lib/stores/auth_store";
 
 export const metadata = {
     title: {
@@ -43,7 +43,7 @@ export default async function RootLayout({
             <body>
                 <MantineProvider theme={theme} defaultColorScheme="auto">
                     <Notifications />
-                    <AuthProvider initialUser={user}>
+                    <AuthProvider user={user}>
                         {children}
                     </AuthProvider>
                 </MantineProvider>

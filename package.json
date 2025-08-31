@@ -38,7 +38,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-pdf": "^10.0.1",
-    "recharts": "^2.15.4"
+    "recharts": "^2.15.4",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@types/node": "24.0.13",

@@ -28,12 +28,12 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { useState } from "react";
-import { useAuth } from "../../lib/auth";
+import { useAuthContext } from "../../lib/stores/auth_store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useFields } from "../../lib/contexts/fields";
+import { useFieldsContext } from "../../lib/stores/fields_store";
 import { FieldsManager } from "./components/FieldsManager";
 import DocumentsManager from "./components/DocumentsManager";
-import { useReceipts } from "../../lib/contexts/receipts";
+import { useReceiptsContext } from "../../lib/stores/receipts_store";
 import ProcessingManager from "./components/ProcessingManager";
 import DataTab from "./components/data/DataTab";
 import DataExport from "./components/export/DataExport";
@@ -43,9 +43,22 @@ export default function ProjectDashboardPage() {
   const tab = searchParams.get('tab')
   const [opened] = useDisclosure();
   const [activeTab, setActiveTab] = useState(tab ? tab : "fields");
-  const { user, logout } = useAuth();
-  const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
-  const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue, exportData } = useReceipts();
+  const user = useAuthContext((s) => s.user);
+  const logout = useAuthContext((s) => s.logout);
+  const project = useFieldsContext((s) => s.project);
+  const fields = useFieldsContext((s) => s.fields);
+  const addField = useFieldsContext((s) => s.addField);
+  const addChildField = useFieldsContext((s) => s.addChildField);
+  const updateField = useFieldsContext((s) => s.updateField);
+  const deleteField = useFieldsContext((s) => s.deleteField);
+  const receipts = useReceiptsContext((s) => s.receipts);
+  const createReceipt = useReceiptsContext((s) => s.createReceipt);
+  const deleteReceipt = useReceiptsContext((s) => s.deleteReceipt);
+  const processReceipt = useReceiptsContext((s) => s.processReceipt);
+  const updateDataValue = useReceiptsContext((s) => s.updateDataValue);
+  const exportData = useReceiptsContext((s) => s.exportData);
+  const loading = useReceiptsContext((s) => s.loading);
+  const error = useReceiptsContext((s) => s.error);
 
 
   const router = useRouter();

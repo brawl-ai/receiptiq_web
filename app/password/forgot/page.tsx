@@ -17,12 +17,12 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useAuth } from "../../lib/auth";
+import { useAuthContext } from "../../lib/stores/auth_store";
 
 export default function ForgotPasswordPage() {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState([]);
-    const { forgotPassword } = useAuth();
+    const forgotPassword = useAuthContext((s) => s.forgotPassword);
 
     const form = useForm({
         initialValues: {

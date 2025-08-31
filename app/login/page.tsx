@@ -21,13 +21,13 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useAuth } from "../lib/auth";
+import { useAuthContext } from "../lib/stores/auth_store";
 
 export default function LoginPage() {
     const searchParams = useSearchParams()
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState([]);
-    const { login } = useAuth();
+    const login = useAuthContext((s)=>s.login);
     const redirect = searchParams.get("redirect");
 
     const form = useForm({
