@@ -4,9 +4,7 @@ import { createStore } from "zustand/vanilla";
 import {
   ProjectResponse,
   ProjectCreate,
-  ProjectUpdate,
-  PaginatedResponse
-} from "../types";
+  ProjectUpdate} from "../types";
 import api from "../axios";
 import { createContext, useContext, useRef } from "react";
 import { useStore } from "zustand";

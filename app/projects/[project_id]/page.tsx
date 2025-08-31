@@ -33,7 +33,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useFieldsContext } from "../../lib/stores/fields_store";
 import { FieldsManager } from "./components/FieldsManager";
 import DocumentsManager from "./components/DocumentsManager";
-import { useReceipts } from "../../lib/contexts/receipts";
+import { useReceiptsContext } from "../../lib/stores/receipts_store";
 import ProcessingManager from "./components/ProcessingManager";
 import DataTab from "./components/data/DataTab";
 import DataExport from "./components/export/DataExport";
@@ -51,7 +51,14 @@ export default function ProjectDashboardPage() {
   const addChildField = useFieldsContext((s) => s.addChildField);
   const updateField = useFieldsContext((s) => s.updateField);
   const deleteField = useFieldsContext((s) => s.deleteField);
-  const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue, exportData } = useReceipts();
+  const receipts = useReceiptsContext((s) => s.receipts);
+  const createReceipt = useReceiptsContext((s) => s.createReceipt);
+  const deleteReceipt = useReceiptsContext((s) => s.deleteReceipt);
+  const processReceipt = useReceiptsContext((s) => s.processReceipt);
+  const updateDataValue = useReceiptsContext((s) => s.updateDataValue);
+  const exportData = useReceiptsContext((s) => s.exportData);
+  const loading = useReceiptsContext((s) => s.loading);
+  const error = useReceiptsContext((s) => s.error);
 
 
   const router = useRouter();
