@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { Suspense } from "react"
 import { fetchProjects, getCurrentUser } from "../lib/helpers"
 import { redirect } from "next/navigation"
-import { SubscriptionsProvider } from "../lib/contexts/subscription"
+import { SubscriptionsProvider } from "../lib/stores/subscription_store"
 import { ProjectsProvider } from "../lib/stores/projects_store"
 
 

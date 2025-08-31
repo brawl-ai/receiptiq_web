@@ -2,14 +2,17 @@
 import { Box, Button, Container, Divider, Flex, List, Loader, Paper, Stepper, Text, ThemeIcon, Title } from "@mantine/core";
 import { useState, useEffect, useRef } from "react";
 import { SubscriptionPlan } from "../../lib/types";
-import { useSubscriptions } from "../../lib/contexts/subscription";
+import { useSubscriptionsContext } from "../../lib/stores/subscription_store";
 import { useAuthContext } from "../../lib/stores/auth_store";
 import { IconCircleCheck, IconCircleCheckFilled, IconReceipt } from "@tabler/icons-react";
 
 export default function BillingAndSubscription() {
     const [plans, setPlans] = useState<SubscriptionPlan[]>([])
     const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null)
-    const { getPlans, initiatePurchase, subscriptionStatusChecker, paymentStatusChecker } = useSubscriptions()
+    const getPlans = useSubscriptionsContext((s) => s.getPlans);
+    const initiatePurchase = useSubscriptionsContext((s) => s.initiatePurchase);
+    const subscriptionStatusChecker = useSubscriptionsContext((s) => s.subscriptionStatusChecker);
+    const paymentStatusChecker = useSubscriptionsContext((s) => s.paymentStatusChecker);
     const user = useAuthContext((s) => s.user);
     const stages = ["select_plan", "pay", "await_sub", "welcome"]
     const [stage, setStage] = useState(user.is_subscribed ? "welcome" : "select_plan");

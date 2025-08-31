@@ -1,7 +1,7 @@
 "use client"
 
 import { AppShell, Box, Burger, Button, Container, Divider, Flex, Group, List, Stack, Text, ThemeIcon, Title } from "@mantine/core";
-import { useSubscriptions } from "../lib/contexts/subscription";
+import { useSubscriptionsContext } from "../lib/stores/subscription_store";
 import { useDisclosure } from "@mantine/hooks";
 import { IconArrowRight, IconArrowsHorizontal, IconCircleCheck, IconLogin, IconReceipt, IconRocket } from "@tabler/icons-react";
 import { Badge, Card } from '@mantine/core';
@@ -10,7 +10,7 @@ import { SubscriptionPlan } from "../lib/types";
 
 export default function PricingPage() {
     const [plans, setPlans] = useState<SubscriptionPlan[]>([])
-    const { getPlans } = useSubscriptions()
+    const getPlans = useSubscriptionsContext((s) => s.getPlans);
     const [opened, { toggle }] = useDisclosure(false)
 
 

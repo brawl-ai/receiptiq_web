@@ -21,7 +21,6 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useAuth } from "../lib/contexts/auth";
 import { useAuthContext } from "../lib/stores/auth_store";
 
 export default function LoginPage() {
