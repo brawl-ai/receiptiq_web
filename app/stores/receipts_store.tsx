@@ -8,7 +8,7 @@ import type {
   DataValueUpdate,
   DataValueResponse,
   ExportResponse
-} from "../types";
+} from "../../types";
 import axios from "axios";
 import { createContext, useContext, useRef } from "react";
 import { useStore } from "zustand";

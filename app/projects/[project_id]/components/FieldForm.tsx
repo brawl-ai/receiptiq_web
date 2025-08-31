@@ -14,7 +14,7 @@ import {
   FieldResponse,
   FieldType,
   FieldUpdate,
-} from "../../../lib/types";
+} from "../../../types";
 import { useEffect, useState } from "react";
 import {
   IconAbc,

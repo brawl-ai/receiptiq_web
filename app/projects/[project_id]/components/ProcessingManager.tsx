@@ -1,5 +1,5 @@
 import { Badge, Button, Divider, Flex, Paper, Table, Text } from "@mantine/core";
-import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from "../../../lib/types";
+import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from "../../../types";
 import { useState } from "react";
 import { IconSettingsFilled } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";

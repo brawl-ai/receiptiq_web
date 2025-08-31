@@ -125,6 +125,7 @@ export default function ReceiptIQHomepage() {
                       fw={700}
                       ta="center"
                       lh={1.1}
+                      className="text-3xl font-bold underline"
                     >
                       One tool to{' '}
                       <Text span c="blue.6" inherit>

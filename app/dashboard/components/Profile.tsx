@@ -1,5 +1,5 @@
 import { Paper, Text, Title } from "@mantine/core";
-import { useAuthContext } from "../../lib/stores/auth_store";
+import { useAuthContext } from "../../stores/auth_store";
 
 
 export default function Profile() {

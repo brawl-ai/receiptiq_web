@@ -8,7 +8,7 @@ import {
   Title,
   Divider,
 } from "@mantine/core";
-import { FieldCreate, FieldResponse, FieldUpdate } from "../../../lib/types";
+import { FieldCreate, FieldResponse, FieldUpdate } from "../../../types";
 import { useDisclosure } from "@mantine/hooks";
 import Field from "./Field";
 import FieldForm from "./FieldForm";

@@ -1,5 +1,5 @@
 import { Badge, Box, Button, Divider, Flex, Group, Paper, Table, Text, ActionIcon } from "@mantine/core";
-import { ReceiptResponse } from "../../../lib/types";
+import { ReceiptResponse } from "../../../types";
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
 import { Dropzone, DropzoneProps } from "@mantine/dropzone";

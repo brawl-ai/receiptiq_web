@@ -8,7 +8,7 @@ import type {
   PaymentResponse,
   SubscriptionPlan,
   User
-} from "../types";
+} from "../../types";
 import axios from "axios";
 import { createContext, useContext, useRef } from "react";
 import { useStore } from "zustand";

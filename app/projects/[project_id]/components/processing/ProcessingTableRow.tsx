@@ -1,6 +1,6 @@
 import { ActionIcon, Badge, Button, Flex, Table } from "@mantine/core"
 import { IconBraces, IconBrackets, IconEye, IconLoader3, IconSettingsFilled } from "@tabler/icons-react"
-import { FieldResponse, ReceiptResponse } from "../../../../lib/types"
+import { FieldResponse, ReceiptResponse } from "../../../../types"
 import { useState } from "react"
 
 interface ProcessingTableRowProps {

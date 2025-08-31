@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CheckOTPRequest } from "../../../lib/types";
+import { CheckOTPRequest } from "../../../types";
 import { checkRateLimit } from "../../backend";
 
 

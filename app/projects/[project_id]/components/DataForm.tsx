@@ -1,5 +1,5 @@
 import { Badge, Button, Divider, Flex, Input, Paper, Title } from "@mantine/core";
-import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from "../../../lib/types";
+import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from "../../../types";
 import { useState } from "react";
 
 

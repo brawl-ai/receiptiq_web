@@ -17,7 +17,7 @@ import {
     IconZoomReset,
     IconX
 } from '@tabler/icons-react';
-import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from '../../../lib/types';
+import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from '../../../types';
 import DataForm from './DataForm';
 import dynamic from 'next/dynamic';
 

@@ -1,5 +1,5 @@
 import { checkRateLimit } from "../backend";
-import { SignupRequest } from "../../lib/types";
+import { SignupRequest } from "../../types";
 import axios from "axios";
 
 

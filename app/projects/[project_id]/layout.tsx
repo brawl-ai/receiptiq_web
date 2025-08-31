@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { FieldsProvider } from "../../lib/stores/fields_store";
-import { ProjectResponse } from "../../lib/types";
-import { getProject } from "../../lib/helpers";
-import { ReceiptsProvider } from "../../lib/stores/receipts_store";
+import { FieldsProvider } from "../../stores/fields_store";
+import { ProjectResponse } from "../../types";
+import { getProject } from "../../helpers";
+import { ReceiptsProvider } from "../../stores/receipts_store";
 import '@mantine/dropzone/styles.css';
 import '@mantine/charts/styles.css';
 

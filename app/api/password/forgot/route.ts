@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NextRequest } from "next/server";
-import { ForgotPasswordRequest } from "../../../lib/types";
+import { ForgotPasswordRequest } from "../../../types";
 import { checkRateLimit } from "../../backend";
 
 

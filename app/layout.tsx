@@ -1,10 +1,11 @@
 import "@mantine/core/styles.css";
 import '@mantine/notifications/styles.css';
+import './globals.css'
 import { ColorSchemeScript, createTheme, mantineHtmlProps, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { User } from "./lib/types";
-import { getCurrentUser } from "./lib/helpers";
-import { AuthProvider } from "./lib/stores/auth_store";
+import { User } from "./types";
+import { getCurrentUser } from "./helpers";
+import { AuthProvider } from "./stores/auth_store";
 
 export const metadata = {
     title: {

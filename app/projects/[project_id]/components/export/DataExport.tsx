@@ -1,5 +1,5 @@
 import { Badge, Button, Center, Collapse, Divider, Flex, Group, Paper, ScrollArea, Table, Text, TextInput, Title, UnstyledButton } from "@mantine/core";
-import { ExportResponse, FieldResponse, ReceiptResponse } from "../../../../lib/types";
+import { ExportResponse, FieldResponse, ReceiptResponse } from "../../../../types";
 import { IconBracketsContain, IconChevronDown, IconChevronUp, IconDownload, IconFileExport, IconSearch, IconSelector } from "@tabler/icons-react";
 import { useState } from "react";
 import classes from './DataExport.module.css';

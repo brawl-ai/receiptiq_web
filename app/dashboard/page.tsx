@@ -1,10 +1,10 @@
 "use client"
 import { AppShell, Avatar, Box, Burger, Button, Chip, Divider, Flex, Group, Menu, rem, Stack, Text, ThemeIcon, Tooltip, UnstyledButton } from "@mantine/core"
-import { useAuthContext } from "../lib/stores/auth_store"
+import { useAuthContext } from "../stores/auth_store"
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconChevronDown, IconHome, IconLogout, IconReceipt, IconReceiptFilled, IconSettings, IconUser, IconUserCircle } from "@tabler/icons-react";
-import { useSubscriptionsContext } from "../lib/stores/subscription_store";
+import { useSubscriptionsContext } from "../stores/subscription_store";
 import { useEffect, useState } from "react";
 import BillingAndSubscription from "./components/BillingAndSubscription";
 import Profile from "./components/Profile";

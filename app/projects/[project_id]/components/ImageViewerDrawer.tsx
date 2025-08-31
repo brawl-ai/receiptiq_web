@@ -16,7 +16,7 @@ import {
     IconZoomReset,
     IconX
 } from '@tabler/icons-react';
-import { ReceiptResponse } from '../../../lib/types';
+import { ReceiptResponse } from '../../../types';
 
 const PDFViewer = dynamic(() => import('./PDFViewer'), {
     ssr: false,

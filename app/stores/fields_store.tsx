@@ -6,10 +6,10 @@ import type {
   FieldResponse,
   FieldCreate,
   FieldUpdate
-} from "../types";
+} from "../../types";
 import { createContext, useContext, useRef } from "react";
 import { useStore } from "zustand";
-import api from "../axios";
+import api from "../../axios";
 
 interface FieldsStoreProps {
   project: ProjectResponse;

@@ -8,7 +8,7 @@ import {
   Paper,
   Text,
 } from "@mantine/core";
-import { FieldCreate, FieldResponse, FieldUpdate } from "../../../lib/types";
+import { FieldCreate, FieldResponse, FieldUpdate } from "../../../types";
 import {
   IconAbc,
   IconBrackets,
