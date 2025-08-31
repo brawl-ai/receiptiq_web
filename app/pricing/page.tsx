@@ -1,12 +1,12 @@
 "use client"
 
 import { AppShell, Box, Burger, Button, Container, Divider, Flex, Group, List, Stack, Text, ThemeIcon, Title } from "@mantine/core";
-import { useSubscriptionsContext } from "../lib/stores/subscription_store";
+import { useSubscriptionsContext } from "../stores/subscription_store";
 import { useDisclosure } from "@mantine/hooks";
 import { IconArrowRight, IconArrowsHorizontal, IconCircleCheck, IconLogin, IconReceipt, IconRocket } from "@tabler/icons-react";
 import { Badge, Card } from '@mantine/core';
 import { useEffect, useState } from "react";
-import { SubscriptionPlan } from "../lib/types";
+import { SubscriptionPlan } from "../types";
 
 export default function PricingPage() {
     const [plans, setPlans] = useState<SubscriptionPlan[]>([])

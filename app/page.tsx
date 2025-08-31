@@ -5,7 +5,6 @@ import {
   AppShell,
   Container,
   Group,
-  Button,
   Text,
   Title,
   Stack,
@@ -31,11 +30,24 @@ import {
   IconLogin,
   IconRocket
 } from '@tabler/icons-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { ModeToggle } from '@/components/ui/mode-toggle';
+import { GridPattern } from '@/components/ui/grid-pattern';
 
 export default function ReceiptIQHomepage() {
   const [opened, { toggle }] = useDisclosure(false);
 
   return (
+    <div className="relative h-full w-full overflow-hidden">
+      <GridPattern
+        className="absolute h-full inset-0 -z-10 bg-background opacity-10"
+        width={20}
+        height={20}
+        strokeDasharray={"4 2"}
+        x={-5}
+        y={-5}
+      />
     <AppShell
       padding="md"
       header={{ height: 70 }}
@@ -71,8 +83,13 @@ export default function ReceiptIQHomepage() {
 
             <Group visibleFrom="sm">
               <Text size="sm" component='a' href='/pricing' c="dimmed">Pricing</Text>
-              <Button data-umami-event="lgoin@home" variant="outline" color="blue" component="a" href="/login">Log in</Button>
-              <Button data-umami-event="get_started@home" color="blue" component='a' href='/signup'>Get Started</Button>
+              <Button data-umami-event="login@home" variant="outline" asChild>
+                <Link href="/login">Log in</Link>
+              </Button>
+              <Button data-umami-event="get_started@home" color="blue" asChild>
+                <Link href="/signup">Get Started</Link>
+              </Button>
+              <ModeToggle />
             </Group>
           </Group>
         </Container>
@@ -88,22 +105,19 @@ export default function ReceiptIQHomepage() {
             <Stack gap="xs">
               <Button
                 variant="outline"
-                color="blue"
-                fullWidth
-                leftSection={<IconLogin size="1rem" />}
-                component='a' href='/login'
+                asChild
                 data-umami-event="login@home_sidebar"
               >
-                Log in
+                <Link href="/login">
+                  {" "}
+                  <IconLogin size="1rem" /> Log in{" "}
+                </Link>
               </Button>
-              <Button
-                component='a' href='/signup'
-                color="blue"
-                fullWidth
-                leftSection={<IconRocket size="1rem" />}
-                data-umami-event="get_started@homepage_sidebar"
-              >
-                Get Started
+              <Button asChild data-umami-event="get_started@homepage_sidebar">
+                <Link href="/signup">
+                  <IconRocket size="1rem" />
+                  Get Started
+                </Link>
               </Button>
             </Stack>
           </Box>
@@ -125,6 +139,7 @@ export default function ReceiptIQHomepage() {
                       fw={700}
                       ta="center"
                       lh={1.1}
+                      className="text-3xl font-bold"
                     >
                       One tool to{' '}
                       <Text span c="blue.6" inherit>
@@ -139,8 +154,14 @@ export default function ReceiptIQHomepage() {
                     </Text>
 
                     <Group gap="md">
-                      <Button size="lg" color="blue" rightSection={<IconArrowRight size={18} />} component='a' href='/signup' data-umami-event="get_started@home_herosection">
-                        Get Started
+                      <Button
+                        size="lg"
+                        asChild
+                        data-umami-event="get_started@home_herosection"
+                      >
+                        <Link href="/signup">
+                          <IconArrowRight size={18} /> Get Started
+                        </Link>
                       </Button>
                     </Group>
                   </Stack>
@@ -264,5 +285,6 @@ export default function ReceiptIQHomepage() {
         </Box>
       </AppShell.Main>
     </AppShell>
+    </div>
   );
 }

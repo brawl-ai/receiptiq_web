@@ -1,9 +1,9 @@
 "use client"
 import { Box, Button, Container, Divider, Flex, List, Loader, Paper, Stepper, Text, ThemeIcon, Title } from "@mantine/core";
 import { useState, useEffect, useRef } from "react";
-import { SubscriptionPlan } from "../../lib/types";
-import { useSubscriptionsContext } from "../../lib/stores/subscription_store";
-import { useAuthContext } from "../../lib/stores/auth_store";
+import { SubscriptionPlan } from "../../types";
+import { useSubscriptionsContext } from "../../stores/subscription_store";
+import { useAuthContext } from "../../stores/auth_store";
 import { IconCircleCheck, IconCircleCheckFilled, IconReceipt } from "@tabler/icons-react";
 
 export default function BillingAndSubscription() {

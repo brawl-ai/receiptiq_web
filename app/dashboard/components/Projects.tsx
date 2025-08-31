@@ -1,11 +1,11 @@
 import { ActionIcon, Box, Button, Drawer, Flex, List, Paper, Textarea, TextInput, ThemeIcon, Tooltip } from "@mantine/core";
-import { useAuthContext } from "../../lib/stores/auth_store";
-import { useProjectsContext } from "../../lib/stores/projects_store";
+import { useAuthContext } from "../../stores/auth_store";
+import { useProjectsContext } from "../../stores/projects_store";
 import { IconCircleCheck, IconPencil, IconTrashFilled } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import { ProjectResponse } from "../../lib/types";
+import { ProjectResponse } from "../../types";
 
 interface ProjectFormData {
     name: string;

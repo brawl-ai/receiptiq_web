@@ -1,5 +1,5 @@
 import { Badge, Center, Collapse, Divider, Flex, Group, Paper, ScrollArea, Table, Text, TextInput, Title, UnstyledButton } from "@mantine/core";
-import { FieldResponse, FieldType, ReceiptResponse } from "../../../../lib/types";
+import { FieldResponse, FieldType, ReceiptResponse } from "../../../../types";
 import { IconBracketsContain, IconChevronDown, IconChevronUp, IconSearch, IconSelector } from "@tabler/icons-react";
 import { useState } from "react";
 import classes from './DataTab.module.css';

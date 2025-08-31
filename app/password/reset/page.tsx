@@ -20,7 +20,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useAuthContext } from "../../lib/stores/auth_store";
+import { useAuthContext } from "../../stores/auth_store";
 
 export default function ResetPasswordPage() {
     const [loading, setLoading] = useState(false);

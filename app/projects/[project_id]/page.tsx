@@ -28,12 +28,12 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { useState } from "react";
-import { useAuthContext } from "../../lib/stores/auth_store";
+import { useAuthContext } from "../../stores/auth_store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useFieldsContext } from "../../lib/stores/fields_store";
+import { useFieldsContext } from "../../stores/fields_store";
 import { FieldsManager } from "./components/FieldsManager";
 import DocumentsManager from "./components/DocumentsManager";
-import { useReceiptsContext } from "../../lib/stores/receipts_store";
+import { useReceiptsContext } from "../../stores/receipts_store";
 import ProcessingManager from "./components/ProcessingManager";
 import DataTab from "./components/data/DataTab";
 import DataExport from "./components/export/DataExport";

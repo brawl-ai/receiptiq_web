@@ -1,6 +1,6 @@
 import axios from "axios";
 import { checkRateLimit } from "../backend";
-import { LoginRequest } from "../../lib/types";
+import { LoginRequest } from "../../types";
 
 
 export async function POST(req: Request) {

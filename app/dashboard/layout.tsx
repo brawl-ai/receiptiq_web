@@ -1,9 +1,9 @@
 import { Metadata } from "next"
 import { Suspense } from "react"
-import { fetchProjects, getCurrentUser } from "../lib/helpers"
+import { fetchProjects, getCurrentUser } from "../helpers"
 import { redirect } from "next/navigation"
-import { SubscriptionsProvider } from "../lib/stores/subscription_store"
-import { ProjectsProvider } from "../lib/stores/projects_store"
+import { SubscriptionsProvider } from "../stores/subscription_store"
+import { ProjectsProvider } from "../stores/projects_store"
 
 
 export const metadata: Metadata = {
