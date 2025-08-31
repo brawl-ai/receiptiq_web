@@ -28,7 +28,7 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { useState } from "react";
-import { useAuth } from "../../lib/auth";
+import { useAuth } from "../../lib/contexts/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useFields } from "../../lib/contexts/fields";
 import { FieldsManager } from "./components/FieldsManager";

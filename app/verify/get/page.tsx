@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useAuth } from "../../lib/auth";
+import { useAuth } from "../../lib/contexts/auth";
 import { Button, Container, Group, Paper, Text, TextInput, Title } from "@mantine/core";
 import { useRouter } from "next/navigation";
 

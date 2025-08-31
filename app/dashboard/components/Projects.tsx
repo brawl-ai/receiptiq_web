@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Button, Drawer, Flex, List, Paper, Textarea, TextInput, ThemeIcon, Tooltip } from "@mantine/core";
-import { useAuth } from "../../lib/auth";
+import { useAuth } from "../../lib/contexts/auth";
 import { useProjects } from "../../lib/contexts/projects";
 import { IconCircleCheck, IconPencil, IconTrashFilled } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";

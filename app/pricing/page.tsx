@@ -1,7 +1,7 @@
 "use client"
 
 import { AppShell, Box, Burger, Button, Container, Divider, Flex, Group, List, Stack, Text, ThemeIcon, Title } from "@mantine/core";
-import { useSubscriptions } from "../lib/subscription";
+import { useSubscriptions } from "../lib/contexts/subscription";
 import { useDisclosure } from "@mantine/hooks";
 import { IconArrowRight, IconArrowsHorizontal, IconCircleCheck, IconLogin, IconReceipt, IconRocket } from "@tabler/icons-react";
 import { Badge, Card } from '@mantine/core';

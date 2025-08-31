@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState } from "react"
-import api from "./axios"
+import api from "../axios"
 import {
   User,
   SignupRequest,
@@ -17,7 +17,7 @@ import {
   ResetPasswordRequest,
   ResetPasswordReponse,
   LogoutResponse,
-} from "./types"
+} from "../types"
 import axios from "axios"
 
 interface AuthContextType {

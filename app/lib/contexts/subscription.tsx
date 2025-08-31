@@ -1,6 +1,6 @@
 "use client"
 import { createContext, useContext } from "react";
-import { InitiatePurchaseRequest, InitiatePurchaseResponse, PaymentResponse, SubscriptionPlan, User } from "./types";
+import { InitiatePurchaseRequest, InitiatePurchaseResponse, PaymentResponse, SubscriptionPlan, User } from "../types";
 import axios from "axios";
 
 type PaginatedSubscriptionPlans = {

@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { Suspense } from "react"
 import { getCurrentUser } from "../lib/helpers"
 import { redirect } from "next/navigation"
-import { SubscriptionsProvider } from "../lib/subscription"
+import { SubscriptionsProvider } from "../lib/contexts/subscription"
 import { ProjectsProvider } from "../lib/contexts/projects"
 
 

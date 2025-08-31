@@ -1,7 +1,7 @@
 import "@mantine/core/styles.css";
 import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, createTheme, mantineHtmlProps, MantineProvider } from "@mantine/core";
-import { AuthProvider } from "./lib/auth"
+import { AuthProvider } from "./lib/contexts/auth"
 import { Notifications } from "@mantine/notifications";
 import { User } from "./lib/types";
 import { getCurrentUser } from "./lib/helpers";
