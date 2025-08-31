@@ -25,7 +25,7 @@ const createProjectsStore = (initProps?: Partial<ProjectsStoreProps>) => {
   const DEFAULT_PROPS: ProjectsStoreProps = {
     projects: [],
   };
-  return createStore<ProjectsStateType>()((set, get) => ({
+  return createStore<ProjectsStateType>()((set) => ({
     ...DEFAULT_PROPS,
     ...initProps,
     createProject: async (data) => {

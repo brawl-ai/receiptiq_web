@@ -15,18 +15,18 @@ import { useStore } from "zustand";
 
 interface ReceiptsStoreProps {
   project: ProjectResponse;
-  receipts: ReceiptResponse[];
-  loading: boolean;
-  error: string | null;
 }
 
 interface ReceiptsStateType extends ReceiptsStoreProps {
-  createReceipt: (file: File) => Promise<ReceiptResponse>;
-  updateReceiptStatus: (receiptId: string, data: ReceiptStatusUpdate) => Promise<ReceiptResponse>;
-  deleteReceipt: (receiptId: string) => Promise<void>;
-  processReceipt: (receiptId: string) => Promise<ReceiptResponse>;
-  updateDataValue: (receiptId: string, dataValueId: string, data: DataValueUpdate) => Promise<DataValueResponse>;
-  exportData: () => Promise<ExportResponse>;
+    receipts: ReceiptResponse[];
+    loading: boolean;
+    error: string | null;
+    createReceipt: (file: File) => Promise<ReceiptResponse>;
+    updateReceiptStatus: (receiptId: string, data: ReceiptStatusUpdate) => Promise<ReceiptResponse>;
+    deleteReceipt: (receiptId: string) => Promise<void>;
+    processReceipt: (receiptId: string) => Promise<ReceiptResponse>;
+    updateDataValue: (receiptId: string, dataValueId: string, data: DataValueUpdate) => Promise<DataValueResponse>;
+    exportData: () => Promise<ExportResponse>;
 }
 
 type ReceiptsStoreType = ReturnType<typeof createReceiptsStore>;
@@ -34,6 +34,9 @@ type ReceiptsStoreType = ReturnType<typeof createReceiptsStore>;
 const createReceiptsStore = (initProps: ReceiptsStoreProps) => {
   return createStore<ReceiptsStateType>()((set, get) => ({
     ...initProps,
+    receipts: initProps.project.receipts,
+    loading: false,
+    error: null,
     createReceipt: async (file) => {
       set((state) => ({ ...state, loading: true, error: null }));
       try {
@@ -44,7 +47,7 @@ const createReceiptsStore = (initProps: ReceiptsStoreProps) => {
         });
         set((state) => ({ ...state, receipts: [...state.receipts, response.data], loading: false }));
         return response.data;
-      } catch (err: any) {
+      } catch (err) {
         set((state) => ({ ...state, error: err.response?.data?.detail || "Failed to create receipt", loading: false }));
         throw err;
       }
@@ -55,7 +58,7 @@ const createReceiptsStore = (initProps: ReceiptsStoreProps) => {
         const response = await axios.put<ReceiptResponse>(`/api/v1/projects/${get().project.id}/receipts/${receiptId}/`, data);
         set((state) => ({ ...state, receipts: [...state.receipts, response.data], loading: false }));
         return response.data;
-      } catch (err: any) {
+      } catch (err) {
         set((state) => ({ ...state, error: err.response?.data?.detail || "Failed to update receipt status", loading: false }));
         throw err;
       }
@@ -65,7 +68,7 @@ const createReceiptsStore = (initProps: ReceiptsStoreProps) => {
       try {
         await axios.delete<ReceiptResponse>(`/api/v1/projects/${get().project.id}/receipts/${receiptId}/`);
         set((state) => ({ ...state, receipts: get().receipts.filter((r) => r.id !== receiptId), loading: false }));
-      } catch (err: any) {
+      } catch (err) {
         set((state) => ({ ...state, error: err.response?.data?.detail || "Failed to delete the receipt", loading: false }));
         throw err;
       }
@@ -80,7 +83,7 @@ const createReceiptsStore = (initProps: ReceiptsStoreProps) => {
           loading: false
         }));
         return response.data;
-      } catch (err: any) {
+      } catch (err) {
         set((state) => ({ ...state, error: err.response?.data?.detail || "Failed to process receipts", loading: false }));
         throw err;
       }
@@ -103,7 +106,7 @@ const createReceiptsStore = (initProps: ReceiptsStoreProps) => {
           loading: false
         }));
         return response.data;
-      } catch (err: any) {
+      } catch (err) {
         set((state) => ({ ...state, error: err.response?.data?.detail || "Failed to update receipt data", loading: false }));
         throw err;
       }
@@ -114,7 +117,7 @@ const createReceiptsStore = (initProps: ReceiptsStoreProps) => {
         const response = await axios.get<ExportResponse>(`/api/v1/projects/${get().project.id}/data/csv`);
         set((state) => ({ ...state, loading: false }));
         return response.data;
-      } catch (err: any) {
+      } catch (err) {
         set((state) => ({ ...state, error: err.response?.data?.detail || "Failed to export the data", loading: false }));
         throw err;
       }
@@ -126,10 +129,10 @@ type ReceiptsProviderProps = React.PropsWithChildren<ReceiptsStoreProps>;
 
 const ReceiptsContext = createContext<ReceiptsStoreType | null>(null);
 
-export function ReceiptsProvider({ children, project }: { children: React.ReactNode, project: ProjectResponse }) {
+export function ReceiptsProvider({ children, project }: ReceiptsProviderProps) {
   const storeRef = useRef<ReceiptsStoreType>(null);
   if (!storeRef.current) {
-    storeRef.current = createReceiptsStore({ project, receipts: project.receipts, loading: false, error: null });
+    storeRef.current = createReceiptsStore({ project });
   }
   return (
     <ReceiptsContext.Provider value={storeRef.current}>
