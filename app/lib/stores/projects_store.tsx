@@ -7,7 +7,7 @@ import {
   ProjectUpdate,
   PaginatedResponse
 } from "../types";
-import axios from "axios";
+import api from "../axios";
 import { createContext, useContext, useRef } from "react";
 import { useStore } from "zustand";
 
@@ -31,12 +31,12 @@ const createProjectsStore = (initProps?: Partial<ProjectsStoreProps>) => {
     ...DEFAULT_PROPS,
     ...initProps,
     createProject: async (data) => {
-      const response = await axios.post("/api/v1/projects", data);
+      const response = await api.post("/api/v1/projects", data);
       set((state) => ({ ...state, projects: [...state.projects, response.data] }));
       return response.data;
     },
     updateProject: async (id, data) => {
-      const response = await axios.put(`/api/v1/projects/${id}`, data);
+      const response = await api.put(`/api/v1/projects/${id}`, data);
       set((state) => ({
         ...state,
         projects: state.projects.map((p) => (p.id === id ? response.data : p)),
@@ -44,7 +44,7 @@ const createProjectsStore = (initProps?: Partial<ProjectsStoreProps>) => {
       return response.data;
     },
     deleteProject: async (id) => {
-      await axios.delete(`/api/v1/projects/${id}`);
+      await api.delete(`/api/v1/projects/${id}`);
       set((state) => ({
         ...state,
         projects: state.projects.filter((p) => p.id !== id),

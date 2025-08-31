@@ -30,7 +30,7 @@ import {
 import { useState } from "react";
 import { useAuthContext } from "../../lib/stores/auth_store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useFields } from "../../lib/contexts/fields";
+import { useFieldsContext } from "../../lib/stores/fields_store";
 import { FieldsManager } from "./components/FieldsManager";
 import DocumentsManager from "./components/DocumentsManager";
 import { useReceipts } from "../../lib/contexts/receipts";
@@ -45,7 +45,12 @@ export default function ProjectDashboardPage() {
   const [activeTab, setActiveTab] = useState(tab ? tab : "fields");
   const user = useAuthContext((s) => s.user);
   const logout = useAuthContext((s) => s.logout);
-  const { project, fields, addField, addChildField, updateField, deleteField } = useFields();
+  const project = useFieldsContext((s) => s.project);
+  const fields = useFieldsContext((s) => s.fields);
+  const addField = useFieldsContext((s) => s.addField);
+  const addChildField = useFieldsContext((s) => s.addChildField);
+  const updateField = useFieldsContext((s) => s.updateField);
+  const deleteField = useFieldsContext((s) => s.deleteField);
   const { loading, error, receipts, createReceipt, deleteReceipt, processReceipt, updateDataValue, exportData } = useReceipts();
 
 
