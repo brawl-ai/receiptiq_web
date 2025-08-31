@@ -1,3 +1,10 @@
+export type PaginatedResponse<T> = {
+    total: number;
+    page: number;
+    size: number;
+    data: T[];
+}
+
 export type UserSubscription = {
     id: string
     is_active: boolean
