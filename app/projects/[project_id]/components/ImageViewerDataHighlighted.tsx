@@ -41,6 +41,8 @@ export default function ImageViewerDataHighlighted({
     onUpdate,
     receipt,
 }: ImageViewerDrawerProps) {
+    const [imgDims, setImgDims] = useState({ naturalW: 1, naturalH: 1, renderedW: 1, renderedH: 1 });
+    const imgRef = useRef<HTMLImageElement>(null);
     const [imageLoading, setImageLoading] = useState(true);
     const [scale, setScale] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -57,6 +59,14 @@ export default function ImageViewerDataHighlighted({
     }, [opened]);
 
     const handleImageLoad = () => {
+        if (imgRef.current) {
+            setImgDims({
+              naturalW: imgRef.current.naturalWidth,
+              naturalH: imgRef.current.naturalHeight,
+              renderedW: imgRef.current.clientWidth,
+              renderedH: imgRef.current.clientHeight,
+            });
+        }
         setImageLoading(false);
     };
 
@@ -101,6 +111,9 @@ export default function ImageViewerDataHighlighted({
         const delta = e.deltaY > 0 ? 0.9 : 1.1;
         setScale(prev => Math.min(Math.max(prev * delta, 0.1), 5));
     };
+
+    const scaleX = imgDims.renderedW / imgDims.naturalW;
+    const scaleY = imgDims.renderedH / imgDims.naturalH;
 
     return (
         <Drawer
@@ -194,9 +207,10 @@ export default function ImageViewerDataHighlighted({
                             }}
                         >
                             {/* Container for image and overlays */}
-                            <Box style={{ position: 'relative', display: 'inline-block' }}>
+                            <Box style={{ position: 'relative' }} w={"fit-content"}>
                                 {receipt?.mime_type.includes("image") && <Image
                                     src={receipt?.download_url}
+                                    ref={imgRef}
                                     alt="Viewer Image"
                                     onLoad={handleImageLoad}
                                     onError={() => setImageLoading(false)}
@@ -212,7 +226,7 @@ export default function ImageViewerDataHighlighted({
 
                                 {receipt?.mime_type.includes("pdf") && <PDFViewer
                                     onErrorAction={() => setImageLoading(false)}
-                                    onLoadAction={handleImageLoad}
+                                    onLoadAction={() => setImageLoading(false)}
                                     pdfUrl={receipt?.download_url}
                                 />}
 
@@ -222,10 +236,10 @@ export default function ImageViewerDataHighlighted({
                                         key={dataValue.id}
                                         style={{
                                             position: 'absolute',
-                                            left: `${dataValue.x}px`,
-                                            top: `${dataValue.y}px`,
-                                            width: `${dataValue.width}px`,
-                                            height: `${dataValue.height}px`,
+                                            left: dataValue.x * scaleX,
+                                            top: dataValue.y * scaleY,
+                                            width: dataValue.width * scaleX,
+                                            height: dataValue.height * scaleY,
                                             border: '2px solid #ff6b6b',
                                             backgroundColor: 'rgba(255, 107, 107, 0.1)',
                                             pointerEvents: 'none',
