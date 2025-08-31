@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { SubscriptionsProvider } from "../lib/contexts/subscription";
+import { SubscriptionsProvider } from "../lib/stores/subscription_store";
 
 export const metadata: Metadata = {
     title: "Pricing",
