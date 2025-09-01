@@ -6,8 +6,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
+import { LoginRequest } from "../types"
+import Image from "next/image"
 
-export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], loading?:boolean, handleSubmit: (values: any) => void } & React.HTMLAttributes<HTMLDivElement>) {
+export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], loading?:boolean, handleSubmit: (values: LoginRequest) => void } & React.HTMLAttributes<HTMLDivElement>) {
     const [formState, setFormState] = useState({
         email: "",
         password: "",
@@ -66,7 +68,7 @@ export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], lo
                 />
               </div>
               <div className="flex items-center gap-3">
-                <Checkbox id="terms" checked={formState.remember_me} onCheckedChange={(e) => setFormState({ ...formState, remember_me: true })} />
+                <Checkbox id="terms" checked={formState.remember_me} onCheckedChange={(e) => setFormState({ ...formState, remember_me:  Boolean(e) })} />
                 <Label htmlFor="terms">Remember me</Label>
             </div>
               
@@ -91,7 +93,7 @@ export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], lo
             </div>
           </form>
           <div className="relative grid md:block">
-            <img
+            <Image
               src="/assets/images/bg2.jpg"
                alt="Authentication background"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.9] dark:contrast-more"

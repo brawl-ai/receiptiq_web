@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useAuthContext } from "../../stores/auth_store";
+import { toast } from "sonner";
 
 export default function ResetPasswordPage() {
     const [loading, setLoading] = useState(false);
@@ -53,7 +54,8 @@ export default function ResetPasswordPage() {
             return;
         }
         try {
-            const response = await resetPassword(formState);
+            await resetPassword(formState);
+            toast.success("Password has been reset successfully. You can now log in.");
             router.push("/login");
         } catch (error) {
             let errors = [];

@@ -6,6 +6,7 @@ import { getCurrentUser } from "./helpers";
 import { AuthProvider } from "./stores/auth_store";
 import './globals.css'
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
     title: {
@@ -50,6 +51,7 @@ export default async function RootLayout({
                         {children}
                     </AuthProvider>
                 </ThemeProvider>
+                <Toaster />
             </body>
         </html>
     )
