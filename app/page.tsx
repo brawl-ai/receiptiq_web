@@ -1,290 +1,209 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  AppShell,
-  Container,
-  Group,
-  Text,
-  Title,
-  Stack,
-  Card,
-  SimpleGrid,
-  Box,
-  Badge,
-  Center,
-  ThemeIcon,
-  Burger,
-  NavLink
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import {
-  IconBrain,
+  IconSparkles,
   IconFileText,
   IconSettings,
   IconFolders,
   IconDownload,
-  IconReceipt,
   IconChartBar,
   IconArrowRight,
   IconLogin,
-  IconRocket
+  IconRocket,
+  IconMoon,
+  IconSun,
+  IconLayoutSidebarFilled
 } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ModeToggle } from '@/components/ui/mode-toggle';
 import { GridPattern } from '@/components/ui/grid-pattern';
+import { Separator } from '@/components/ui/separator';
+import Footer01 from '@/components/ui/footer';
+import { RainbowButton } from '@/components/ui/rainbow-button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { useTheme } from 'next-themes';
 
 export default function ReceiptIQHomepage() {
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, setOpened] = useState(false);
+  const { theme, setTheme } = useTheme()
 
   return (
-    <div className="relative h-full w-full overflow-hidden">
+    <div className="relative min-h-screen w-full overflow-hidden">
       <GridPattern
-        className="absolute h-full inset-0 -z-10 bg-background opacity-10"
+        className="absolute min-h-screen inset-0 -z-20 opacity-20 dark:bg-stone-900 dark:opacity-100"
         width={20}
         height={20}
         strokeDasharray={"4 2"}
-        x={-5}
+        x={-5} 
         y={-5}
       />
-    <AppShell
-      padding="md"
-      header={{ height: 70 }}
-      navbar={{
-        width: 300,
-        breakpoint: 'sm',
-        collapsed: { mobile: !opened, desktop: true },
-      }}
-      styles={{
-        main: {
-          // backgroundColor: '#f8f9fa',
-        },
-      }}
-    >
-      <AppShell.Header style={{ borderBottom: 'none' }}>
-        <Container size="xl" h="100%">
-          <Group justify="space-between" h="100%" px="md">
-            <Group>
-              <Burger
-                opened={opened}
-                onClick={toggle}
-                hiddenFrom="sm"
-                size="sm"
-                mr="md"
-              />
-              <ThemeIcon size={40} radius="md" variant="filled" color="blue">
-                <IconReceipt size={24} />
-              </ThemeIcon>
-              <Text size="xl" fw={700}>
-                ReceiptIQ
-              </Text>
-            </Group>
+      {/* Header */}
+      <header className="sticky top-0 z-20 backdrop-transparent">
+        <div className="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            {/* Mobile burger */}
+            <IconLayoutSidebarFilled 
+                onClick={() => setOpened(!opened)}
+                size={24}
+                className="sm:hidden dark:text-white text-blue-500"
+            />
+            <div className="flex items-center gap-3">
+              {/* Logo */}
+              <Link href="/" className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="220" height="64" viewBox="0 0 220 64" className="mt-2 text-blue-500 dark:text-blue-500">
+                  {/* Rounded square on the left */}
+                  <rect x="2" y="2" width="60" height="60" rx="5" stroke="currentColor" strokeWidth="2" fill="transparent" />
+                  {/* Squiggly line in the center */}
+                  <path d="M12 32 L16 28 L20 36 L24 28 L28 36 L32 28 L36 36 L40 28 L44 36 L48 28 L52 36 L55 32" stroke="currentColor" strokeWidth="3" fill="none" />
+                {/* Text next to it */}
+                <text x="75" y="40" fontFamily="Arial, sans-serif" fill="currentColor" fontSize="28" fontWeight={"bold"}>
+                  ReceiptIQ
+                </text>
+              </svg>
+              </Link>
+            </div>
+          </div>
 
-            <Group visibleFrom="sm">
-              <Text size="sm" component='a' href='/pricing' c="dimmed">Pricing</Text>
-              <Button data-umami-event="login@home" variant="outline" asChild>
-                <Link href="/login">Log in</Link>
-              </Button>
-              <Button data-umami-event="get_started@home" color="blue" asChild>
-                <Link href="/signup">Get Started</Link>
-              </Button>
-              <ModeToggle />
-            </Group>
-          </Group>
-        </Container>
-      </AppShell.Header>
+          <nav className="hidden items-center gap-4 sm:flex">
+            <Link href="/pricing" className="text-sm text-muted-foreground dark:text-gray-300">
+              Pricing
+            </Link>
+            <Button asChild variant="outline" data-umami-event="login@home" className="dark:border-gray-600 dark:text-gray-300 hover:dark:bg-gray-800">
+              <Link href="/login">Log in</Link>
+            </Button>
+            <Button asChild data-umami-event="get_started@home" className="bg-blue-500 text-white hover:bg-blue-700">
+              <Link href="/signup">Get Started</Link>
+            </Button>
+            {theme === 'dark' ?
+            <IconSun size={16} className="mr-2 text-gray-300" onClick={() => setTheme('light')} />
+            :<IconMoon size={16} className="mr-2" onClick={() => setTheme('dark')} />
+            }
+          </nav>
+        </div>
+      </header>
 
-      <AppShell.Navbar p="md">
-        <Stack gap="xs">
-          <NavLink
-            href="/pricing"
-            label="Pricing"
-          />
-          <Box mt="md" pt="md" style={{ borderTop: '1px solid #e9ecef' }}>
-            <Stack gap="xs">
-              <Button
-                variant="outline"
-                asChild
-                data-umami-event="login@home_sidebar"
-              >
+      {/* Mobile Sidebar */}
+      {opened && (
+        <aside className="fixed left-0 z-30 h-screen w-64 bg-white dark:bg-stone-900 backdrop-blur-3xl border-r p-4 sm:hidden">
+          <div className="flex flex-col gap-2">
+            <Link href="/pricing" className="text-sm text-center dark:text-gray-300">
+              Pricing
+            </Link>
+            <div className="border-t pt-4 flex flex-col gap-2">
+              <Button asChild variant="outline" data-umami-event="login@home_sidebar" className='dark:border-gray-600 dark:text-gray-300 hover:dark:bg-gray-800'>
                 <Link href="/login">
-                  {" "}
-                  <IconLogin size="1rem" /> Log in{" "}
+                  <IconLogin size={16} className="mr-2" /> Log in
                 </Link>
               </Button>
-              <Button asChild data-umami-event="get_started@homepage_sidebar">
+              <Button asChild data-umami-event="get_started@homepage_sidebar" className='bg-blue-500 text-white hover:bg-blue-700'>
                 <Link href="/signup">
-                  <IconRocket size="1rem" />
+                  <IconRocket size={16} className="mr-2" />
                   Get Started
                 </Link>
               </Button>
-            </Stack>
-          </Box>
-        </Stack>
-      </AppShell.Navbar>
+            </div>
+          </div>
+        </aside>
+      )}
 
-      <AppShell.Main>
+      {/* Main */}
+      <main>
         {/* Hero Section */}
-        <Box py={100}>
-          <Container size="xl">
-            <Stack align="center" gap={40}>
-              {/* Floating Avatars */}
-              <Box pos="relative" w="100%" mih={300}>
-                <Center h={300}>
-                  <Stack align="center" gap={30} maw={600}>
-                    <Title
-                      order={1}
-                      size={56}
-                      fw={700}
-                      ta="center"
-                      lh={1.1}
-                      className="text-3xl font-bold"
-                    >
-                      One tool to{' '}
-                      <Text span c="blue.6" inherit>
-                        extract data
-                      </Text>
-                      {' '}from receipts and manage your workflow
-                    </Title>
+        <section className="py-10">
+          <div className="mx-auto max-w-7xl px-4 text-center">
+            <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight sm:text-4xl md:text-4xl dark:text-white">
+              One tool to{" "}
+              <span className="text-blue-500">extract data</span> from receipts
+              and manage your workflow
+            </h1>
+            <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
+              ReceiptIQ helps teams process receipts faster, smarter and more
+              efficiently, delivering the visibility and data-driven insights to
+              mitigate risk and ensure compliance.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <RainbowButton data-umami-event="get_started@home_herosection" asChild size='lg'> 
+                <Link href="/signup">
+                  <IconArrowRight size={18} /> Get Started
+                </Link>
+              </RainbowButton>
+            </div>
+          </div>
+        </section>
 
-                    <Text size="lg" c="dimmed" ta="center" maw={500} lh={1.6}>
-                      ReceiptIQ helps teams process receipts faster, smarter and more efficiently,
-                      delivering the visibility and data-driven insights to mitigate risk and ensure compliance.
-                    </Text>
-
-                    <Group gap="md">
-                      <Button
-                        size="lg"
-                        asChild
-                        data-umami-event="get_started@home_herosection"
-                      >
-                        <Link href="/signup">
-                          <IconArrowRight size={18} /> Get Started
-                        </Link>
-                      </Button>
-                    </Group>
-                  </Stack>
-                </Center>
-              </Box>
-            </Stack>
-          </Container>
-        </Box>
-
+        <Separator className='px-10'/>
         {/* Features Section */}
-        <Box py={100}>
-          <Container size="xl">
-            <Stack align="center" gap={60}>
-              <Stack align="center" gap="md">
-                <Badge variant="light" color="blue" size="lg">FEATURES</Badge>
-                <Text size="lg" c="dimmed" ta="center" maw={600}>
-                  Maximize your team productivity and accuracy with our affordable, user-friendly
-                  receipt management system.
-                </Text>
-              </Stack>
+        <section className="py-10">
+          <div className="mx-auto max-w-7xl px-4 text-center">
+            <span className="inline-block rounded-md bg-blue-100 px-3 py-1 text-sm font-medium text-blue-500">
+              FEATURES
+            </span>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+              Maximize your team productivity and accuracy with our affordable,
+              user-friendly receipt management system.
+            </p>
 
-              <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
-                {/* AI-Powered Extraction */}
-                <Card shadow="sm" padding="xl" radius="md" style={{ height: '100%' }}>
-                  <Stack gap="lg">
-                    <ThemeIcon size={50} radius="md" variant="light" color="blue">
-                      <IconBrain size={28} />
-                    </ThemeIcon>
-                    <Title order={3} size="xl" fw={600}>
-                      AI-Powered Data Extraction
-                    </Title>
-                    <Text c="dimmed" lh={1.6}>
-                      Uses OpenAI GPT models to intelligently extract structured data from receipts
-                      with high accuracy and minimal manual intervention.
-                    </Text>
-                  </Stack>
-                </Card>
-
-                {/* Multi-Format Support */}
-                <Card shadow="sm" padding="xl" radius="md" style={{ height: '100%' }}>
-                  <Stack gap="lg">
-                    <ThemeIcon size={50} radius="md" variant="light" color="green">
-                      <IconFileText size={28} />
-                    </ThemeIcon>
-                    <Title order={3} size="xl" fw={600}>
-                      Multi-Format Support
-                    </Title>
-                    <Text c="dimmed" lh={1.6}>
-                      Process any receipt format including images (JPEG and PNG) and PDF documents
-                      seamlessly in one unified platform.
-                    </Text>
-                  </Stack>
-                </Card>
-
-                {/* Custom Schema */}
-                <Card shadow="sm" padding="xl" radius="md" style={{ height: '100%' }}>
-                  <Stack gap="lg">
-                    <ThemeIcon size={50} radius="md" variant="light" color="orange">
-                      <IconSettings size={28} />
-                    </ThemeIcon>
-                    <Title order={3} size="xl" fw={600}>
-                      Custom Schema Definition
-                    </Title>
-                    <Text c="dimmed" lh={1.6}>
-                      Define custom fields and data structures for extraction that match your specific
-                      business requirements and workflows.
-                    </Text>
-                  </Stack>
-                </Card>
-
-                {/* Project Management */}
-                <Card shadow="sm" padding="xl" radius="md" style={{ height: '100%' }}>
-                  <Stack gap="lg">
-                    <ThemeIcon size={50} radius="md" variant="light" color="purple">
-                      <IconFolders size={28} />
-                    </ThemeIcon>
-                    <Title order={3} size="xl" fw={600}>
-                      Project Management
-                    </Title>
-                    <Text c="dimmed" lh={1.6}>
-                      Organize receipts into projects with custom field schemas, making it easy to
-                      manage different clients or expense categories.
-                    </Text>
-                  </Stack>
-                </Card>
-
-                {/* Data Export */}
-                <Card shadow="sm" padding="xl" radius="md" style={{ height: '100%' }}>
-                  <Stack gap="lg">
-                    <ThemeIcon size={50} radius="md" variant="light" color="red">
-                      <IconDownload size={28} />
-                    </ThemeIcon>
-                    <Title order={3} size="xl" fw={600}>
-                      Data Export
-                    </Title>
-                    <Text c="dimmed" lh={1.6}>
-                      Export extracted data as CSV files for easy integration with accounting software,
-                      spreadsheets, and other business tools.
-                    </Text>
-                  </Stack>
-                </Card>
-
-                {/* Dynamic Dashboard Preview */}
-                <Card shadow="sm" padding="xl" radius="md" style={{ height: '100%' }}>
-                  <Stack gap="lg">
-                    <ThemeIcon size={50} radius="md" variant="light" color="blue">
-                      <IconChartBar size={28} />
-                    </ThemeIcon>
-                    <Title order={3} size="xl" fw={600}>
-                      Dynamic Dashboard
-                    </Title>
-                    <Text c="dimmed" lh={1.6}>
-                      ReceiptIQ helps accounting teams work faster, smarter and more efficiently,
-                      delivering the visibility and data-driven insights for compliance tracking.
-                    </Text>
-                  </Stack>
-                </Card>
-              </SimpleGrid>
-            </Stack>
-          </Container>
-        </Box>
-      </AppShell.Main>
-    </AppShell>
+            <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                {
+                  icon: <IconSparkles size={28} />,
+                  title: "AI-Powered Data Extraction",
+                  desc: "Uses AI model to intelligently extract structured data from receipts with high accuracy and minimal manual intervention.",
+                  color: "bg-blue-100 text-blue-500",
+                },
+                {
+                  icon: <IconFileText size={28} />,
+                  title: "Multi-Format Support",
+                  desc: "Process any receipt format including images (JPEG and PNG) and PDF documents seamlessly in one unified platform.",
+                  color: "bg-green-100 text-green-600",
+                },
+                {
+                  icon: <IconSettings size={28} />,
+                  title: "Custom Schema Definition",
+                  desc: "Define custom fields and data structures for extraction that match your specific business requirements and workflows.",
+                  color: "bg-orange-100 text-orange-600",
+                },
+                {
+                  icon: <IconFolders size={28} />,
+                  title: "Project Management",
+                  desc: "Organize receipts into projects with custom field schemas, making it easy to manage different clients or expense categories.",
+                  color: "bg-purple-100 text-purple-600",
+                },
+                {
+                  icon: <IconDownload size={28} />,
+                  title: "Data Export",
+                  desc: "Export extracted data as CSV files for easy integration with accounting software, spreadsheets, and other business tools.",
+                  color: "bg-red-100 text-red-600",
+                },
+                {
+                  icon: <IconChartBar size={28} />,
+                  title: "Dynamic Dashboard",
+                  desc: "ReceiptIQ helps accounting teams work faster, smarter and more efficiently, delivering the visibility and insights for compliance tracking.",
+                  color: "bg-blue-100 text-blue-500",
+                },
+              ].map((f, i) => (
+                  <Card key={i}>
+                    <CardHeader className={`flex items-center gap-4`}>
+                      <CardTitle className={`${f.color} flex h-12 w-12 items-center justify-center rounded-md`}>{f.icon}</CardTitle>
+                      <CardDescription className="text-xl font-semibold dark:text-white">{f.title}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="text-muted-foreground leading-relaxed">
+                      <p>{f.desc}</p>
+                    </CardContent>
+                  </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer01 />
     </div>
   );
 }
