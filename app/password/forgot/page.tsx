@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useAuthContext } from "../../stores/auth_store";
+import { toast } from "sonner";
 
 export default function ForgotPasswordPage() {
     const [loading, setLoading] = useState(false);
@@ -28,8 +29,8 @@ export default function ForgotPasswordPage() {
             return;
         }
         try {
-            const response = await forgotPassword({ email: formState.email });
-            // You may want to use a toast here for success
+           await forgotPassword({ email: formState.email });
+           toast.success("If that email is registered, a reset link has been sent.");
         } catch (error) {
             let errors = [];
             if (error.response?.data?.detail?.errors) {

@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "../stores/auth_store";
 import { LoginForm } from "./login_form";
 import { LoginRequest } from "../types";
-import { DotPattern } from "@/components/magicui/dot-pattern";
+import { DotPattern } from "@/components/ui/dot-pattern";
 
 export default function LoginPage() {
     const searchParams = useSearchParams()
