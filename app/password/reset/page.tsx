@@ -1,25 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useTheme } from "next-themes";
+import { IconSun, IconMoon } from '@tabler/icons-react';
 import { notFound, useRouter, useSearchParams } from "next/navigation";
 
-import {
-    TextInput,
-    Paper,
-    Title,
-    Container,
-    Button,
-    Text,
-    Anchor,
-    Stack,
-    Box,
-    Image,
-    Group,
-    PasswordInput,
-    Flex
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import { useAuthContext } from "../../stores/auth_store";
 
 export default function ResetPasswordPage() {
@@ -35,115 +25,116 @@ export default function ResetPasswordPage() {
         }
     }, [searchParams])
 
-    const form = useForm({
-        initialValues: {
-            email: searchParams.get("email"),
-            token: searchParams.get("token"),
-            new_password: ""
-        },
-        validate: {
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : "invalid email"),
-            new_password: (value) => value.length < 8 ? "Password must be at least 8 characters" : value.length > 128 ? "Password must be less than 128 characters" : null,
-            token: (value) => value.length < 1 ? "Missing token, check url" : null
-        },
+    const [formState, setFormState] = useState({
+        email: searchParams.get("email") || "",
+        token: searchParams.get("token") || "",
+        new_password: ""
     });
+    const [formError, setFormError] = useState("");
 
-    const handleSubmit = async (values: typeof form.values) => {
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
         setLoading(true);
+        setFormError("");
+        setErrors([]);
+        if (!/^\S+@\S+$/.test(formState.email)) {
+            setFormError("Invalid email");
+            setLoading(false);
+            return;
+        }
+        if (formState.new_password.length < 8 || formState.new_password.length > 128) {
+            setFormError("Password must be between 8 and 128 characters");
+            setLoading(false);
+            return;
+        }
+        if (!formState.token) {
+            setFormError("Missing token, check url");
+            setLoading(false);
+            return;
+        }
         try {
-            const response = await resetPassword(values);
-            notifications.show({
-                position: "top-right",
-                title: "Reset Password Success",
-                message: response.message,
-                color: "green",
-            });
-            router.push("/login")
+            const response = await resetPassword(formState);
+            router.push("/login");
         } catch (error) {
-            let errors = []
+            let errors = [];
             if (error.response?.data?.detail?.errors) {
                 errors = error.response?.data?.detail?.errors.map(e => e)
             } else {
                 errors.push(error.response?.data?.detail)
             }
-            setErrors(errors)
-            notifications.show({
-                position: "top-right",
-                title: "Reset Password Error",
-                message: String(errors) || "Failed to reset password",
-                color: "red",
-            });
+            setErrors(errors);
         } finally {
             setLoading(false);
         }
     };
 
+    const { theme, setTheme } = useTheme();
     return (
-        <Group h="100vh" w="100%" gap={0}>
-            <Box w="50%" h="100%" visibleFrom="md">
-                <Image
-                    src="/assets/images/bg2.jpg"
-                    alt="Authentication background"
-                    h="100%"
-                    style={{ objectFit: "cover" }}
-                />
-            </Box>
-            <Box
-                w={{ base: "100%", md: "50%" }}
-                h="100%"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <Container size={500} w="100%">
-                    <Title ta="center" fw={900}>
-                        Forgot your password?
-                    </Title>
-                    <Text c="dimmed" size="sm" ta="center" mt={5}>
-                        {"Enter your email to get a reset link "}
-                    </Text>
-
-                    <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-                        {errors.map((e, id) => <Text c={"red"} key={id}>{e}</Text>)}
-                        <form onSubmit={form.onSubmit(handleSubmit)}>
-                            <Stack>
-                                <TextInput
-                                    label="Your Email"
+        <div className="bg-muted min-h-svh flex flex-col">
+            {/* Header */}
+            <header className="w-full flex items-center justify-between px-6 py-4 bg-transparent">
+                <div className="flex items-center gap-3">
+                    <Link href="/" className="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="44" viewBox="0 0 220 64" className="text-blue-500 dark:text-blue-500">
+                            <rect x="2" y="2" width="40" height="40" rx="5" stroke="currentColor" strokeWidth="2" fill="transparent" />
+                            <path d="M12 22 L16 18 L20 26 L24 18 L28 26 L32 18 L36 26" stroke="currentColor" strokeWidth="3" fill="none" />
+                            <text x="50" y="32" fontFamily="Arial, sans-serif" fill="currentColor" fontSize="20" fontWeight="bold">ReceiptIQ</text>
+                        </svg>
+                    </Link>
+                </div>
+                <div className="flex items-center gap-2">
+                    {theme === 'dark' ?
+                        <IconSun size={22} className="cursor-pointer text-gray-300" onClick={() => setTheme('light')} />
+                        :
+                        <IconMoon size={22} className="cursor-pointer" onClick={() => setTheme('dark')} />
+                    }
+                </div>
+            </header>
+            {/* Main reset password form */}
+            <div className="flex flex-1 items-center justify-center p-6 md:p-10">
+                <Card className="w-full max-w-sm md:max-w-md mx-auto">
+                    <CardContent>
+                        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+                            <div className="flex flex-col items-center text-center gap-1">
+                                <h1 className="text-2xl font-bold">Reset your password</h1>
+                                <p className="text-muted-foreground">Enter your new password below</p>
+                            </div>
+                            {formError && <div className="text-center text-red-500 font-medium">{formError}</div>}
+                            {errors && errors.length > 0 && <div className="text-center text-red-500 font-medium">{errors.map((e, id) => <div key={id}>{e}</div>)}</div>}
+                            <div className="grid gap-3">
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                    id="email"
+                                    type="email"
                                     placeholder="you@example.com"
                                     required
+                                    autoComplete="email"
+                                    value={formState.email}
                                     disabled
-                                    size="md"
-                                    {...form.getInputProps("email")}
                                 />
-                                <PasswordInput
-                                    label="Password"
+                            </div>
+                            <div className="grid gap-3">
+                                <Label htmlFor="new_password">Password</Label>
+                                <Input
+                                    id="new_password"
+                                    type="password"
                                     placeholder="***********"
                                     required
-                                    size="md"
-                                    {...form.getInputProps("new_password")}
+                                    value={formState.new_password}
+                                    onChange={e => setFormState({ ...formState, new_password: e.target.value })}
+                                    disabled={loading}
                                 />
-                            </Stack>
-                            <Flex justify={"space-between"} mt={"lg"} align={"center"}>
-                                <Anchor
-                                    data-umami-event="back_to_forgot_password_link@password.reset"
-                                    c="dimmed" size="sm" component="a" href="/password/forgot">
-                                    <Text>Back to forgot password</Text>
-                                </Anchor>
-                                <Button
-                                    data-umami-event="reset_password_button@password.reset"
-                                    size="md"
-                                    type="submit"
-                                    loading={loading}
-                                >
-                                    Reset Password
+                            </div>
+                            <div className="flex justify-between items-center mt-2">
+                                <Link href="/password/forgot" className="text-sm underline-offset-2 hover:underline text-muted-foreground">Back to forgot password</Link>
+                                <Button type="submit" className="" disabled={loading} data-umami-event="reset_password_button@password.reset">
+                                    {loading ? "Resetting..." : "Reset Password"}
                                 </Button>
-                            </Flex>
+                            </div>
                         </form>
-                    </Paper>
-                </Container>
-            </Box>
-        </Group>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
     );
 }
