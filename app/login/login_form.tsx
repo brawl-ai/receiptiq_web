@@ -94,9 +94,11 @@ export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], lo
           </form>
           <div className="relative grid md:block">
             <Image
-              src="/assets/images/bg2.jpg"
-               alt="Authentication background"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.9] dark:contrast-more"
+                width={600}
+                height={400}
+                src="/assets/images/bg2.jpg"
+                alt="Authentication background"
+                className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.9] dark:contrast-more"
             />
           </div>
         </CardContent>
