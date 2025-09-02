@@ -1,6 +1,6 @@
 "use client"
 
-import {createStore} from "zustand/vanilla"
+import { createStore } from "zustand/vanilla"
 import {
   LoginRequest,
   LoginResponse,
@@ -16,6 +16,10 @@ import {
   ResetPasswordRequest,
   ResetPasswordReponse,
   LogoutResponse,
+  UpdateUserRequest,
+  UpdateUserResponse,
+  ChangePasswordRequest,
+  ChangePasswordResponse,
 } from "../types";
 import axios from "axios";
 import { createContext, useContext, useRef } from "react";
@@ -33,6 +37,8 @@ interface AuthStateType extends AuthStoreProps {
   forgotPassword: (data: ForgotPasswordRequest) => Promise<ForgotPasswordResponse>;
   resetPassword: (data: ResetPasswordRequest) => Promise<ResetPasswordReponse>;
   logout: () => Promise<LogoutResponse>;
+  updateUser: (data: UpdateUserRequest) => Promise<UpdateUserResponse>;
+  changePassword: (data: ChangePasswordRequest) => Promise<ChangePasswordResponse>;
 }
 
 type AuthStoreType = ReturnType<typeof createAuthStore>;
@@ -103,6 +109,23 @@ const createAuthStore = (initProps?: Partial<AuthStoreProps>) => {
         throw err;
       }
     },
+    updateUser: async (data) => {
+      try {
+        const response = await axios.patch<UpdateUserResponse>("/api/profile/change", data);
+        set((state) => ({ ...state, user: response.data.user }));
+        return response.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    changePassword: async (data) => {
+      try {
+        const response = await axios.post<ChangePasswordResponse>("/api/password/change", data);
+        return response.data;
+      } catch (err) {
+        throw err;
+      }
+    },
   }));
 };
 
@@ -113,7 +136,7 @@ const AuthContext = createContext<AuthStoreType | null>(null)
 export function AuthProvider({ children, user }: AuthProviderProps) {
   const storeRef = useRef<AuthStoreType>(null)
   if (!storeRef.current) {
-    storeRef.current = createAuthStore({user})
+    storeRef.current = createAuthStore({ user })
   }
   return (
     <AuthContext.Provider value={storeRef.current} >

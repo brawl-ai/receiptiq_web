@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -25,6 +24,7 @@ export default function CheckOTPPage() {
     const [loading, setLoading] = useState(false);
     const checkOTP = useAuthContext((s) => s.checkOTP);
     const router = useRouter();
+    const redirect = searchParams.get("redirect") || "/login";
 
     const validate = () => {
         if (!/^\S+@\S+$/.test(formState.email)) return "Invalid email";
@@ -45,7 +45,7 @@ export default function CheckOTPPage() {
         }
         try {
             await checkOTP(formState);
-            router.push("/login");
+            router.push(redirect);
         }
         catch (error) {
             let errors = [];
@@ -120,5 +120,5 @@ export default function CheckOTPPage() {
                 </Card>
             </div>
         </div>
-        );
-    }
+    );
+}
