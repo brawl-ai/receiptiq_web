@@ -15,7 +15,7 @@ export async function PATCH(request: NextRequest) {
 
   const data: UpdateUserRequest = await request.json();
   const res = await axios
-    .patch(`${process.env.BACKEND_API_BASE}/api/v1/auth/profile/change`, data, {
+    .patch(`${process.env.BACKEND_API_BASE}/api/v1/auth/me`, data, {
       headers: {
         Authorization:
           "Basic " +

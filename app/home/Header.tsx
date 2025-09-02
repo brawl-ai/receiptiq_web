@@ -23,7 +23,7 @@ export function SiteHeader({ title, isSubscribed }: { title?: string, isSubscrib
               <span>You are subscribed</span>
             </RainbowButton>
             :
-            <RainbowButton data-umami-event="upgrade@dashboard">
+            <RainbowButton data-umami-event="upgrade@home">
               <IconRocket />
               <span>Upgrade</span>
             </RainbowButton>
