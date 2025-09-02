@@ -14,7 +14,7 @@ export default function LoginPage() {
     const searchParams = useSearchParams()
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState([]);
-    const login = useAuthContext((s)=>s.login);
+    const login = useAuthContext((s) => s.login);
     const redirect = searchParams.get("redirect");
     const { theme, setTheme } = useTheme();
 
@@ -23,7 +23,7 @@ export default function LoginPage() {
         try {
             console.log(values)
             await login(values);
-            window.location.href = redirect ? redirect : `/dashboard`;
+            window.location.href = redirect ? redirect : `/home/projects`;
         } catch (error) {
             console.log(error)
             let errors = []
@@ -66,7 +66,7 @@ export default function LoginPage() {
             {/* Main login form */}
             <div className=" relative flex flex-1 items-center justify-center p-6 md:p-10">
                 <div className="w-full max-w-sm md:max-w-3xl">
-                    <LoginForm errors={errors} loading={loading} handleSubmit={handleSubmit}/>
+                    <LoginForm errors={errors} loading={loading} handleSubmit={handleSubmit} />
                 </div>
             </div>
         </div>
