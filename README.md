@@ -61,7 +61,7 @@ The project is structured as a standard Next.js application with the following k
 
 - `app/`: Contains the application's pages and API routes.
 - `app/api/`: Handles backend API requests, including authentication and data processing.
-- `app/dashboard/`: Contains the main dashboard components for project management and user profile.
+- `app/home/`: Contains the main home components for project management and user profile.
 - `app/lib/`: Includes utility functions, authentication logic, and context providers.
 - `public/`: Stores static assets like images and documents.
 
