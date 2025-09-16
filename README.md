@@ -1,6 +1,6 @@
 # ReceiptIQ Web
 
-ReceiptIQ is a web application designed for AI-powered data extraction from receipts. This repository contains the frontend implementation of the ReceiptIQ application, built with Next.js and Mantine.
+ReceiptIQ is a web application designed for AI-powered data extraction from receipts. This repository contains the frontend implementation of the ReceiptIQ application, built with Next.js and Shadcn+Tailwind.
 
 ## Features
 

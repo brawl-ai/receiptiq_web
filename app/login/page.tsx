@@ -57,7 +57,7 @@ export default function LoginPage() {
                 </div>
                 <div className="flex items-center gap-2">
                     {theme === 'dark' ?
-                        <IconSun size={22} className="cursor-pointer text-gray-300" onClick={() => setTheme('light')} />
+                        <IconSun size={22} className="cursor-pointer" onClick={() => setTheme('light')} />
                         :
                         <IconMoon size={22} className="cursor-pointer" onClick={() => setTheme('dark')} />
                     }

@@ -1,6 +1,9 @@
-import { Badge, Button, Divider, Flex, Input, Paper, Title } from "@mantine/core";
 import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from "../../../types";
 import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 
 export function DataFormField({ receipt, field, onValueChange }:
@@ -25,25 +28,35 @@ export function DataFormField({ receipt, field, onValueChange }:
         onValueChange({ ...dataValue, value: updatedValue })
     }
 
-    return <Paper p={"xs"} shadow="xs" withBorder>
+    return <div className="p-xs shadow-xs border m-2 rounded">
         {field.type !== "array" && field.type !== "object" && (
-            <Flex align={"center"} direction={field.parent?.type === "array" ? "column" : "row"}>
-                <Badge variant="light" m={"xs"}>{field.name}</Badge>
-                <Input key={field.id} placeholder={field.description} size='xs' value={dataValue.value} onChange={(e) => handleUpdate(e.target.value)} />
-            </Flex>
+            <div className="flex items-center">
+                <Badge
+                    className="m-xs mx-2   bg-secondary text-secondary-foreground"
+                >
+                    {field.name}
+                </Badge>
+                <Input
+                    className="text-foreground"
+                    key={field.id}
+                    placeholder={field.description}
+                    value={dataValue.value}
+                    onChange={(e) => handleUpdate(e.target.value)}
+                />
+            </div>
         )}
         {field.children.length > 0 && (
             <>
-                <Badge variant="gradient" m={"xs"}>{field.name}</Badge>
-                <Flex direction={field.type === "array" ? "row" : "column"}>
+                <Badge className="m-xs mx-2">{field.name}</Badge>
+                <div className={`flex ${field.type === "array" ? "flex-row" : "flex-col"}`}>
                     {field.children.map(f => {
                         return <DataFormField key={f.id} receipt={receipt} onValueChange={onValueChange} field={f} />
                     })}
-                </Flex>
+                </div>
             </>
         )}
 
-    </Paper>
+    </div>
 }
 
 interface DataFormProps {
@@ -83,14 +96,17 @@ export default function DataForm({ receipt, fields, onUpdate }: DataFormProps) {
 
     const topLevelFields = fields.filter((f) => f.parent == null);
 
-    return <Paper h="100%" style={{ flex: 1 }} shadow='xl' p={"md"}>
-        <Title order={3}>Extracted Data</Title>
-        <Divider mb={"sm"} />
-        <Flex direction={"column"} justify="flex-start" h={"100%"}>
+    return <div className="flex-1 flex-col h-full w-full p-5">
+        <h3 className="text-2xl text-center m-2 font-semibold text-foreground">Extracted Data</h3>
+        <Separator className="m-2" orientation="horizontal" />
+        <div className="flex flex-col justify-start h-full">
             {topLevelFields.map(field => {
                 return <DataFormField key={field.id} receipt={receiptObject} field={field} onValueChange={handleUpdateValue} />
             })}
-            <Button data-umami-event={`save_button@projects_receipt_${receipt.id}`} onClick={handleSave} loading={isSaving} loaderProps={{ type: 'dots' }}>Save</Button>
-        </Flex>
-    </Paper>
+            <Separator className="m-2" orientation="horizontal" />
+            <Button className="w-md m-5" data-umami-event={`save_button@projects_receipt_${receipt.id}`} onClick={handleSave}>
+                {isSaving ? "Saving..." : "Save Changes"}
+            </Button>
+        </div>
+    </div>
 }

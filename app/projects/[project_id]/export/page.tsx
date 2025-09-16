@@ -1,9 +1,15 @@
-import { Badge, Button, Center, Collapse, Divider, Flex, Group, Paper, ScrollArea, Table, Text, TextInput, Title, UnstyledButton } from "@mantine/core";
-import { ExportResponse, FieldResponse, ReceiptResponse } from "../../../../types";
-import { IconBracketsContain, IconChevronDown, IconChevronUp, IconDownload, IconFileExport, IconSearch, IconSelector } from "@tabler/icons-react";
+"use client";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { FieldResponse, ReceiptResponse } from "../../../types";
+import { IconBracketsContain, IconChevronDown, IconChevronUp, IconDownload, IconFileExport, IconSelector } from "@tabler/icons-react";
 import { useState } from "react";
-import classes from './DataExport.module.css';
-import { useDisclosure } from "@mantine/hooks";
+import { useReceiptsContext } from "@/app/stores/receipts_store";
+import { useFieldsContext } from "@/app/stores/fields_store";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 
 
 
@@ -18,18 +24,18 @@ interface ThProps {
 function Th({ children, reversed, sorted, onSort }: ThProps) {
     const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
     return (
-        <Table.Th className={classes.th}>
-            <UnstyledButton onClick={onSort} className={classes.control}>
-                <Group justify="space-between">
-                    <Badge fw={700} fz="sm" variant="gradient">
+        <TableHead className="text-center">
+            <Button onClick={onSort} variant="ghost" className="w-full hover:bg-muted/50">
+                <div className="flex justify-between items-center w-full">
+                    <Badge variant="outline" className="text-sm font-bold">
                         {children}
                     </Badge>
-                    <Center className={classes.icon}>
+                    <div className="text-center text-foreground">
                         <Icon size={16} stroke={1.5} />
-                    </Center>
-                </Group>
-            </UnstyledButton>
-        </Table.Th>
+                    </div>
+                </div>
+            </Button>
+        </TableHead>
     );
 }
 
@@ -40,7 +46,7 @@ interface TrProps {
 
 
 function Tr({ receipt, fields }: TrProps) {
-    const [opened, { toggle }] = useDisclosure(false);
+    const [opened, setOpened] = useState(false);
 
     const getReceiptDataValue = (receipt: ReceiptResponse, field: FieldResponse) => {
         const candidates = receipt.data_values.filter(dv => dv.field.id === field.id)
@@ -50,35 +56,31 @@ function Tr({ receipt, fields }: TrProps) {
             return null
         }
     }
-    return <Table.Tr onClick={toggle} style={{ cursor: "pointer" }}>
-        <Table.Td>{receipt.file_name}</Table.Td>
+    return <TableRow onClick={() => setOpened(!opened)} className="cursor-pointer">
+        <TableCell>{receipt.file_name}</TableCell>
         {fields.map((field) => {
             const val = getReceiptDataValue(receipt, field)
             if (field.children.length > 0) {
-                return <Table.Td key={field.id} p={"md"}>
+                return <TableCell key={field.id} className="p-4">
                     {!opened && <IconBracketsContain color="#008080" />}
-                    <Collapse in={opened}>
-                        {field.children.map(childField => {
-                            const val = getReceiptDataValue(receipt, childField)
-                            return <Flex key={childField.id} gap={"sm"}>
-                                <Badge variant="light">{childField.name}</Badge>
-                                <Text>{val ? val.value : ""}</Text>
-                            </Flex>
-                        })}
-                    </Collapse>
-                </Table.Td>
+                    <Collapsible open={opened}>
+                        <CollapsibleContent>
+                            {field.children.map(childField => {
+                                const val = getReceiptDataValue(receipt, childField)
+                                return <div key={childField.id} className="flex gap-2 items-center">
+                                    <Badge variant="secondary">{childField.name}</Badge>
+                                    <span className="text-foreground">{val ? val.value : ""}</span>
+                                </div>
+                            })}
+                        </CollapsibleContent>
+                    </Collapsible>
+                </TableCell>
 
             } else {
-                return <Table.Td key={field.id}>{val ? val.value : ""}</Table.Td>
+                return <TableCell key={field.id}>{val ? val.value : ""}</TableCell>
             }
         })}
-    </Table.Tr>
-}
-
-interface DataExportProps {
-    receipts: ReceiptResponse[];
-    fields: FieldResponse[];
-    onExport: () => Promise<ExportResponse>
+    </TableRow>
 }
 
 function filterData(data: ReceiptResponse[], search: string) {
@@ -128,7 +130,11 @@ function sortData(data: ReceiptResponse[], payload: {
     );
 }
 
-export default function DataExport({ receipts, fields, onExport }: DataExportProps) {
+export default function DataExport() {
+    const receipts = useReceiptsContext((s) => s.receipts);
+    const fields = useFieldsContext((s) => s.fields);
+    const onExport = useReceiptsContext((s) => s.exportData);
+
     const [sortedData, setSortedData] = useState(receipts);
     const [sortBy, setSortBy] = useState<keyof ReceiptResponse | string | null>(null);
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
@@ -169,46 +175,54 @@ export default function DataExport({ receipts, fields, onExport }: DataExportPro
     }
 
     return (
-        <Flex direction={"column"} wrap={"wrap"}>
-            <Title m={"md"} c={"gray"}>Export Extracted Data</Title>
-            <Divider mb={"md"} variant="dashed" />
+        <div className="flex flex-col">
+            <h1 className="text-2xl font-bold text-muted-foreground m-4">Export Extracted Data</h1>
+            <Separator className="mb-4" />
 
-            <Flex align={"center"} justify={"space-around"} m={"lg"}>
-                <Button loading={isExporting} onClick={handleExport} leftSection={<IconFileExport />} data-umami-event="export@projects">Export</Button>
-                {export_url && <>
-                    <Divider orientation="vertical" variant="dotted" />
-                    <Button component="a" bg={"green"} href={export_url} leftSection={<IconDownload />} data-umami-event="download@projects_pdfviewer">Download</Button>
-                </>}
-            </Flex>
-            <Divider mb={"md"} variant="dashed" />
+            <div className="flex items-center justify-around m-6">
+                <Button
+                    disabled={isExporting}
+                    onClick={handleExport}
+                    className="flex items-center gap-2"
+                    data-umami-event="export@projects"
+                >
+                    <IconFileExport size={16} />
+                    {isExporting ? 'Exporting...' : 'Export'}
+                </Button>
+                {export_url && (
+                    <>
+                        <Separator orientation="vertical" className="h-6" />
+                        <Button
+                            asChild
+                            className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+                            data-umami-event="download@projects_pdfviewer"
+                        >
+                            <a href={export_url}>
+                                <IconDownload size={16} />
+                                Download
+                            </a>
+                        </Button>
+                    </>
+                )}
+            </div>
+            <Separator className="mb-4" />
 
-            <Paper withBorder p={"md"} radius={"md"}>
-                <ScrollArea>
-                    <TextInput
+            <div className="border rounded-md p-4">
+                <div className="overflow-x-auto">
+                    <Input
                         placeholder="Search by any field"
-                        mb="md"
-                        leftSection={<IconSearch size={16} stroke={1.5} />}
+                        className="mb-4 max-w-sm"
                         value={search}
                         onChange={handleSearchChange}
                     />
-                    <Table
-                        tabularNums
-                        horizontalSpacing="md"
-                        verticalSpacing="xs"
-                        miw={700}
-                        mah={500}
-                        layout="fixed"
-                        withColumnBorders
-                        withTableBorder
-                        highlightOnHover
-                    >
-                        <Table.Tbody>
-                            <Table.Tr bg={"gray"}>
-                                <Table.Th>
-                                    <Badge fw={700} fz="sm" variant="gradient">
+                    <Table className="border rounded-md">
+                        <TableHeader>
+                            <TableRow className="bg-gray-100 dark:bg-gray-800">
+                                <TableHead>
+                                    <Badge variant="outline" className="text-sm font-bold">
                                         Receipt
                                     </Badge>
-                                </Table.Th>
+                                </TableHead>
                                 {topLevelFields.map(field =>
                                     <Th
                                         reversed={reverseSortDirection}
@@ -218,25 +232,24 @@ export default function DataExport({ receipts, fields, onExport }: DataExportPro
                                     >
                                         {field.name.replace("_", " ")}
                                     </Th>)}
-                            </Table.Tr>
-                        </Table.Tbody>
-                        <Table.Tbody>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {rows.length > 0 ? (
                                 rows
                             ) : (
-                                <Table.Tr>
-                                    <Table.Td colSpan={Object.keys(receipts[0]).length}>
-                                        <Text fw={500} ta="center">
+                                <TableRow>
+                                    <TableCell colSpan={topLevelFields.length + 1}>
+                                        <div className="text-foreground text-center font-bold p-5">
                                             Nothing found
-                                        </Text>
-                                    </Table.Td>
-                                </Table.Tr>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
                             )}
-                        </Table.Tbody>
-
+                        </TableBody>
                     </Table>
-                </ScrollArea>
-            </Paper>
-        </Flex>
+                </div>
+            </div>
+        </div>
     )
 }

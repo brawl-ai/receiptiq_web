@@ -75,7 +75,7 @@ export default function HomeProjectsPage() {
                         className="flex items-center gap-1 text-foreground border-border px-3 py-1"
                         asChild
                     >
-                        <a href={`/projects/${project.id}`} className="">
+                        <a href={`/projects/${project.id}/receipts`} className="">
                             <span>View Details</span>
                             <IconArrowRight size={16} className="text-foreground" />
                         </a>

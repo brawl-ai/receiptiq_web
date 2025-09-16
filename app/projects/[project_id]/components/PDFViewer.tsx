@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { Button, Group, Text, Box } from '@mantine/core';
+import { Button } from '@/components/ui/button';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
@@ -68,14 +68,14 @@ export default function PDFViewer({ pdfUrl, onErrorAction, onLoadAction }: PDFVi
 
     if (error) {
         return (
-            <Box p="md" style={{ textAlign: 'center' }}>
-                <Text c="red">Error: {error}</Text>
-            </Box>
+            <div className="p-4 text-center">
+                <p className="text-red-500">Error: {error}</p>
+            </div>
         );
     }
 
     return (
-        <Box style={{ position: 'relative' }}>
+        <div className="relative">
             {pdfData && (
                 <Document
                     file={pdfData}
@@ -94,28 +94,30 @@ export default function PDFViewer({ pdfUrl, onErrorAction, onLoadAction }: PDFVi
             )}
 
             {numPages > 0 && (
-                <Group justify="center" mt="md">
+                <div className="flex justify-center items-center gap-4 mt-4">
                     <Button
                         onClick={() => setPageNumber(Math.max(1, pageNumber - 1))}
                         disabled={pageNumber <= 1}
                         data-umami-event="previous@projects_pdfviewer"
+                        variant="outline"
                     >
                         Previous
                     </Button>
 
-                    <Text>
+                    <p className="text-sm text-muted-foreground">
                         Page {pageNumber} of {numPages}
-                    </Text>
+                    </p>
 
                     <Button
                         data-umami-event="next@projects_pdfviewer"
                         onClick={() => setPageNumber(Math.min(numPages, pageNumber + 1))}
                         disabled={pageNumber >= numPages}
+                        variant="outline"
                     >
                         Next
                     </Button>
-                </Group>
+                </div>
             )}
-        </Box>
+        </div>
     );
 }
