@@ -1,6 +1,3 @@
-import "@mantine/core/styles.css";
-import '@mantine/notifications/styles.css';
-import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import { User } from "./types";
 import { getCurrentUser } from "./helpers";
 import { AuthProvider } from "./stores/auth_store";
@@ -35,18 +32,17 @@ export default async function RootLayout({
     const user: User | null = await getCurrentUser()
 
     return (
-        <html lang="en" {...mantineHtmlProps}>
+        <html lang="en" suppressHydrationWarning>
             <head>
-                <ColorSchemeScript />
                 <script defer src="https://cloud.umami.is/script.js" data-website-id="68959e46-a3c0-4d45-a381-ec80451622fe"></script>
             </head>
             <body>
                 <ThemeProvider
-                attribute="class"
-                defaultTheme="light"
-                enableSystem
-                disableTransitionOnChange
-            >
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
                     <AuthProvider user={user}>
                         {children}
                     </AuthProvider>
