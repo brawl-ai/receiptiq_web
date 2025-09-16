@@ -1,7 +1,7 @@
 "use client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { FieldResponse, ReceiptResponse } from "../../../types";
-import { IconBracketsContain, IconChevronDown, IconChevronUp, IconDownload, IconFileExport, IconSearch, IconSelector } from "@tabler/icons-react";
+import { IconBracketsContain, IconChevronDown, IconChevronUp, IconDownload, IconFileExport, IconSelector } from "@tabler/icons-react";
 import { useState } from "react";
 import { useReceiptsContext } from "@/app/stores/receipts_store";
 import { useFieldsContext } from "@/app/stores/fields_store";
@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 
 
 

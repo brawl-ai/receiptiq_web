@@ -221,7 +221,7 @@ export default function DataTab() {
             <Separator className="m-2" orientation="horizontal" decorative />
             <div className="flex">
                 {stats.slice(0, 5).filter(s => s.fieldType !== "number").map((stat, id) => {
-                    const chartConfig = stat.data.reduce((config, item, index) => {
+                    const chartConfig = stat.data.reduce((config, item) => {
                         config[item.name] = {
                             label: item.name,
                             color: item.color,

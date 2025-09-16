@@ -104,7 +104,9 @@ export default function DataForm({ receipt, fields, onUpdate }: DataFormProps) {
                 return <DataFormField key={field.id} receipt={receiptObject} field={field} onValueChange={handleUpdateValue} />
             })}
             <Separator className="m-2" orientation="horizontal" />
-            <Button className="w-md m-5" data-umami-event={`save_button@projects_receipt_${receipt.id}`} onClick={handleSave}>Save</Button>
+            <Button className="w-md m-5" data-umami-event={`save_button@projects_receipt_${receipt.id}`} onClick={handleSave}>
+                {isSaving ? "Saving..." : "Save Changes"}
+            </Button>
         </div>
     </div>
 }

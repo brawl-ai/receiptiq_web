@@ -1,8 +1,8 @@
 import { ReceiptResponse } from "@/app/types";
 import { Button } from "@/components/ui/button";
 import { IconX, IconZoomIn, IconZoomOut, IconZoomReset } from "@tabler/icons-react";
-import { useEffect, useRef, useState } from "react";
-import PDFViewer from "./PDFViewer";
+import { useRef, useState } from "react";
+import PDFViewer from "../components/PDFViewer";
 import Image from "next/image";
 
 
@@ -145,7 +145,7 @@ export default function ReceiptViewer({ receipt, onClose }: { receipt: ReceiptRe
                 >
                     {/* Container for image and overlays */}
                     <div className='relative w-fit-content'>
-                        {receipt?.mime_type.includes("image") && <img
+                        {receipt?.mime_type.includes("image") && <Image
                             src={receipt?.download_url}
                             ref={imgRef}
                             alt="Viewer Image"

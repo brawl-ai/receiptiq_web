@@ -1,12 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { IconZoomIn, IconZoomOut, IconZoomReset, IconX } from '@tabler/icons-react';
+import React from 'react';
 import { DataValueResponse, DataValueUpdate, FieldResponse, ReceiptResponse } from '../../../types';
 import DataForm from './DataForm';
-import dynamic from 'next/dynamic';
 import { Separator } from '@/components/ui/separator';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Receipt } from 'lucide-react';
 import ReceiptViewer from './ReceiptViewer';
 
 

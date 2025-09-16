@@ -8,6 +8,7 @@ import {
     IconZoomReset,
     IconX
 } from '@tabler/icons-react';
+import Image from 'next/image';
 
 const PDFViewer = dynamic(() => import('../components/PDFViewer'), {
     ssr: false,
@@ -18,14 +19,12 @@ interface ImageViewerDrawerProps {
     opened: boolean;
     onClose: () => void;
     receipt: ReceiptResponse;
-    title?: string;
 }
 
 export default function ReceiptViewerDrawer({
     opened,
     onClose,
-    receipt,
-    title = "Image Viewer"
+    receipt
 }: ImageViewerDrawerProps) {
     const [imageLoading, setImageLoading] = useState(true);
     const [scale, setScale] = useState(1);
@@ -166,7 +165,7 @@ export default function ReceiptViewerDrawer({
                         }}
                     >
                         {receipt?.mime_type.includes("image") && (
-                            <img
+                            <Image
                                 src={receipt?.download_url}
                                 alt="Viewer Image"
                                 onLoad={handleImageLoad}

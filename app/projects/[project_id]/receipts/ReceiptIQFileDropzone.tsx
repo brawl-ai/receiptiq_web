@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { ReactElement, ReactNode, useRef } from "react";
 
 export function ReceiptIQFileDropzone({
     onDrop,
@@ -113,7 +113,7 @@ export function ReceiptIQFileDropzone({
                 if (child.type === ReceiptIQFileDropzone.Accept && state === "accept") return child;
                 if (child.type === ReceiptIQFileDropzone.Reject && state === "reject") return child;
                 if (child.type === ReceiptIQFileDropzone.Idle && state === "idle") return child;
-                if ([ReceiptIQFileDropzone.Accept, ReceiptIQFileDropzone.Reject, ReceiptIQFileDropzone.Idle].includes(child.type as any)) return null;
+                if ([ReceiptIQFileDropzone.Accept, ReceiptIQFileDropzone.Reject, ReceiptIQFileDropzone.Idle].includes(child.type as ({ children }: { children: ReactNode; }) => ReactElement)) return null;
                 return child;
             })}
         </div>

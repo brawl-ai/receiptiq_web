@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import { SubscriptionsProvider } from "../stores/subscription_store"
-import { Sidebar, SidebarFooter, SidebarHeader, SidebarInset, SidebarMenuButton, SidebarProvider } from "@/components/ui/sidebar"
+import { Sidebar, SidebarFooter, SidebarHeader, SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { NavUser } from "@/components/nav-user"
 import Link from "next/link"
 import { redirect } from "next/navigation"

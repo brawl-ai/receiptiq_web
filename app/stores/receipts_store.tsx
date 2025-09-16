@@ -9,7 +9,6 @@ import type {
   DataValueResponse,
   ExportResponse
 } from "../types";
-import axios from "axios";
 import { createContext, useContext, useRef } from "react";
 import { useStore } from "zustand";
 import api from "../axios";

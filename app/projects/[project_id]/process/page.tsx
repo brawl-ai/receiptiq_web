@@ -13,7 +13,6 @@ import ReceiptAndDataDrawer from "./ReceiptAndDataViewer";
 import { Label, Pie, PieChart } from "recharts";
 
 export default function ProcessingPage() {
-    const project = useFieldsContext((s) => s.project);
     const receipts = useReceiptsContext((s) => s.receipts);
     const fields = useFieldsContext((s) => s.fields);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -22,7 +21,6 @@ export default function ProcessingPage() {
     const [processingReceipts, setProcessingReceipts] = useState<ReceiptResponse[]>([...receipts])
     const updateDataValue = useReceiptsContext((s) => s.updateDataValue);
     const processReceipt = useReceiptsContext((s) => s.processReceipt);
-    const error = useReceiptsContext((s) => s.error);
 
     const handleProcessReceipt = async (receiptId: string) => {
         try {
