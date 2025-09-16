@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ReceiptIQFileDropzone } from "../components/ReceiptIQFileDropzone";
+import { ReceiptIQFileDropzone } from "./ReceiptIQFileDropzone";
 import { toast } from "sonner";
 
 
