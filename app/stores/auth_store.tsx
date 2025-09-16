@@ -24,6 +24,7 @@ import {
 import axios from "axios";
 import { createContext, useContext, useRef } from "react";
 import { useStore } from "zustand";
+import api from "../axios";
 
 interface AuthStoreProps {
   user: User | null;
@@ -102,7 +103,7 @@ const createAuthStore = (initProps?: Partial<AuthStoreProps>) => {
     },
     logout: async () => {
       try {
-        const response = await axios.post<LogoutResponse>("/api/v1/auth/logout");
+        const response = await api.post<LogoutResponse>("/api/v1/auth/logout");
         set((state) => ({ ...state, user: null }));
         return response.data;
       } catch (err) {
