@@ -12,6 +12,13 @@ const nextConfig = {
                 port: '9000',
                 pathname: '/**',
             },
+            // receiptiq
+            {
+                protocol: 'https',
+                hostname: 'api.receiptiq.co',
+                port: '443',
+                pathname: '/**',
+            }
          ],
     }
 }
