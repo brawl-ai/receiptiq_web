@@ -10,12 +10,10 @@ const isAuthenticated = (request: NextRequest) => {
 
 export function middleware(request: NextRequest) {
   if (!isAuthenticated(request)) {
-    console.log("middleware.ts isAuthenticated:false");
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   } else {
-    console.log("middleware.ts isAuthenticated:true");
     return NextResponse.next();
   }
 }
