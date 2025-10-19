@@ -88,7 +88,7 @@ export default function DocumentsPage() {
                             setSelectedReceipt(row.original)
                             setOpened(true)
                         }}
-                        className="mr-2"
+                        className="mr-2 cursor-pointer"
                     >
                         <IconEye />
                     </Button>
@@ -99,7 +99,7 @@ export default function DocumentsPage() {
                         onClick={() => deleteReceipt(row.original.id)}
                         disabled={loading}
                     >
-                        <IconTrash className="text-red-600" />
+                        <IconTrash className="text-red-600 cursor-pointer" />
                     </Button>
                 </div>
             ),
