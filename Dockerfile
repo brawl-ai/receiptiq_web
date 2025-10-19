@@ -19,7 +19,7 @@ WORKDIR /web
 COPY --from=builder /web/.next/standalone ./
 COPY --from=builder /web/.next/static ./.next/static
 COPY --from=builder /web/public ./public
-RUN npm prune --production
+RUN npm prune --omit=dev
 
 ENV PORT=3000
 

@@ -172,6 +172,7 @@ export default function ReceiptViewerDrawer({
                                 onError={() => setImageLoading(false)}
                                 className="max-w-[90vw] max-h-[90vh] block"
                                 draggable={false}
+                                unoptimized
                             />
                         )}
                         {receipt?.mime_type.includes("pdf") && (
