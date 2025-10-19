@@ -152,6 +152,7 @@ export default function ReceiptViewer({ receipt, onClose }: { receipt: ReceiptRe
                             onLoad={handleImageLoad}
                             onError={() => setImageLoading(false)}
                             draggable={false}
+                            unoptimized
                         />}
 
                         {receipt?.mime_type.includes("pdf") && <PDFViewer
