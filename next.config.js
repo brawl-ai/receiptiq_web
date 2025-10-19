@@ -11,6 +11,11 @@ const nextConfig = {
                 hostname: 'localhost',
                 port: '9000',
                 pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'api.receiptiq.co',
+                pathname: '/files/**',
             }
          ],
     }
