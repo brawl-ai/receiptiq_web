@@ -21,7 +21,6 @@ export default function LoginPage() {
     const handleSubmit = async (values: LoginRequest) => {
         setLoading(true);
         try {
-            console.log(values)
             await login(values);
             window.location.href = redirect ? redirect : `/home/projects`;
         } catch (error) {
