@@ -16,13 +16,13 @@ export default function FieldsPage() {
     const updateField = useFieldsContext((s) => s.updateField);
     const deleteField = useFieldsContext((s) => s.deleteField);
 
-    const fields_for_tree = fields.filter((f) => f.parent == null);
+    const top_level_fields = fields.filter((f) => f.parent == null);
 
-    return (<div className="shadow-md p-5 border-1 border-dashed rounded-md m-5 bg-background">
-        <h1 className="text-3xl m-2 text-foreground">Fields</h1>
+    return (<div className="p-5 border-1 border-dashed rounded-md m-5">
+        <h1 className="text-xl m-2 text-foreground">Fields</h1>
         <Separator />
         <div className="flex flex-col gap-5 pt-2">
-            {fields_for_tree.map((field) => (
+            {top_level_fields.map((field) => (
                 <Field
                     key={field.id}
                     field={field}
@@ -43,6 +43,7 @@ export default function FieldsPage() {
                             onClick={() => setOpened((prev) => !prev)}
                             data-umami-event="add_field@projects_fields"
                             aria-expanded={opened}
+                            className="cursor-pointer"
                         >
                             + Field
                         </Button>

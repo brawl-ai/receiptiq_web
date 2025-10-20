@@ -97,7 +97,7 @@ export default function Field({
     >
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-blue-600">
+          <Badge variant="outline" className="bg-blue-500">
             <code>{field.name}</code>
           </Badge>
           {field.type === "string" && <IconAbc size={16} />}

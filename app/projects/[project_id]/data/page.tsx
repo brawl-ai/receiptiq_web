@@ -216,9 +216,8 @@ export default function DataTab() {
     const stats = getDataValueStats(receipts)
 
     return (
-        <div className="flex flex-col flex-wrap p-5">
-            <div className="text-foreground text-2xl m-5">Explore Extracted Data</div>
-            <Separator className="m-2" orientation="horizontal" decorative />
+        <div className="flex flex-col flex-wrap p-5 border-1 border-dashed rounded-md m-5">
+            <h1 className="text-foreground text-xl m-2">Explore Data</h1>
             <div className="flex">
                 {stats.slice(0, 5).filter(s => s.fieldType !== "number").map((stat, id) => {
                     const chartConfig = stat.data.reduce((config, item) => {
@@ -286,9 +285,8 @@ export default function DataTab() {
                     </div>
                 })}
             </div>
-            <Separator className="m-2" orientation="horizontal" decorative />
-
-            <div className="p-5 border rounded-md text-foreground">
+            <Separator />
+            <div className="p-5 border rounded-md text-foreground mt-2">
                 <Input
                     placeholder="Search by any field"
                     className="mb-4 max-w-sm"
@@ -321,7 +319,7 @@ export default function DataTab() {
                             <TableRow>
                                 <TableCell colSpan={topLevelFields.length + 1}>
                                     <div className="text-foreground text-center font-bold p-5">
-                                        Nothing found
+                                        No data extracted yet
                                     </div>
                                 </TableCell>
                             </TableRow>

@@ -11,6 +11,7 @@ import { IconEye, IconSettingsFilled } from "@tabler/icons-react";
 import { DataTable } from "@/components/ui/data-table";
 import ReceiptAndDataDrawer from "./ReceiptAndDataViewer";
 import { Label, Pie, PieChart } from "recharts";
+import { Separator } from "@/components/ui/separator";
 
 export default function ProcessingPage() {
     const receipts = useReceiptsContext((s) => s.receipts);
@@ -24,7 +25,19 @@ export default function ProcessingPage() {
 
     const handleProcessReceipt = async (receiptId: string) => {
         try {
-            processReceipt(receiptId);
+            const receipt = receipts.filter(rec => rec.id === receiptId)[0]
+            receipt.status = "processing"
+            setProcessingReceipts(prevReceipts =>
+                prevReceipts.map(rec =>
+                    rec.id === receipt.id ? { ...rec, status: "processing" } : rec
+                )
+            );
+            const processedReceipt = await processReceipt(receiptId);
+            setProcessingReceipts(prevReceipts =>
+                prevReceipts.map(rec =>
+                    rec.id === receipt.id ? processedReceipt : rec
+                )
+            );
         } catch (err) {
             console.log(err)
         } finally {
@@ -36,12 +49,13 @@ export default function ProcessingPage() {
         setIsProcessing(true);
         try {
             for (const receipt of receipts) {
+
+                const processedReceipt = await processReceipt(receipt.id);
                 setProcessingReceipts(prevReceipts =>
                     prevReceipts.map(rec =>
-                        rec.id === receipt.id ? { ...rec, status: "processing" } : rec
+                        rec.id === receipt.id ? processedReceipt : rec
                     )
                 );
-                await processReceipt(receipt.id);
             }
         } catch (err) {
             console.log(err)
@@ -121,15 +135,26 @@ export default function ProcessingPage() {
                             disabled={receipt.status === "processing"}
                             size="sm"
                             onClick={() => handleProcessReceipt(receipt.id)}
-                            className="px-3 py-1 flex items-center gap-1"
+                            className="px-3 py-1 flex items-center gap-1 cursor-pointer"
                         >
-                            <IconSettingsFilled size={15} className="mr-1" />
-                            Process
+                            {receipt.status !== "processing"
+                                ?
+                                <>
+                                    <IconSettingsFilled size={15} className="mr-1" />
+                                    Process
+                                </>
+                                :
+                                <>
+                                    <IconSettingsFilled size={15} className="mr-1 animate-spin" />
+                                    Processing
+                                </>
+                            }
                         </Button>
                         <Button
                             type="button"
                             data-umami-event="view_data@projects_processing"
-                            className="rounded-full p-2 hover:bg-muted transition-colors"
+                            className="rounded-full p-2 cursor-pointer"
+                            disabled={receipt.status === "processing"}
                             onClick={() => {
                                 setSelectedReceipt(receipt)
                                 setOpened(true)
@@ -143,11 +168,10 @@ export default function ProcessingPage() {
             }
         },
     ]
-
     return (
-        <div className="p-4">
-            <div className="text-xl text-foreground">Process Documents</div>
-            <div className="border-t border-dotted my-4" />
+        <div className="p-5 border-1 border-dashed rounded-md m-5">
+            <h1 className="text-xl m-2 text-foreground">Process Receipts</h1>
+            <Separator />
             <div className="flex flex-row justify-around my-4">
                 <ChartContainer
                     config={chartConfig}

@@ -107,10 +107,10 @@ export default function DocumentsPage() {
     ];
 
     return (
-        <div className="border rounded-md p-4 bg-background">
-            <h2 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">DOCUMENTS</h2>
-            <Separator className="my-4" />
-            <div className="flex flex-col items-center p-4">
+        <div className="p-5 border-1 border-dashed rounded-md m-5 bg-background">
+            <h1 className="text-xl m-2 text-foreground">Receipts</h1>
+            <Separator />
+            <div className="flex flex-col items-center p-2">
                 {acceptedFiles.length > 0 && (
                     <div className="flex items-center">
                         <div className="w-[300px]">
@@ -121,7 +121,7 @@ export default function DocumentsPage() {
                         <Button
                             data-umami-event={`upload@projects`}
                             disabled={isUploading}
-                            className="ml-4"
+                            className="ml-4 cursor-pointer"
                             onClick={() => handleFileUpload(acceptedFiles)}
                         >
                             <IconUpload size={14} className="mr-2" />Upload
@@ -141,7 +141,7 @@ export default function DocumentsPage() {
                         <Button
                             data-umami-event="remove@projects"
                             variant="destructive"
-                            className="ml-4"
+                            className="ml-4 cursor-pointer"
                             onClick={() => setRejectedFiles([])}
                         >
                             <IconX size={14} className="mr-2" />Remove
@@ -156,7 +156,7 @@ export default function DocumentsPage() {
                         data-umami-event="clear@projects"
                         disabled={isUploading}
                         variant="secondary"
-                        className="mt-2"
+                        className="mt-2 cursor-pointer"
                         onClick={() => {
                             setAcceptedFiles([])
                             setRejectedFiles([])
@@ -167,7 +167,7 @@ export default function DocumentsPage() {
                 </div>
             )}
             {acceptedFiles.length === 0 && rejectedFiles.length === 0 && (
-                <div className="flex justify-center items-center min-h-[220px] gap-8">
+                <div className="flex justify-center items-center min-h-[150px] gap-8">
                     <ReceiptIQFileDropzone
                         onDrop={(files) => {
                             setAcceptedFiles(files)
