@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 
 export default function SignupPage() {
   const signup = useAuthContext((s) => s.signup);
+  const google_login = useAuthContext((s) => s.google_login);
   const router = useRouter();
   const { theme, setTheme } = useTheme();
 
@@ -69,6 +70,28 @@ export default function SignupPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    try {
+      const response = await google_login();
+      window.location.href = response.redirect_to
+    } catch (error) {
+      console.log(error)
+      let errors = []
+      if (error.response?.data?.detail instanceof Array) {
+        errors = error.response?.data?.detail.map(e => e.loc[1] + " " + e.msg)
+      } else if (error.response?.data?.detail?.errors) {
+        errors = error.response?.data?.detail?.errors.map(e => e)
+      }
+      else {
+        errors.push(error.response?.data?.detail)
+      }
+      setErrors(errors)
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="relative bg-muted min-h-svh flex flex-col">
       <DotPattern className="opacity-40" />
@@ -103,6 +126,10 @@ export default function SignupPage() {
                     <p className="text-muted-foreground">Already have an account?{' '}
                       <Link href="/login" className="underline underline-offset-4">Log in</Link>
                     </p>
+                  </div>
+                  <div className="flex flex-row items-center justify-center rounded-md border-1 p-2 cursor-pointer" onClick={handleGoogleLogin}>
+                    <Image src="assets/images/google_logo.png" alt="Google logo" width={25} />
+                    <span className="px-2">Sign in with Google</span>
                   </div>
                   {formError && <div className="text-center text-red-500 font-medium">{formError}</div>}
                   {errors && errors.length > 0 && <div className="text-center text-red-500 font-medium">{errors.map((e, id) => <div key={id}>{e}</div>)}</div>}
