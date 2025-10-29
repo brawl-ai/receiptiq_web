@@ -76,6 +76,14 @@ export type LoginResponse = {
   success: boolean;
 };
 
+export type GoogleLoginResponse = {
+  redirect_to: string;
+};
+
+export type GoogleCallbackRequest = {
+  code: string;
+};
+
 export type ForgotPasswordRequest = {
   email: string;
 };
