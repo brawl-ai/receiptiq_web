@@ -109,7 +109,6 @@ export default function CheckOTPPage() {
                                     <InputOTPGroup>
                                         <InputOTPSlot index={3} />
                                         <InputOTPSlot index={4} />
-                                        <InputOTPSlot index={5} />
                                     </InputOTPGroup>
                                 </InputOTP>
                             </div>

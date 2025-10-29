@@ -2,12 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useTheme } from "next-themes";
-import { IconSun, IconMoon } from '@tabler/icons-react';
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/app/stores/auth_store";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
+import ThemeSwitcher from "@/components/ui/toggle-theme";
 
 export default function GoogleAuthCallback() {
     const searchParams = useSearchParams()
@@ -16,7 +15,6 @@ export default function GoogleAuthCallback() {
     const google_callback = useAuthContext((s) => s.google_callback);
     const code = searchParams.get("code");
     const redirect = searchParams.get("redirect");
-    const { theme, setTheme } = useTheme();
     const hasRun = useRef(false);
 
 
@@ -69,13 +67,7 @@ export default function GoogleAuthCallback() {
                         </svg>
                     </Link>
                 </div>
-                <div className="flex items-center gap-2">
-                    {theme === 'dark' ?
-                        <IconSun size={22} className="cursor-pointer" onClick={() => setTheme('light')} />
-                        :
-                        <IconMoon size={22} className="cursor-pointer" onClick={() => setTheme('dark')} />
-                    }
-                </div>
+                <ThemeSwitcher />
             </header>
             <div className="flex items-center justify-center p-6 md:p-10">
                 <div>

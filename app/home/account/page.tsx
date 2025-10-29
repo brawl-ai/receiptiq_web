@@ -42,7 +42,8 @@ export default function ProfilePage() {
                 return;
             }
             setEditSuccess("Profile updated!");
-        } catch {
+        } catch (err) {
+            console.log(err)
             setEditError("Failed to update profile.");
         } finally {
             setEditLoading(false);
