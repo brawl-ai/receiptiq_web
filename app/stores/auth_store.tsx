@@ -133,7 +133,7 @@ const createAuthStore = (initProps?: Partial<AuthStoreProps>) => {
     },
     updateUser: async (data) => {
       try {
-        const response = await axios.patch<UpdateUserResponse>("/api/profile/change", data);
+        const response = await api.patch<UpdateUserResponse>("/api/v1/auth/me", data);
         set((state) => ({ ...state, user: response.data.user }));
         return response.data;
       } catch (err) {
@@ -142,7 +142,7 @@ const createAuthStore = (initProps?: Partial<AuthStoreProps>) => {
     },
     changePassword: async (data) => {
       try {
-        const response = await axios.post<ChangePasswordResponse>("/api/password/change", data);
+        const response = await api.post<ChangePasswordResponse>("/api/password/change", data);
         return response.data;
       } catch (err) {
         throw err;
