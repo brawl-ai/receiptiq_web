@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useTheme } from "next-themes";
-import { IconSun, IconMoon } from '@tabler/icons-react';
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "../stores/auth_store";
 import { LoginForm } from "./login_form";
 import { LoginRequest } from "../types";
+import ThemeSwitcher from "@/components/ui/toggle-theme";
 
 export default function LoginPage() {
     const searchParams = useSearchParams()
@@ -16,7 +15,6 @@ export default function LoginPage() {
     const login = useAuthContext((s) => s.login);
     const google_login = useAuthContext((s) => s.google_login);
     const redirect = searchParams.get("redirect");
-    const { theme, setTheme } = useTheme();
 
     const handleSubmit = async (values: LoginRequest) => {
         setLoading(true);
@@ -80,13 +78,7 @@ export default function LoginPage() {
                         </svg>
                     </Link>
                 </div>
-                <div className="flex items-center gap-2">
-                    {theme === 'dark' ?
-                        <IconSun size={22} className="cursor-pointer" onClick={() => setTheme('light')} />
-                        :
-                        <IconMoon size={22} className="cursor-pointer" onClick={() => setTheme('dark')} />
-                    }
-                </div>
+                <ThemeSwitcher />
             </header>
             {/* Main login form */}
             <div className=" relative flex flex-1 items-center justify-center p-6 md:p-10">
