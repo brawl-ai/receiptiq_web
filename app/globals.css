@@ -146,3 +146,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.gradient {
+  background: conic-gradient(from 230.29deg at 51.63% 52.16%, #005F60 0deg, #249EA0 67.5deg, #FAAB36 198.75deg, #FD5901 251.25deg, #FD5901 301.88deg, #FD5901 1turn)
+}
