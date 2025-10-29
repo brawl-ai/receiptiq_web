@@ -3,6 +3,7 @@ FROM node:current-alpine AS base
 FROM base AS deps
 WORKDIR /web
 COPY package.json package-lock.json ./
+RUN npx next telemetry disable
 RUN npm ci
 
 FROM base AS builder
