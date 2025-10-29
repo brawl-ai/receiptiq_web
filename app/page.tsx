@@ -11,8 +11,6 @@ import {
   IconArrowRight,
   IconLogin,
   IconRocket,
-  IconMoon,
-  IconSun,
   IconLayoutSidebarFilled
 } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
@@ -26,13 +24,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { useTheme } from 'next-themes';
 import Image from "next/image";
 import { BorderBeam } from '@/components/ui/border-beam';
+import ThemeSwitcher from '@/components/ui/toggle-theme';
 
 export default function ReceiptIQHomepage() {
   const [opened, setOpened] = useState(false);
-  const { theme, setTheme } = useTheme()
 
   return (
     <div className="relative min-h-screen w-full">
@@ -73,10 +70,7 @@ export default function ReceiptIQHomepage() {
             <Button asChild data-umami-event="get_started@home" className="bg-blue-500 text-white hover:bg-blue-700">
               <Link href="/signup">Get Started</Link>
             </Button>
-            {theme === 'dark' ?
-              <IconSun size={16} className="mr-2 text-gray-300" onClick={() => setTheme('light')} />
-              : <IconMoon size={16} className="mr-2" onClick={() => setTheme('dark')} />
-            }
+            <ThemeSwitcher />
           </nav>
         </div>
       </header>
@@ -127,10 +121,10 @@ export default function ReceiptIQHomepage() {
             <div className='relative w-full bg-transparent px-2 pt-10 pb-20 md:py-16'>
               <div className="gradient -translate-x-1/2 absolute inset-0 left-1/2 h-1/4 w-3/4 animate-image-glow blur-[5rem] md:top-[10%] md:h-1/3"></div>
               <div className="-m-2 lg:-m-4 rounded-xl bg-opacity-50 p-2 ring-1 ring-foreground/20 ring-inset backdrop-blur-3xl lg:rounded-2xl">
-                <Image src={"/assets/images/app_page1.avif"} alt='app page 1' />
+                <Image src={"/assets/images/app_page1.avif"} alt='app page 1' width={1300} height={800} />
                 <BorderBeam
                   duration={4}
-                  size={300}
+                  size={400}
                   reverse
                   className="from-transparent via-green-500 to-transparent"
                 />

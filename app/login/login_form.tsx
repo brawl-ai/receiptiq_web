@@ -39,7 +39,7 @@ export function LoginForm({ errors, loading, handleSubmit, handleGoogleLogin }: 
                 </p>
               </div>
               <div className="flex flex-row items-center justify-center rounded-md border-1 p-2 cursor-pointer" onClick={onGoogleSignIn}>
-                <Image src="assets/images/google_logo.png" alt="Google logo" width={25} />
+                <Image src="assets/images/google_logo.png" alt="Google logo" width={25} height={25} />
                 <span className="px-2">Sign in with Google</span>
               </div>
               {errors && <div className="text-center text-red-500 font-medium">
