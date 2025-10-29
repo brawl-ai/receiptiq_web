@@ -9,16 +9,16 @@ import Script from 'next/script';
 export const metadata = {
     title: {
         template: '%s | ReceiptIQ - AI Powered Receipt/Invoice Data Extraction',
-        default: 'ReceiptIQ - AI Powered Receipt/Invoice Data Extraction',
+        default: 'ReceiptIQ',
     },
     description: "Your Smart Receipt Data Extaction powered by AI",
     keywords:
         "receipt, data extraction, AI, OCR, expense tracking, smart receipts",
     authors: [{ name: "ReceiptIQ Team", url: "https://receiptiq.co" }],
     icons: {
-        icon: "/assets/images/icon_dark.svg",
-        apple: "/assets/images/icon_dark.svg",
-        shortcut: "/assets/images/icon_dark.svg",
+        icon: "/assets/images/icon.svg",
+        apple: "/assets/images/icon.svg",
+        shortcut: "/assets/images/icon.svg",
     },
 };
 

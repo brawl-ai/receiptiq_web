@@ -1,28 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { IconSun, IconMoon } from '@tabler/icons-react';
 import { useSearchParams } from "next/navigation";
-import { useAuthContext } from "../stores/auth_store";
-import { LoginForm } from "./login_form";
-import { LoginRequest } from "../types";
+import { useAuthContext } from "@/app/stores/auth_store";
+import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
 
-export default function LoginPage() {
+export default function GoogleAuthCallback() {
     const searchParams = useSearchParams()
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState([]);
-    const login = useAuthContext((s) => s.login);
-    const google_login = useAuthContext((s) => s.google_login);
+    const google_callback = useAuthContext((s) => s.google_callback);
+    const code = searchParams.get("code");
     const redirect = searchParams.get("redirect");
     const { theme, setTheme } = useTheme();
+    const hasRun = useRef(false);
 
-    const handleSubmit = async (values: LoginRequest) => {
+
+    const handleGoogleCallback = async () => {
+        console.log("Finishing Google Login")
         setLoading(true);
         try {
-            await login(values);
-            window.location.href = redirect ? redirect : `/home/projects`;
+            const response = await google_callback({ code });
+            if (response.success) {
+                window.location.href = redirect ? redirect : `/home/projects`;
+            }
         } catch (error) {
             console.log(error)
             let errors = []
@@ -40,27 +45,11 @@ export default function LoginPage() {
         }
     };
 
-    const handleGoogleLogin = async () => {
-        setLoading(true);
-        try {
-            const response = await google_login();
-            window.location.href = response.redirect_to
-        } catch (error) {
-            console.log(error)
-            let errors = []
-            if (error.response?.data?.detail instanceof Array) {
-                errors = error.response?.data?.detail.map(e => e.loc[1] + " " + e.msg)
-            } else if (error.response?.data?.detail?.errors) {
-                errors = error.response?.data?.detail?.errors.map(e => e)
-            }
-            else {
-                errors.push(error.response?.data?.detail)
-            }
-            setErrors(errors)
-        } finally {
-            setLoading(false);
-        }
-    };
+    useEffect(() => {
+        if (hasRun.current) return;
+        hasRun.current = true;
+        handleGoogleCallback()
+    })
 
     return (
         <div className="relative bg-muted min-h-svh flex flex-col">
@@ -88,10 +77,17 @@ export default function LoginPage() {
                     }
                 </div>
             </header>
-            {/* Main login form */}
-            <div className=" relative flex flex-1 items-center justify-center p-6 md:p-10">
-                <div className="w-full max-w-sm md:max-w-3xl">
-                    <LoginForm errors={errors} loading={loading} handleSubmit={handleSubmit} handleGoogleLogin={handleGoogleLogin} />
+            <div className="flex items-center justify-center p-6 md:p-10">
+                <div>
+                    {loading && (
+                        <Badge className="bg-transparent text-primary border--1">
+                            <Spinner className="size-6" />
+                            Logging In...
+                        </Badge>)}
+                    {errors && <div className="text-center text-red-500 font-medium">
+                        {errors.map((e, id) => <div className={"text-red-500"} key={id}>{e}</div>)}
+                    </div>}
+
                 </div>
             </div>
         </div>

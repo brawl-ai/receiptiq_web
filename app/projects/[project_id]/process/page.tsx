@@ -49,13 +49,7 @@ export default function ProcessingPage() {
         setIsProcessing(true);
         try {
             for (const receipt of receipts) {
-
-                const processedReceipt = await processReceipt(receipt.id);
-                setProcessingReceipts(prevReceipts =>
-                    prevReceipts.map(rec =>
-                        rec.id === receipt.id ? processedReceipt : rec
-                    )
-                );
+                await handleProcessReceipt(receipt.id)
             }
         } catch (err) {
             console.log(err)
@@ -224,7 +218,11 @@ export default function ProcessingPage() {
                 </ChartContainer>
                 <div className="border-l border-dashed mx-4 h-24 self-center" />
                 <div className="flex items-center justify-center">
-                    <Button onClick={handleProcessingAll} disabled={isProcessing} className="bg-green-600 hover:bg-green-700 text-white" data-umami-event="process_all_button@projects">
+                    <Button
+                        onClick={handleProcessingAll}
+                        disabled={isProcessing}
+                        className="bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+                        data-umami-event="process_all_button@projects">
                         <IconSettingsFilled className="mr-2" /> Process All
                     </Button>
                 </div>

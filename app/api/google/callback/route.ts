@@ -1,6 +1,6 @@
 import axios from "axios";
-import { checkRateLimit } from "../backend";
-import { LoginRequest } from "../../types";
+import { checkRateLimit } from "../../backend";
+import { GoogleCallbackRequest } from "@/app/types";
 
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for") || "unknown";
@@ -11,19 +11,14 @@ export async function POST(req: Request) {
       status: 429,
     });
   }
-
-  const body: LoginRequest = await req.json();
-
+  const body: GoogleCallbackRequest = await req.json();
   const res = await axios
     .post(
-      `${process.env.BACKEND_API_BASE}/api/v1/auth/token`,
+      `${process.env.BACKEND_API_BASE}/api/v1/auth/google/callback`,
       {
-        username: body.email,
-        password: body.password,
-        grant_type: "password",
-        remember_me: body.remember_me,
-        scope:
-          "read:profile write:profile read:projects write:projects delete:projects process:projects read:fields write:fields delete:fields read:receipts write:receipts delete:receipts read:data export:data",
+        code: body.code,
+        remember_me: true,
+        accepted_terms: false,
       },
       {
         headers: {
@@ -32,7 +27,7 @@ export async function POST(req: Request) {
             Buffer.from(
               `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`
             ).toString("base64"),
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
       }
     )

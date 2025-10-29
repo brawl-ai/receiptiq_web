@@ -20,6 +20,8 @@ import {
   UpdateUserResponse,
   ChangePasswordRequest,
   ChangePasswordResponse,
+  GoogleLoginResponse,
+  GoogleCallbackRequest,
 } from "../types";
 import axios from "axios";
 import { createContext, useContext, useRef } from "react";
@@ -35,6 +37,8 @@ interface AuthStateType extends AuthStoreProps {
   getOTP: (data: GetOTPRequest) => Promise<GetOTPResponse>;
   checkOTP: (data: CheckOTPRequest) => Promise<CheckOTPResponse>;
   login: (data: LoginRequest) => Promise<LoginResponse>;
+  google_login: () => Promise<GoogleLoginResponse>;
+  google_callback: (data: GoogleCallbackRequest) => Promise<LoginResponse>;
   forgotPassword: (data: ForgotPasswordRequest) => Promise<ForgotPasswordResponse>;
   resetPassword: (data: ResetPasswordRequest) => Promise<ResetPasswordReponse>;
   logout: () => Promise<LogoutResponse>;
@@ -79,9 +83,26 @@ const createAuthStore = (initProps?: Partial<AuthStoreProps>) => {
     login: async (data) => {
       try {
         const response = await axios.post<LoginResponse>("/api/login", data);
-        // LoginResponse does not contain user, so do not set user here
         return response.data;
       } catch (err) {
+        throw err;
+      }
+    },
+    google_login: async () => {
+      try {
+        const response = await axios.get<GoogleLoginResponse>("/api/google/login");
+        return response.data;
+      } catch (err) {
+        console.log(err)
+        throw err;
+      }
+    },
+    google_callback: async (data: GoogleCallbackRequest) => {
+      try {
+        const response = await axios.post<LoginResponse>("/api/google/callback", data);
+        return response.data;
+      } catch (err) {
+        console.log(err)
         throw err;
       }
     },

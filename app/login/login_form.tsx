@@ -9,19 +9,24 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { LoginRequest } from "../types"
 import Image from "next/image"
 
-export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], loading?:boolean, handleSubmit: (values: LoginRequest) => void } & React.HTMLAttributes<HTMLDivElement>) {
-    const [formState, setFormState] = useState({
-        email: "",
-        password: "",
-        remember_me: false
-    })
+export function LoginForm({ errors, loading, handleSubmit, handleGoogleLogin }: { errors?: string[], loading?: boolean, handleSubmit: (values: LoginRequest) => void, handleGoogleLogin: () => void } & React.HTMLAttributes<HTMLDivElement>) {
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+    remember_me: false
+  })
 
-    const onSubmit = (e: React.FormEvent) => {
-        e.preventDefault(); 
-        handleSubmit(formState);
-    }
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSubmit(formState);
+  }
 
-    return (
+  const onGoogleSignIn = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleGoogleLogin();
+  }
+
+  return (
     <div className={cn("flex flex-col gap-6")}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
@@ -33,19 +38,23 @@ export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], lo
                   Login to your ReceiptIQ account
                 </p>
               </div>
-                {errors && <div className="text-center text-red-500 font-medium">
-                    {errors.map((e, id) => <div className={"text-red-500"} key={id}>{e}</div>)}
-                </div>}
+              <div className="flex flex-row items-center justify-center rounded-md border-1 p-2 cursor-pointer" onClick={onGoogleSignIn}>
+                <Image src="assets/images/google_logo.png" alt="Google logo" width={25} />
+                <span className="px-2">Sign in with Google</span>
+              </div>
+              {errors && <div className="text-center text-red-500 font-medium">
+                {errors.map((e, id) => <div className={"text-red-500"} key={id}>{e}</div>)}
+              </div>}
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    required
-                    autoComplete="email"
-                    value={formState.email}
-                    onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  required
+                  autoComplete="email"
+                  value={formState.email}
+                  onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                 />
               </div>
               <div className="grid gap-3">
@@ -60,18 +69,18 @@ export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], lo
                   </a>
                 </div>
                 <Input
-                    id="password"
-                    type="password"
-                    required
-                    value={formState.password}
-                    onChange={(e) => setFormState({ ...formState, password: e.target.value })}
+                  id="password"
+                  type="password"
+                  required
+                  value={formState.password}
+                  onChange={(e) => setFormState({ ...formState, password: e.target.value })}
                 />
               </div>
               <div className="flex items-center gap-3">
-                <Checkbox id="terms" checked={formState.remember_me} onCheckedChange={(e) => setFormState({ ...formState, remember_me:  Boolean(e) })} />
+                <Checkbox id="terms" checked={formState.remember_me} onCheckedChange={(e) => setFormState({ ...formState, remember_me: Boolean(e) })} />
                 <Label htmlFor="terms">Remember me</Label>
-            </div>
-              
+              </div>
+
               <Button
                 type="submit"
                 className="w-full"
@@ -82,10 +91,10 @@ export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], lo
               </Button>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a 
-                    data-umami-event="create_account_link@login"
-                    href="/signup"
-                    className="underline underline-offset-4"
+                <a
+                  data-umami-event="create_account_link@login"
+                  href="/signup"
+                  className="underline underline-offset-4"
                 >
                   Create account
                 </a>
@@ -94,11 +103,11 @@ export function LoginForm({errors, loading, handleSubmit}: {errors?:string[], lo
           </form>
           <div className="relative grid md:block">
             <Image
-                width={600}
-                height={400}
-                src="/assets/images/bg2.jpg"
-                alt="Authentication background"
-                className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.9] dark:contrast-more"
+              width={600}
+              height={400}
+              src="/assets/images/bg2.jpg"
+              alt="Authentication background"
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.9] dark:contrast-more"
             />
           </div>
         </CardContent>
