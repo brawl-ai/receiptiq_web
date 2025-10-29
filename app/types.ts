@@ -9,8 +9,8 @@ export type UserSubscription = {
   id: string;
   is_active: boolean;
   subscription_plan_id: string;
-  start_at: string;
-  end_at: string;
+  subscription_start_at: string;
+  subscription_end_at: string;
 };
 
 export type User = {
@@ -130,6 +130,7 @@ export type LogoutResponse = {
 export type SubscriptionPlan = {
   name: string;
   description: string;
+  benefits: string;
   price: number;
   currency: string;
   billing_interval: string;
@@ -155,6 +156,17 @@ export type InitiatePurchaseResponse = {
   status: boolean;
   message: string;
   data: PaymentAuthorizationData;
+};
+
+export type StartFreeTrialResponse = {
+  id: string;
+  is_active: boolean;
+  plan: SubscriptionPlan;
+  subscription_code: string;
+  subscription_start_at: string;
+  subscription_end_at: string;
+  created_at: string;
+  updated_at: string | null;
 };
 
 interface PaymentLogHistoryItem {

@@ -6,6 +6,7 @@ import type {
   InitiatePurchaseResponse,
   PaginatedResponse,
   PaymentResponse,
+  StartFreeTrialResponse,
   SubscriptionPlan,
   User
 } from "../types";
@@ -16,6 +17,7 @@ import { useStore } from "zustand";
 interface SubscriptionStateType {
   getPlans: () => Promise<PaginatedResponse<SubscriptionPlan>>;
   initiatePurchase: (data: InitiatePurchaseRequest) => Promise<InitiatePurchaseResponse>;
+  startFreeTrial: (data: InitiatePurchaseRequest) => Promise<StartFreeTrialResponse>;
   paymentStatusChecker: (reference: string) => Promise<PaymentResponse>;
   subscriptionStatusChecker: () => Promise<User>;
 }
@@ -32,6 +34,10 @@ const createSubscriptionStore = () => {
     },
     initiatePurchase: async (data) => {
       const response = await axios.post<InitiatePurchaseResponse>(`${API_BASE}/api/v1/subscriptions/payments/start`, data, { withCredentials: true });
+      return response.data;
+    },
+    startFreeTrial: async (data) => {
+      const response = await axios.post<StartFreeTrialResponse>(`${API_BASE}/api/v1/subscriptions/start_free_trial`, data, { withCredentials: true });
       return response.data;
     },
     paymentStatusChecker: async (reference) => {
