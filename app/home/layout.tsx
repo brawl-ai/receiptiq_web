@@ -41,12 +41,17 @@ export default async function HomeLayout({
 
                     <Sidebar variant="inset">
                         <SidebarHeader>
-                            <div className="h-full">
-                                <Link href="" className="flex items-center w-full h-full px-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="44" viewBox="0 0 160 44" className="text-black-500 dark:text-white-500">
-                                        <rect x="2" y="2" width="40" height="40" rx="5" stroke="currentColor" strokeWidth="2" fill="transparent" />
-                                        <path d="M12 22 L16 18 L20 26 L24 18 L28 26 L32 18 L36 26" stroke="currentColor" strokeWidth="3" fill="none" />
-                                        <text x="50" y="32" fontFamily="Arial, sans-serif" fill="currentColor" fontSize="20" fontWeight="bold">ReceiptIQ</text>
+                            <div className="flex gap-3">
+                                <Link href="" className="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="45" viewBox="0 0 220 64" className="mt-2">
+                                        {/* Rounded square on the left */}
+                                        <rect x="2" y="2" width="60" height="60" rx="5" stroke="currentColor" strokeWidth="2" fill="white" />
+                                        {/* Squiggly line in the center */}
+                                        <path d="M12 32 L16 28 L20 36 L24 28 L28 36 L32 28 L36 36 L40 28 L44 36 L48 28 L52 36 L55 32" stroke="black" strokeWidth="3" fill="none" />
+                                        {/* Text next to it */}
+                                        <text x="75" y="40" fontFamily="Roboto, sans-serif" fill="currentColor" fontSize="30">
+                                            ReceiptIQ
+                                        </text>
                                     </svg>
                                 </Link>
                             </div>

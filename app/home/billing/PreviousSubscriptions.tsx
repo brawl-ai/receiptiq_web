@@ -33,12 +33,12 @@ export default function PreviousSubscriptions() {
         {
             accessorKey: "start_at",
             header: "Start Date",
-            cell: ({ row }) => <span className="text-zinc-700 dark:text-zinc-300">{new Date(row.original.start_at).toLocaleDateString()}</span>
+            cell: ({ row }) => <span className="text-zinc-700 dark:text-zinc-300">{new Date(row.original.subscription_start_at).toLocaleDateString()}</span>
         },
         {
             accessorKey: "end_at",
             header: "End Date",
-            cell: ({ row }) => <span className="text-zinc-700 dark:text-zinc-300">{new Date(row.original.end_at).toLocaleDateString()}</span>
+            cell: ({ row }) => <span className="text-zinc-700 dark:text-zinc-300">{new Date(row.original.subscription_end_at).toLocaleDateString()}</span>
         },
         {
             accessorKey: "is_active",
