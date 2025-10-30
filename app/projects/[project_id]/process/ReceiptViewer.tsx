@@ -4,6 +4,8 @@ import { IconX, IconZoomIn, IconZoomOut, IconZoomReset } from "@tabler/icons-rea
 import { useRef, useState } from "react";
 import PDFViewer from "../components/PDFViewer";
 import Image from "next/image";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 
 export default function ReceiptViewer({ receipt, onClose }: { receipt: ReceiptResponse, onClose: () => void }) {
@@ -15,6 +17,7 @@ export default function ReceiptViewer({ receipt, onClose }: { receipt: ReceiptRe
     const [isDragging, setIsDragging] = useState(false);
     const viewportRef = useRef<HTMLDivElement>(null);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+    const [boundingBox, setBoundingBox] = useState(false)
 
     const handleImageLoad = () => {
         if (imgRef.current) {
@@ -107,6 +110,10 @@ export default function ReceiptViewer({ receipt, onClose }: { receipt: ReceiptRe
                         {Math.round(scale * 100)}%
                     </div>
                 </div>
+                <div className="flex items-center space-x-2" onClick={() => setBoundingBox(!boundingBox)}>
+                    <Switch id="airplane-mode" disabled />
+                    <Label htmlFor="airplane-mode" className="text-xs text-teal-700">Bounding Boxes (upcoming!) </Label>
+                </div>
                 <Button
                     data-umami-event="close@projects_imageviewer"
                     onClick={onClose}
@@ -147,6 +154,8 @@ export default function ReceiptViewer({ receipt, onClose }: { receipt: ReceiptRe
                     <div className='relative w-fit-content'>
                         {receipt?.mime_type.includes("image") && <Image
                             src={receipt?.download_url}
+                            width={300}
+                            height={300}
                             ref={imgRef}
                             alt="Viewer Image"
                             onLoad={handleImageLoad}
@@ -162,7 +171,7 @@ export default function ReceiptViewer({ receipt, onClose }: { receipt: ReceiptRe
                         />}
 
                         {/* Overlay boxes for data values - positioned relative to image */}
-                        {receipt?.data_values.map((dataValue) => (
+                        {boundingBox && receipt?.data_values.map((dataValue) => (
                             <div className='absolute'
                                 key={dataValue.id}
                                 style={{
@@ -202,7 +211,7 @@ export default function ReceiptViewer({ receipt, onClose }: { receipt: ReceiptRe
                 {/* Instructions */}
                 <div className="flex justify-center p-2">
                     <div className="text-xs text-muted-foreground">
-                        Use mouse wheel to zoom • Click and drag to pan when zoomed
+                        {/* Use mouse wheel to zoom • Click and drag to pan when zoomed */}
                     </div>
                 </div>
             </div>
