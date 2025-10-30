@@ -311,6 +311,7 @@ export type DataValueResponse = {
   value: string;
   id: string;
   field: FieldResponse;
+  row?: number;
   x: number;
   y: number;
   width: number;

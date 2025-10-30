@@ -2,11 +2,10 @@
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { IconCheck, IconMoon, IconRocket, IconSun } from "@tabler/icons-react"
-import { useTheme } from "next-themes";
+import ThemeSwitcher from "@/components/ui/toggle-theme";
+import { IconCheck, IconRocket } from "@tabler/icons-react"
 
 export function ProjectHeader({ title, isSubscribed }: { title?: string, isSubscribed: boolean }) {
-    const { theme, setTheme } = useTheme();
     return (
         <header className="flex my-2 h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
             <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -28,13 +27,7 @@ export function ProjectHeader({ title, isSubscribed }: { title?: string, isSubsc
                             <span>Upgrade</span>
                         </RainbowButton>
                     }
-                    <div className="flex items-center gap-2">
-                        {theme === 'dark' ?
-                            <IconSun size={22} className="cursor-pointer text-gray-300" onClick={() => setTheme('light')} />
-                            :
-                            <IconMoon size={22} className="cursor-pointer" onClick={() => setTheme('dark')} />
-                        }
-                    </div>
+                    <ThemeSwitcher />
                 </div>
             </div>
         </header>

@@ -93,23 +93,26 @@ export default function Field({
   return (
     <div
       key={field.id}
-      className="p-3 mt-3 border rounded-md border-dotted border-gray-300 bg-background shadow-sm"
+      className="p-1 m-1 border rounded-md border-dotted border-gray-300 bg-gray-50 dark:bg-gray-950 shadow-sm"
     >
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-blue-500">
+          {field.type === "string" && <IconAbc size={30} />}
+          {field.type === "number" && <IconNumbers size={30} />}
+          {field.type === "date" && <IconCalendar size={30} />}
+          {field.type === "boolean" && <IconToggleLeft size={30} />}
+          {field.type === "object" && <IconJson size={30} />}
+          {field.type === "array" && <IconBrackets size={30} />}
+          <Badge
+            variant="secondary"
+            className="bg-green-500 text-white dark:bg-green-600"
+          >
             <code>{field.name}</code>
           </Badge>
-          {field.type === "string" && <IconAbc size={16} />}
-          {field.type === "number" && <IconNumbers size={16} />}
-          {field.type === "date" && <IconCalendar size={16} />}
-          {field.type === "boolean" && <IconToggleLeft size={16} />}
-          {field.type === "object" && <IconJson size={16} />}
-          {field.type === "array" && <IconBrackets size={16} />}
-          <Separator orientation="vertical" className="h-6 mx-2" />
           {field.description && (
             <span className="text-muted-foreground text-sm">{field.description}</span>
           )}
+          {field.children.length > 0 && <Badge className="text-xs text-muted bg-primary">{field.children.length}</Badge>}
         </div>
         <div className="flex flex-row gap-2 items-center">
           {(field.type === "array" || field.type === "object") && (

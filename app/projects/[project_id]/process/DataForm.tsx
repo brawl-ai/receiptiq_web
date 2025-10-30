@@ -5,57 +5,28 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-
-export function DataFormField({ receipt, field, onValueChange }:
+export function DataFormField({ field, dataValue, onValueChange }:
     {
-        receipt: ReceiptResponse,
         field: FieldResponse,
+        dataValue: DataValueResponse,
         onValueChange: (data_value: DataValueResponse) => void
     }) {
-
-    const getReceiptDataValue = (receipt: ReceiptResponse, field: FieldResponse) => {
-        const candidates = receipt.data_values.filter(dv => dv.field.id === field.id)
-        if (candidates.length > 0) {
-            return candidates[0]
-        } else {
-            return null
-        }
-    }
-
-    const dataValue = getReceiptDataValue(receipt, field)
 
     const handleUpdate = (updatedValue: string) => {
         onValueChange({ ...dataValue, value: updatedValue })
     }
 
-    return <div className="p-xs shadow-xs border m-2 rounded">
-        {field.type !== "array" && field.type !== "object" && (
-            <div className="flex items-center">
-                <Badge
-                    className="m-xs mx-2   bg-secondary text-secondary-foreground"
-                >
-                    {field.name}
-                </Badge>
-                <Input
-                    className="text-foreground"
-                    key={field.id}
-                    placeholder={field.description}
-                    value={dataValue.value}
-                    onChange={(e) => handleUpdate(e.target.value)}
-                />
-            </div>
-        )}
-        {field.children.length > 0 && (
-            <>
-                <Badge className="m-xs mx-2">{field.name}</Badge>
-                <div className={`flex ${field.type === "array" ? "flex-row" : "flex-col"}`}>
-                    {field.children.map(f => {
-                        return <DataFormField key={f.id} receipt={receipt} onValueChange={onValueChange} field={f} />
-                    })}
-                </div>
-            </>
-        )}
-
+    return <div className="border m-1 rounded flex items-center w-full">
+        <Badge className="m-xs mx-2 bg-secondary text-secondary-foreground">
+            {field.name}
+        </Badge>
+        <Input
+            className="text-foreground"
+            key={field.id}
+            placeholder={field.description}
+            value={dataValue.value}
+            onChange={(e) => handleUpdate(e.target.value)}
+        />
     </div>
 }
 
@@ -70,6 +41,7 @@ export default function DataForm({ receipt, fields, onUpdate }: DataFormProps) {
     const [isSaving, setIsSaving] = useState(false)
 
     const handleUpdateValue = (data_value: DataValueResponse) => {
+        console.log("updating")
         setReceiptObject({
             ...receiptObject, data_values: receiptObject.data_values.map(dv => {
                 if (dv.id === data_value.id) {
@@ -94,17 +66,61 @@ export default function DataForm({ receipt, fields, onUpdate }: DataFormProps) {
         }
     }
 
+    const getReceiptDataValue = (receipt: ReceiptResponse, field: FieldResponse) => {
+        const candidates = receipt.data_values.filter(dv => dv.field.id === field.id)
+        if (candidates.length > 0) {
+            return candidates[0]
+        } else {
+            return null
+        }
+    }
+
+    const getDataList = (receipt: ReceiptResponse, field: FieldResponse) => {
+        const dvs = receipt.data_values.filter(dv => dv.field.parent && dv.field.parent.id === field.id)
+        const rows = Object.groupBy(dvs, ({ row }) => row)
+        return Object.entries(rows).map(([row, values]) => ({
+            row_id: Number(row),
+            values,
+        }));
+    }
+
     const topLevelFields = fields.filter((f) => f.parent == null);
 
     return <div className="flex-1 flex-col h-full w-full p-5">
         <h3 className="text-2xl text-center m-2 font-semibold text-foreground">Extracted Data</h3>
         <Separator className="m-2" orientation="horizontal" />
-        <div className="flex flex-col justify-start h-full">
-            {topLevelFields.map(field => {
-                return <DataFormField key={field.id} receipt={receiptObject} field={field} onValueChange={handleUpdateValue} />
+        <div className="flex flex-col justify-start items-end h-full">
+            {topLevelFields.map((field) => {
+                if (field.type === "array") {
+                    const dataList = getDataList(receiptObject, field)
+                    return <div key={field.id} className="p-xs shadow-xs border m-1 rounded w-full">
+                        <Badge className="m-xs mx-2">{field.name}</Badge>
+                        <div className="flex flex-col m-5">
+                            {dataList.map((row, index) => <div key={index} className="flex flex-row items-center">
+                                <span className="text-xs">{row.row_id}</span>
+                                {row.values.map(data => {
+                                    return <DataFormField key={data.id} field={data.field} dataValue={data} onValueChange={handleUpdateValue} />
+                                })}
+                            </div>)}
+                        </div>
+                    </div>
+                } else if (field.type === "object") {
+                    return <div key={field.id} className="p-xs shadow-xs border m-1 rounded w-full">
+                        <Badge className="m-xs mx-2">{field.name}</Badge>
+                        <div className="flex flex-col m-5">
+                            {field.children.map(f => {
+                                const dataValue = getReceiptDataValue(receiptObject, f)
+                                return <DataFormField key={dataValue.id} field={f} dataValue={dataValue} onValueChange={handleUpdateValue} />
+                            })}
+                        </div>
+                    </div>
+                } else {
+                    const dataValue = getReceiptDataValue(receiptObject, field)
+                    return <DataFormField key={dataValue.id} field={field} dataValue={dataValue} onValueChange={handleUpdateValue} />
+                }
             })}
             <Separator className="m-2" orientation="horizontal" />
-            <Button className="w-md m-5" data-umami-event={`save_button@projects_receipt_${receipt.id}`} onClick={handleSave}>
+            <Button className="w-md m-2 cursor-pointer" data-umami-event={`save_button@projects_receipt_${receipt.id}`} onClick={handleSave}>
                 {isSaving ? "Saving..." : "Save Changes"}
             </Button>
         </div>
