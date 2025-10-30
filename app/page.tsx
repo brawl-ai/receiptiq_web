@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IconSparkles,
   IconFileText,
@@ -27,9 +27,36 @@ import {
 import Image from "next/image";
 import { BorderBeam } from '@/components/ui/border-beam';
 import ThemeSwitcher from '@/components/ui/toggle-theme';
+import { useTheme } from 'next-themes';
 
 export default function ReceiptIQHomepage() {
   const [opened, setOpened] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const { theme } = useTheme()
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % images.length);
+    }, 6000); // 6 seconds
+    return () => clearInterval(interval);
+  }, [paused]);
+
+  let images = []
+  if (theme === "light") {
+    images = [
+      `/assets/images/app_page_fields_light.png`,
+      `/assets/images/app_page_dataform_light.png`,
+      `/assets/images/app_page_process_light.png`
+    ]
+  } else {
+    images = [
+      `/assets/images/app_page_fields_dark.png`,
+      `/assets/images/app_page_dataform_dark.png`,
+      `/assets/images/app_page_process_dark.png`
+    ]
+  }
 
   return (
     <div className="relative min-h-screen w-full">
@@ -121,7 +148,25 @@ export default function ReceiptIQHomepage() {
             <div className='relative w-full bg-transparent px-2 pt-10 pb-20 md:py-16'>
               <div className="gradient -translate-x-1/2 absolute inset-0 left-1/2 h-1/4 w-3/4 animate-image-glow blur-[5rem] md:top-[10%] md:h-1/3"></div>
               <div className="-m-2 lg:-m-4 rounded-xl bg-opacity-50 p-2 ring-1 ring-foreground/20 ring-inset backdrop-blur-3xl lg:rounded-2xl">
-                <Image src={"/assets/images/app_page_dataform_dark.png"} alt='app page 1' width={1300} height={800} />
+                <div className="relative w-full mx-auto overflow-hidden rounded-lg">
+                  <div
+                    className="flex transition-opacity duration-5000 ease-in-out"
+                    style={{ transform: `translateX(-${current * 100}%)` }}
+                    onMouseEnter={() => setPaused(true)}
+                    onMouseLeave={() => setPaused(false)}
+                  >
+                    {images.map((src, i) => (
+                      <Image
+                        key={i}
+                        src={src}
+                        alt={`Slide ${i}`}
+                        width={1300}
+                        height={800}
+                        className={`w-full flex-shrink-0 border-4 object-cover rounded-2xl transition-opacity duration-5000 ${current === i ? "opacity-100" : "opacity-0"}`}
+                      />
+                    ))}
+                  </div>
+                </div>
                 <BorderBeam
                   duration={4}
                   size={400}
