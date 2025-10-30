@@ -216,9 +216,10 @@ export default function DataTab() {
     const stats = getDataValueStats(receipts)
 
     return (
-        <div className="flex flex-col flex-wrap p-5 border-1 border-dashed rounded-md m-5">
-            <h1 className="text-foreground text-xl m-2">Explore Data</h1>
-            <div className="flex">
+        <div className="p-5 border-1 border-dashed rounded-md m-5">
+            <h1 className="text-xl m-2 text-foreground">Explore Data</h1>
+            <Separator />
+            <div className="flex flex-row justify-around my-4">
                 {stats.slice(0, 5).filter(s => s.fieldType !== "number").map((stat, id) => {
                     const chartConfig = stat.data.reduce((config, item) => {
                         config[item.name] = {
@@ -230,7 +231,7 @@ export default function DataTab() {
 
                     return <div className="flex" key={id}>
                         <div className="flex items-center flex-col">
-                            <div className="text-foreground mb-2">{stat.fieldName}</div>
+                            {/* <div className="text-foreground mb-2">{stat.fieldName}</div> */}
                             <ChartContainer
                                 config={chartConfig}
                                 className="aspect-square min-h-[200px] min-w-[200px]"
@@ -281,7 +282,6 @@ export default function DataTab() {
                                 </PieChart>
                             </ChartContainer>
                         </div>
-                        <Separator orientation="vertical" decorative />
                     </div>
                 })}
             </div>

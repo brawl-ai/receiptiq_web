@@ -21,7 +21,7 @@ export default function FieldsPage() {
     return (<div className="p-5 border-1 border-dashed rounded-md m-5">
         <h1 className="text-xl m-2 text-foreground">Fields</h1>
         <Separator />
-        <div className="flex flex-col gap-5 pt-2">
+        <div className="flex flex-col mt-2">
             {top_level_fields.map((field) => (
                 <Field
                     key={field.id}

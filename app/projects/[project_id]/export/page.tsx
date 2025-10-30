@@ -175,15 +175,15 @@ export default function DataExport() {
     }
 
     return (
-        <div className="flex flex-col">
-            <h1 className="text-2xl font-bold text-muted-foreground m-4">Export Extracted Data</h1>
-            <Separator className="mb-4" />
+        <div className="p-5 border-1 border-dashed rounded-md m-5">
+            <h1 className="text-xl m-2 text-foreground">Export Data</h1>
+            <Separator />
 
             <div className="flex items-center justify-around m-6">
                 <Button
                     disabled={isExporting}
                     onClick={handleExport}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 cursor-pointer"
                     data-umami-event="export@projects"
                 >
                     <IconFileExport size={16} />
