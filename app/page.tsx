@@ -121,7 +121,7 @@ export default function ReceiptIQHomepage() {
             <div className='relative w-full bg-transparent px-2 pt-10 pb-20 md:py-16'>
               <div className="gradient -translate-x-1/2 absolute inset-0 left-1/2 h-1/4 w-3/4 animate-image-glow blur-[5rem] md:top-[10%] md:h-1/3"></div>
               <div className="-m-2 lg:-m-4 rounded-xl bg-opacity-50 p-2 ring-1 ring-foreground/20 ring-inset backdrop-blur-3xl lg:rounded-2xl">
-                <Image src={"/assets/images/app_page1.avif"} alt='app page 1' width={1300} height={800} />
+                <Image src={"/assets/images/app_page_dataform_dark.png"} alt='app page 1' width={1300} height={800} />
                 <BorderBeam
                   duration={4}
                   size={400}
